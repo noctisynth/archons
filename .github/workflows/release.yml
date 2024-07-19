@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
@@ -12,6 +11,7 @@ permissions: write-all
 
 jobs:
   build-and-test:
+    name: Build and Test
     uses: ./.github/workflows/test.yml
 
   release:
