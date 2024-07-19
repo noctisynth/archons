@@ -19,7 +19,6 @@ permissions:
       - '**/*.gitignore'
       - .editorconfig
       - docs/**
-  pull_request: null
   workflow_call:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
