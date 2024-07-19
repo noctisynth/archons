@@ -21,6 +21,9 @@ on:
       - docs/**
   pull_request: null
   workflow_call:
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
 jobs:
   build:
     strategy:
