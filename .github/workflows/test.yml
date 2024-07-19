@@ -1,4 +1,4 @@
-name: CI
+name: Build and Test
 env:
   DEBUG: napi:*
   APP_NAME: ntscl
@@ -20,6 +20,7 @@ permissions:
       - .editorconfig
       - docs/**
   pull_request: null
+  workflow_call:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
