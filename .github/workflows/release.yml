@@ -4,8 +4,14 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - '**/*.md'
+      - LICENSE
+      - '**/*.gitignore'
+      - .editorconfig
+      - docs/**
 
-concurrency: "release ${{ github.workflow }}-${{ github.ref }}"
+concurrency: 'release ${{ github.workflow }}-${{ github.ref }}'
 
 permissions: write-all
 
