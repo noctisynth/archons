@@ -1,8 +1,14 @@
 import test from 'ava'
 
-import { plus100 } from '../index'
+import { defineCommand } from '../index'
 
-test('sync function from native code', (t) => {
-  const fixture = 42
-  t.is(plus100(fixture), fixture + 100)
+test('define command', (t) => {
+  const cmd = {
+    meta: {},
+    options: {},
+    callback: (ctx: any) => {
+      console.log(ctx)
+    },
+  }
+  t.deepEqual(defineCommand(cmd), cmd)
 })
