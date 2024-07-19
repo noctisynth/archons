@@ -1,0 +1,26 @@
+{
+    "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+    "words": [
+        "aarch",
+        "androideabi",
+        "cdylib",
+        "gnueabihf",
+        "msvc",
+        "napi",
+        "ntscl",
+        "oxlint",
+        "prebuild",
+        "taplo",
+        "tinybench"
+    ],
+    "ignoreWords": [
+        "armv"
+    ],
+    "ignorePaths": [
+        "**/node_modules/**",
+        "**/target/**",
+        "./npm/*",
+        "index.js",
+        "README.md"
+    ]
+}
