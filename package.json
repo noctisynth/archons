@@ -1,24 +1,20 @@
 {
-  "name": "@napi-rs/package-template",
+  "name": "ntscl",
   "version": "1.0.0",
-  "description": "Template project for writing node package with napi-rs",
+  "description": "Fast and elegant CLI build tool written by Rust",
   "main": "index.js",
-  "repository": "git@github.com:napi-rs/package-template.git",
+  "repository": "https://github.com/noctisynth/ntscl",
   "license": "MIT",
   "keywords": [
-    "napi-rs",
-    "NAPI",
-    "N-API",
-    "Rust",
-    "node-addon",
-    "node-addon-api"
+    "cli-tool",
+    "rust"
   ],
   "files": [
     "index.d.ts",
     "index.js"
   ],
   "napi": {
-    "name": "package-template",
+    "name": "ntscl",
     "triples": {
       "defaults": true,
       "additional": [
