@@ -14,8 +14,8 @@ permissions:
 
 jobs:
   build-and-test:
-    name: Build and Test
     uses: ./.github/workflows/test.yml
+
   release:
     name: Release
     needs: [build-and-test]
