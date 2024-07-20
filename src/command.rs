@@ -12,7 +12,8 @@ pub fn define_command(options: Command) -> Command {
 #[napi]
 pub fn run(env: Env, cmd: Command, args: Option<Vec<String>>) -> Result<()> {
   let args = resolve_option_args(args);
-  let clap = resolve_command(clap::Command::default(), Default::default(), &cmd);
+  let clap = resolve_command(clap::Command::default(), Default::default(), &cmd)
+    .color(clap::ColorChoice::Always);
   let matches = clap.clone().get_matches_from(&args);
 
   let mut parsed_args = env.create_object()?;
