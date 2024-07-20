@@ -1,15 +1,15 @@
 {
-  "name": "clap-js-linux-arm-gnueabihf",
-  "version": "1.0.0",
+  "name": "archons-linux-arm-gnueabihf",
+  "version": "0.1.0",
   "os": [
     "linux"
   ],
   "cpu": [
     "arm"
   ],
-  "main": "clap-js.linux-arm-gnueabihf.node",
+  "main": "archons.linux-arm-gnueabihf.node",
   "files": [
-    "clap-js.linux-arm-gnueabihf.node"
+    "archons.linux-arm-gnueabihf.node"
   ],
   "description": "Fast and elegant CLI build tool based on clap-rs",
   "keywords": [
@@ -24,5 +24,5 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "repository": "https://github.com/noctisynth/clap-js"
+  "repository": "https://github.com/noctisynth/clap-js.git"
 }

@@ -1,9 +1,9 @@
 {
-  "name": "clap-js",
+  "name": "archons",
   "version": "0.1.0",
   "description": "Fast and elegant CLI build tool based on clap-rs",
   "main": "index.js",
-  "repository": "https://github.com/noctisynth/clap-js",
+  "repository": "https://github.com/noctisynth/clap-js.git",
   "license": "MIT",
   "keywords": [
     "cli-tool",
@@ -14,7 +14,7 @@
     "index.js"
   ],
   "napi": {
-    "name": "clap-js",
+    "name": "archons",
     "triples": {
       "defaults": true,
       "additional": [

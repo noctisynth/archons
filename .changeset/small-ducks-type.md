@@ -1,5 +1,5 @@
 ---
-'clap-js': patch
+'archons': patch
 ---
 
 Add `defineCommand` interface

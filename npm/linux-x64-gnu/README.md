@@ -1,3 +1,3 @@
-# `clap-js-linux-x64-gnu`
+# `archons-linux-x64-gnu`
 
-This is the **x86_64-unknown-linux-gnu** binary for `clap-js`
+This is the **x86_64-unknown-linux-gnu** binary for `archons`

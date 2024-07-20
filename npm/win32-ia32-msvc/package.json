@@ -1,15 +1,15 @@
 {
-  "name": "clap-js-win32-ia32-msvc",
-  "version": "1.0.0",
+  "name": "archons-win32-ia32-msvc",
+  "version": "0.1.0",
   "os": [
     "win32"
   ],
   "cpu": [
     "ia32"
   ],
-  "main": "clap-js.win32-ia32-msvc.node",
+  "main": "archons.win32-ia32-msvc.node",
   "files": [
-    "clap-js.win32-ia32-msvc.node"
+    "archons.win32-ia32-msvc.node"
   ],
   "description": "Fast and elegant CLI build tool based on clap-rs",
   "keywords": [
@@ -24,5 +24,5 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "repository": "https://github.com/noctisynth/clap-js"
+  "repository": "https://github.com/noctisynth/clap-js.git"
 }
