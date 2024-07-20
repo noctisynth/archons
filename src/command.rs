@@ -23,7 +23,7 @@ pub fn run(env: Env, cmd: Command, args: Option<Vec<String>>) -> Result<()> {
     let sub_commands = &cmd.subcommands.unwrap_or_default();
     let sub_command = sub_commands.get(sub_command).unwrap();
     let cb = sub_command.callback.as_ref().unwrap();
-    merge_args_matches(&mut parsed_args, &sub_command, &sub_matches)?;
+    merge_args_matches(&mut parsed_args, sub_command, sub_matches)?;
     let context = Context {
       args: parsed_args,
       raw_args: args,

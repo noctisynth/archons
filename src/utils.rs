@@ -12,8 +12,8 @@ pub(crate) fn leak_borrowed_str_or_default(s: Option<&String>, default: &str) ->
   s.map_or_else(|| leak_str(default.to_string()), |s| leak_str(s.clone()))
 }
 
-pub(crate) fn leak_borrowed_str(s: &String) -> &'static str {
-  s.clone().leak()
+pub(crate) fn leak_borrowed_str(s: impl Into<String>) -> &'static str {
+  Into::<String>::into(s).leak()
 }
 
 pub(crate) fn resolve_option_args(args: Option<Vec<String>>) -> Vec<String> {
@@ -74,26 +74,23 @@ pub(crate) fn resolve_command_options(
           opt.parser.as_deref(),
         ));
         if opt._type.as_deref() != Some("positional") {
-          let long = leak_borrowed_str_or_default(opt.long.as_ref(), &name);
+          let long = leak_borrowed_str_or_default(opt.long.as_ref(), name);
           arg = arg.long(long).short(
-            leak_borrowed_str_or_default(opt.short.as_ref(), &long)
+            leak_borrowed_str_or_default(opt.short.as_ref(), long)
               .chars()
               .next(),
           );
         }
         if let Some(alias) = &opt.alias {
-          let alias = alias
-            .into_iter()
-            .map(|a| leak_borrowed_str(a))
-            .collect::<Vec<&str>>();
-          arg = arg.visible_aliases(&alias);
+          let alias = alias.iter().map(leak_borrowed_str).collect::<Vec<&str>>();
+          arg = arg.visible_aliases(alias);
         }
         if let Some(hidden_alias) = &opt.hidden_alias {
           let hidden_alias = hidden_alias
-            .into_iter()
-            .map(|a| leak_borrowed_str(a))
+            .iter()
+            .map(leak_borrowed_str)
             .collect::<Vec<&str>>();
-          arg = arg.aliases(&hidden_alias);
+          arg = arg.aliases(hidden_alias);
         }
         if let Some(required) = opt.required {
           arg = arg.required(required);
