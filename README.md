@@ -1,4 +1,4 @@
-# clap-js
+# archons
 
 Fast and elegant CLI build tool based on clap-rs
 

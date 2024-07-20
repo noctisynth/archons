@@ -1,5 +1,5 @@
 ---
-'clap-js': patch
+'archons': patch
 ---
 
 Implement command definition types
