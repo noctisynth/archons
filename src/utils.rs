@@ -12,8 +12,8 @@ pub(crate) fn leak_borrowed_str_or_default(s: Option<&String>, default: &str) ->
   s.map_or_else(|| leak_str(default.to_string()), |s| leak_str(s.clone()))
 }
 
-pub(crate) fn leak_borrowed_str(s: impl Into<String>) -> &'static str {
-  Into::<String>::into(s).leak()
+pub(crate) fn leak_borrowed_str(s: &String) -> &'static str {
+  s.to_owned().leak()
 }
 
 pub(crate) fn resolve_option_args(args: Option<Vec<String>>) -> Vec<String> {
