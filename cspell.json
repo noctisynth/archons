@@ -8,6 +8,7 @@
         "gnueabihf",
         "msvc",
         "napi",
+        "noctisynth",
         "oxlint",
         "prebuild",
         "taplo",
