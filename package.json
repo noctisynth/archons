@@ -1,6 +1,6 @@
 {
   "name": "clap-js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Fast and elegant CLI build tool based on clap-rs",
   "main": "index.js",
   "repository": "https://github.com/noctisynth/clap-js",
