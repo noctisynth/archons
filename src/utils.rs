@@ -82,10 +82,7 @@ pub(crate) fn resolve_command_options(
           );
         }
         if let Some(alias) = &opt.alias {
-          let alias = alias
-            .iter()
-            .map(leak_borrowed_str)
-            .collect::<Vec<&str>>();
+          let alias = alias.iter().map(leak_borrowed_str).collect::<Vec<&str>>();
           arg = arg.visible_aliases(alias);
         }
         if let Some(hidden_alias) = &opt.hidden_alias {
