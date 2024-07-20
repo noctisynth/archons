@@ -1,5 +1,5 @@
 {
-  "name": "ntscl-linux-x64-gnu",
+  "name": "clap-js-linux-x64-gnu",
   "version": "1.0.0",
   "os": [
     "linux"
@@ -7,18 +7,14 @@
   "cpu": [
     "x64"
   ],
-  "main": "ntscl.linux-x64-gnu.node",
+  "main": "clap-js.linux-x64-gnu.node",
   "files": [
-    "ntscl.linux-x64-gnu.node"
+    "clap-js.linux-x64-gnu.node"
   ],
-  "description": "Fast and elegant CLI build tool written by Rust",
+  "description": "Fast and elegant CLI build tool based on clap-rs",
   "keywords": [
-    "napi-rs",
-    "NAPI",
-    "N-API",
-    "Rust",
-    "node-addon",
-    "node-addon-api"
+    "cli-tool",
+    "rust"
   ],
   "license": "MIT",
   "engines": {
@@ -28,7 +24,7 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "repository": "https://github.com/fu050409/ntscl",
+  "repository": "https://github.com/noctisynth/clap-js",
   "libc": [
     "glibc"
   ]

@@ -1,7 +1,7 @@
 name: Build and Test
 env:
   DEBUG: napi:*
-  APP_NAME: ntscl
+  APP_NAME: clap-js
   MACOSX_DEPLOYMENT_TARGET: '10.13'
   CARGO_INCREMENTAL: '1'
 permissions:

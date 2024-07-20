@@ -1,3 +1,3 @@
-# `ntscl-freebsd-x64`
+# `clap-js-freebsd-x64`
 
-This is the **x86_64-unknown-freebsd** binary for `ntscl`
+This is the **x86_64-unknown-freebsd** binary for `clap-js`

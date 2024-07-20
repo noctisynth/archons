@@ -1,9 +1,9 @@
 {
-  "name": "ntscl",
+  "name": "clap-js",
   "version": "1.0.0",
-  "description": "Fast and elegant CLI build tool written by Rust",
+  "description": "Fast and elegant CLI build tool based on clap-rs",
   "main": "index.js",
-  "repository": "https://github.com/noctisynth/ntscl",
+  "repository": "https://github.com/noctisynth/clap-js",
   "license": "MIT",
   "keywords": [
     "cli-tool",
@@ -14,7 +14,7 @@
     "index.js"
   ],
   "napi": {
-    "name": "ntscl",
+    "name": "clap-js",
     "triples": {
       "defaults": true,
       "additional": [
@@ -39,6 +39,7 @@
     "access": "public"
   },
   "scripts": {
+    "watch": "cargo watch",
     "artifacts": "napi artifacts",
     "bench": "node --import @swc-node/register/esm-register benchmark/bench.ts",
     "build": "napi build --platform --release",
