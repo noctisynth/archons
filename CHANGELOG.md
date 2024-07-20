@@ -1,11 +1,5 @@
 # clap-js
 
-## 0.1.2
-
-### Patch Changes
-
-- ebbc053: Set color choice to always
-
 ## 0.1.1
 
 ### Patch Changes
