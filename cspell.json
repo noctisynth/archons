@@ -3,11 +3,11 @@
     "words": [
         "aarch",
         "androideabi",
+        "bindgen",
         "cdylib",
         "gnueabihf",
         "msvc",
         "napi",
-        "ntscl",
         "oxlint",
         "prebuild",
         "taplo",
