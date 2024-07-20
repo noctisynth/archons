@@ -128,7 +128,11 @@ pub(crate) fn resolve_command(
   clap
 }
 
-pub(crate) fn merge_args_matches(parsed_args: &mut JsObject, cmd: &Command, matches: &clap::ArgMatches) -> Result<()> {
+pub(crate) fn merge_args_matches(
+  parsed_args: &mut JsObject,
+  cmd: &Command,
+  matches: &clap::ArgMatches,
+) -> Result<()> {
   for id in matches.ids() {
     let cmd = &cmd;
     let opts = cmd
@@ -149,6 +153,6 @@ pub(crate) fn merge_args_matches(parsed_args: &mut JsObject, cmd: &Command, matc
       }
       _ => panic!("Unsupported option type"),
     }
-  };
+  }
   Ok(())
 }
