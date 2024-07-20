@@ -1,3 +1,3 @@
-# `clap-js-darwin-x64`
+# `archons-darwin-x64`
 
-This is the **x86_64-apple-darwin** binary for `clap-js`
+This is the **x86_64-apple-darwin** binary for `archons`

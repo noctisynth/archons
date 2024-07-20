@@ -1,3 +1,3 @@
-# `clap-js-win32-x64-msvc`
+# `archons-win32-x64-msvc`
 
-This is the **x86_64-pc-windows-msvc** binary for `clap-js`
+This is the **x86_64-pc-windows-msvc** binary for `archons`

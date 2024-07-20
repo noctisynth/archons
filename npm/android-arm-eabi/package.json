@@ -1,15 +1,15 @@
 {
-  "name": "clap-js-android-arm-eabi",
-  "version": "1.0.0",
+  "name": "archons-android-arm-eabi",
+  "version": "0.1.0",
   "os": [
     "android"
   ],
   "cpu": [
     "arm"
   ],
-  "main": "clap-js.android-arm-eabi.node",
+  "main": "archons.android-arm-eabi.node",
   "files": [
-    "clap-js.android-arm-eabi.node"
+    "archons.android-arm-eabi.node"
   ],
   "description": "Fast and elegant CLI build tool based on clap-rs",
   "keywords": [
@@ -24,5 +24,5 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "repository": "https://github.com/noctisynth/clap-js"
+  "repository": "https://github.com/noctisynth/clap-js.git"
 }

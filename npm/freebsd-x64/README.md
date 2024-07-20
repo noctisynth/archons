@@ -1,3 +1,3 @@
-# `clap-js-freebsd-x64`
+# `archons-freebsd-x64`
 
-This is the **x86_64-unknown-freebsd** binary for `clap-js`
+This is the **x86_64-unknown-freebsd** binary for `archons`

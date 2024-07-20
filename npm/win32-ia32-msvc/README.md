@@ -1,3 +1,3 @@
-# `clap-js-win32-ia32-msvc`
+# `archons-win32-ia32-msvc`
 
-This is the **i686-pc-windows-msvc** binary for `clap-js`
+This is the **i686-pc-windows-msvc** binary for `archons`

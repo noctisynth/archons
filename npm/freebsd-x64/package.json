@@ -1,15 +1,15 @@
 {
-  "name": "clap-js-freebsd-x64",
-  "version": "1.0.0",
+  "name": "archons-freebsd-x64",
+  "version": "0.1.0",
   "os": [
     "freebsd"
   ],
   "cpu": [
     "x64"
   ],
-  "main": "clap-js.freebsd-x64.node",
+  "main": "archons.freebsd-x64.node",
   "files": [
-    "clap-js.freebsd-x64.node"
+    "archons.freebsd-x64.node"
   ],
   "description": "Fast and elegant CLI build tool based on clap-rs",
   "keywords": [
@@ -24,5 +24,5 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "repository": "https://github.com/noctisynth/clap-js"
+  "repository": "https://github.com/noctisynth/clap-js.git"
 }
