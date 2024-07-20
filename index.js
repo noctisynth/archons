@@ -310,7 +310,8 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { defineCommand, run } = nativeBinding
+const { defineCommand, run, VERSION } = nativeBinding
 
 module.exports.defineCommand = defineCommand
 module.exports.run = run
+module.exports.VERSION = VERSION
