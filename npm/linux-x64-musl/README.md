@@ -1,3 +1,3 @@
-# `ntscl-linux-x64-musl`
+# `clap-js-linux-x64-musl`
 
-This is the **x86_64-unknown-linux-musl** binary for `ntscl`
+This is the **x86_64-unknown-linux-musl** binary for `clap-js`

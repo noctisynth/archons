@@ -1,5 +1,5 @@
 {
-  "name": "ntscl-darwin-arm64",
+  "name": "clap-js-darwin-arm64",
   "version": "1.0.0",
   "os": [
     "darwin"
@@ -7,18 +7,14 @@
   "cpu": [
     "arm64"
   ],
-  "main": "ntscl.darwin-arm64.node",
+  "main": "clap-js.darwin-arm64.node",
   "files": [
-    "ntscl.darwin-arm64.node"
+    "clap-js.darwin-arm64.node"
   ],
-  "description": "Fast and elegant CLI build tool written by Rust",
+  "description": "Fast and elegant CLI build tool based on clap-rs",
   "keywords": [
-    "napi-rs",
-    "NAPI",
-    "N-API",
-    "Rust",
-    "node-addon",
-    "node-addon-api"
+    "cli-tool",
+    "rust"
   ],
   "license": "MIT",
   "engines": {
@@ -28,5 +24,5 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "repository": "https://github.com/fu050409/ntscl"
+  "repository": "https://github.com/noctisynth/clap-js"
 }

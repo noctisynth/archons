@@ -1,3 +1,3 @@
-# `ntscl-win32-ia32-msvc`
+# `clap-js-win32-ia32-msvc`
 
-This is the **i686-pc-windows-msvc** binary for `ntscl`
+This is the **i686-pc-windows-msvc** binary for `clap-js`

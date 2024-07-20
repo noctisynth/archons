@@ -1,5 +1,5 @@
 ---
-'ntscl': patch
+'clap-js': patch
 ---
 
 Add `defineCommand` interface

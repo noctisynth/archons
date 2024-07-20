@@ -1,3 +1,3 @@
-# `ntscl-android-arm-eabi`
+# `clap-js-android-arm-eabi`
 
-This is the **armv7-linux-androideabi** binary for `ntscl`
+This is the **armv7-linux-androideabi** binary for `clap-js`
