@@ -17,6 +17,7 @@ on:
       - '**/*.gitignore'
       - .editorconfig
       - docs/**
+      - cspell.json
   workflow_call: null
 concurrency:
   group: '${{ github.workflow }}-${{ github.ref }}'
