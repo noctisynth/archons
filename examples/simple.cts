@@ -28,6 +28,7 @@ const main = defineCommand({
     verbose: {
       type: 'flag',
       parser: 'boolean',
+      help: 'Enable verbose output',
     },
   },
   subcommands: {

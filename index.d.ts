@@ -6,8 +6,25 @@
 export declare function defineCommand(options: Command): Command
 export declare function run(cmd: Command, args?: Array<string> | undefined | null): void
 export const VERSION: string
+/**
+ * Command context
+ *
+ * This is the context object that is passed to the command callback.
+ */
 export interface Context {
+  /**
+   * Parsed arguments
+   *
+   * This is a js object that contains the parsed arguments.
+   * The keys of the object are the names of the arguments and
+   * the values are the parsed values.
+   */
   args: object
+  /**
+   * Raw arguments
+   *
+   * The raw arguments parsed by command line or manually given.
+   */
   rawArgs: Array<string>
 }
 /** Command metadata */
@@ -57,10 +74,17 @@ export interface CommandOption {
   long?: string
   alias?: Array<string>
   hiddenAlias?: Array<string>
+  help?: string
   required?: boolean
   default?: string
   hidden?: boolean
 }
+/**
+ * Command definition
+ *
+ * This is the object that defines a command.
+ * It contains the metadata, options, and callback function.
+ */
 export interface Command {
   meta: CommandMeta
   options: Record<string, CommandOption>

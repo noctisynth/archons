@@ -37,7 +37,10 @@ pub fn run(env: Env, cmd: Command, args: Option<Vec<String>>) -> Result<()> {
     if let Some(cb) = cmd.callback.as_ref() {
       cb.call1::<Context, JsNull>(context)?;
     } else {
-      env.throw_error("No callback function found for command", None)?;
+      env.throw_error(
+        "No callback function found for main command and no subcommand was provided.",
+        Some("E_NO_CALLBACK"),
+      )?;
     };
   }
   Ok(())
