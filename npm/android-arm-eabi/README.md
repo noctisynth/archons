@@ -1,3 +1,3 @@
-# `@noctisynth/archons-android-arm-eabi`
+# `archons-android-arm-eabi`
 
-This is the **armv7-linux-androideabi** binary for `@noctisynth/archons`
+This is the **armv7-linux-androideabi** binary for `archons`

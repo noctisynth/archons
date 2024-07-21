@@ -1,21 +1,26 @@
 {
-  "name": "@noctisynth/archons-darwin-arm64",
-  "version": "0.1.1",
+  "name": "archons-darwin-arm64",
+  "version": "0.1.0",
   "os": [
     "darwin"
   ],
   "cpu": [
     "arm64"
   ],
-  "main": "archons.darwin-arm64.node",
+  "main": "@noctisynth/archons.darwin-arm64.node",
   "files": [
-    "archons.darwin-arm64.node"
+    "@noctisynth/archons.darwin-arm64.node"
   ],
-  "description": "Fast and elegant CLI build tool based on clap-rs",
+  "description": "Fast, powerful and elegant CLI build tool based on clap-rs",
   "keywords": [
     "cli-tool",
     "rust"
   ],
+  "author": {
+    "name": "苏向夜",
+    "email": "fu050409@163.com",
+    "url": "https://github.com/fu050409"
+  },
   "license": "MIT",
   "engines": {
     "node": ">= 10"
