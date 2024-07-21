@@ -1,5 +1,5 @@
 {
-  "name": "@noctisynth/archons",
+  "name": "archons",
   "version": "0.1.0",
   "description": "Fast, powerful and elegant CLI build tool based on clap-rs",
   "author": {
@@ -19,7 +19,7 @@
     "index.js"
   ],
   "napi": {
-    "name": "archons",
+    "name": "@noctisynth/archons",
     "triples": {
       "defaults": true,
       "additional": [
