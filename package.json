@@ -19,7 +19,7 @@
     "index.js"
   ],
   "napi": {
-    "name": "@noctisynth/archons",
+    "name": "archons",
     "triples": {
       "defaults": true,
       "additional": [
@@ -109,6 +109,5 @@
     "trailingComma": "all",
     "singleQuote": true,
     "arrowParens": "always"
-  },
-  "packageManager": "yarn@4.3.1"
+  }
 }

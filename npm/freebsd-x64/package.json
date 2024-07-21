@@ -1,15 +1,15 @@
 {
   "name": "archons-freebsd-x64",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "os": [
     "freebsd"
   ],
   "cpu": [
     "x64"
   ],
-  "main": "@noctisynth/archons.freebsd-x64.node",
+  "main": "archons.freebsd-x64.node",
   "files": [
-    "@noctisynth/archons.freebsd-x64.node"
+    "archons.freebsd-x64.node"
   ],
   "description": "Fast, powerful and elegant CLI build tool based on clap-rs",
   "keywords": [

@@ -1,15 +1,15 @@
 {
   "name": "archons-win32-arm64-msvc",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "os": [
     "win32"
   ],
   "cpu": [
     "arm64"
   ],
-  "main": "@noctisynth/archons.win32-arm64-msvc.node",
+  "main": "archons.win32-arm64-msvc.node",
   "files": [
-    "@noctisynth/archons.win32-arm64-msvc.node"
+    "archons.win32-arm64-msvc.node"
   ],
   "description": "Fast, powerful and elegant CLI build tool based on clap-rs",
   "keywords": [

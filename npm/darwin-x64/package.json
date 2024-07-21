@@ -1,15 +1,15 @@
 {
   "name": "archons-darwin-x64",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "os": [
     "darwin"
   ],
   "cpu": [
     "x64"
   ],
-  "main": "@noctisynth/archons.darwin-x64.node",
+  "main": "archons.darwin-x64.node",
   "files": [
-    "@noctisynth/archons.darwin-x64.node"
+    "archons.darwin-x64.node"
   ],
   "description": "Fast, powerful and elegant CLI build tool based on clap-rs",
   "keywords": [

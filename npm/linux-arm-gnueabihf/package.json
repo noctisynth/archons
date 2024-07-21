@@ -1,15 +1,15 @@
 {
   "name": "archons-linux-arm-gnueabihf",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "os": [
     "linux"
   ],
   "cpu": [
     "arm"
   ],
-  "main": "@noctisynth/archons.linux-arm-gnueabihf.node",
+  "main": "archons.linux-arm-gnueabihf.node",
   "files": [
-    "@noctisynth/archons.linux-arm-gnueabihf.node"
+    "archons.linux-arm-gnueabihf.node"
   ],
   "description": "Fast, powerful and elegant CLI build tool based on clap-rs",
   "keywords": [
