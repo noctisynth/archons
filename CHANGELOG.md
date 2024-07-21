@@ -1,5 +1,11 @@
 # archons
 
+## 0.1.5
+
+### Patch Changes
+
+- 3382c3a: Add `--js-package-name` option in build script
+
 ## 0.1.4
 
 ### Patch Changes
