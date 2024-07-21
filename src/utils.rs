@@ -39,6 +39,15 @@ pub(crate) fn resolve_command_meta(
   if let Some(about) = &meta.about {
     clap = clap.about(leak_borrowed_str(about));
   }
+  if meta.styled.is_some() && meta.styled.unwrap() {
+    use clap::builder::styling;
+    let styles = styling::Styles::styled()
+      .header(styling::AnsiColor::Green.on_default() | styling::Effects::BOLD)
+      .usage(styling::AnsiColor::Green.on_default() | styling::Effects::BOLD)
+      .literal(styling::AnsiColor::Cyan.on_default() | styling::Effects::BOLD)
+      .placeholder(styling::AnsiColor::Cyan.on_default());
+    clap = clap.styles(styles);
+  }
   clap
 }
 
