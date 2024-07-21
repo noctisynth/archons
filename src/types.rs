@@ -76,7 +76,7 @@ pub struct CommandOption {
 }
 
 /// Command definition
-/// 
+///
 /// This is the object that defines a command.
 /// It contains the metadata, options, and callback function.
 #[napi(object)]
