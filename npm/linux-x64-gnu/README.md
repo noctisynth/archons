@@ -1,3 +1,3 @@
-# `archons-linux-x64-gnu`
+# `@noctisynth/archons-linux-x64-gnu`
 
-This is the **x86_64-unknown-linux-gnu** binary for `archons`
+This is the **x86_64-unknown-linux-gnu** binary for `@noctisynth/archons`

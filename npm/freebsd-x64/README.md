@@ -1,3 +1,3 @@
-# `archons-freebsd-x64`
+# `@noctisynth/archons-freebsd-x64`
 
-This is the **x86_64-unknown-freebsd** binary for `archons`
+This is the **x86_64-unknown-freebsd** binary for `@noctisynth/archons`

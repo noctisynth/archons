@@ -1,9 +1,9 @@
 {
-  "name": "archons",
+  "name": "@noctisynth/archons",
   "version": "0.1.1",
-  "description": "Fast and elegant CLI build tool based on clap-rs",
+  "description": "Fast, powerful and elegant CLI build tool based on clap-rs",
   "main": "index.js",
-  "repository": "https://github.com/noctisynth/clap-js.git",
+  "repository": "https://github.com/noctisynth/archons.git",
   "license": "MIT",
   "keywords": [
     "cli-tool",
