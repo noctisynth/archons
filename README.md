@@ -1,11 +1,11 @@
 # archons
 
-Fast and elegant CLI build tool based on clap-rs
+Fast, powerful and elegant CLI build tool based on clap-rs
 
 ## Installation
 
 ```bash
-npm install -g clap-js
+npm install -g archons
 ```
 
 ## Usage
