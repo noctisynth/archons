@@ -12,8 +12,16 @@ pub fn define_command(options: Command) -> Command {
 #[napi]
 pub fn run(env: Env, cmd: Command, args: Option<Vec<String>>) -> Result<()> {
   let args = resolve_option_args(args);
-  let clap = resolve_command(clap::Command::default(), Default::default(), &cmd)
-    .color(clap::ColorChoice::Always);
+  let mut clap = resolve_command(clap::Command::default(), Default::default(), &cmd);
+  {
+    use clap::builder::styling;
+    let styles = styling::Styles::styled()
+      .header(styling::AnsiColor::Green.on_default() | styling::Effects::BOLD)
+      .usage(styling::AnsiColor::Green.on_default() | styling::Effects::BOLD)
+      .literal(styling::AnsiColor::Cyan.on_default() | styling::Effects::BOLD)
+      .placeholder(styling::AnsiColor::Cyan.on_default());
+    clap = clap.styles(styles);
+  }
   let matches = clap.clone().get_matches_from(&args);
 
   let mut parsed_args = env.create_object()?;

@@ -1,6 +1,6 @@
 {
-  "name": "archons-linux-arm64-musl",
-  "version": "0.1.0",
+  "name": "@noctisynth/archons-linux-arm64-musl",
+  "version": "0.1.1",
   "os": [
     "linux"
   ],
@@ -24,7 +24,7 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "repository": "https://github.com/noctisynth/clap-js.git",
+  "repository": "https://github.com/noctisynth/archons.git",
   "libc": [
     "musl"
   ]
