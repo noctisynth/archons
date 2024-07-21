@@ -1,5 +1,11 @@
 # archons
 
+## 0.1.4
+
+### Patch Changes
+
+- 8f34ec5: Support pass help option for args
+
 ## 0.1.3
 
 ### Patch Changes
