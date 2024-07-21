@@ -1,7 +1,7 @@
 name: Build and Test
 env:
   DEBUG: napi:*
-  APP_NAME: '@noctisynth/archons'
+  APP_NAME: archons
   MACOSX_DEPLOYMENT_TARGET: '10.13'
   CARGO_INCREMENTAL: '1'
 permissions:
