@@ -1,5 +1,11 @@
 # archons
 
+## 0.1.2
+
+### Patch Changes
+
+- bcee4ef: Support styled option for command meta
+
 ## 0.1.1
 
 ### Patch Changes
