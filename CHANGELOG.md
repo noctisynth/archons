@@ -1,5 +1,11 @@
 # archons
 
+## 0.1.3
+
+### Patch Changes
+
+- 0968fe3: Fix napi package failed to release
+
 ## 0.1.2
 
 ### Patch Changes
