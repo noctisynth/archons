@@ -26,7 +26,8 @@ export interface CommandMeta {
    * This is optional and can be used to display the version of the CLI
    * when the command is called with the `--version` flag or `-V` option.
    *
-   * This option will be ignored if the command is subcommand.
+   * If not provided, the CLI will not display the version and you can't
+   * call the command with the `--version` flag or `-V` option.
    */
   version?: string
   /**
@@ -35,6 +36,12 @@ export interface CommandMeta {
    * Command description will be displayed in the help output.
    */
   about?: string
+  /**
+   * Enable styled mode
+   *
+   * Determines whether the CLI output should be displayed in the styled format.
+   */
+  styled?: boolean
 }
 export interface CommandOption {
   type?: 'positional' | 'flag' | 'option'

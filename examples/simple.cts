@@ -1,4 +1,4 @@
-const { defineCommand, run } = require('./index.js')
+import { defineCommand, run, type Context } from '../index';
 
 const dev = defineCommand({
   meta: {
@@ -12,7 +12,7 @@ const dev = defineCommand({
       default: '3000',
     },
   },
-  callback: (ctx) => {
+  callback: (ctx: Context) => {
     console.log(ctx);
   }
 })
@@ -22,7 +22,7 @@ const main = defineCommand({
     name: 'simple',
     version: '0.0.1',
     about: 'A simple command line tool',
-    alias: ['dev']
+    styled: true,
   },
   options: {
     verbose: {
