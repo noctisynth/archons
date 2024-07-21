@@ -1,15 +1,15 @@
 {
   "name": "archons-napi-darwin-x64",
-  "version": "0.1.2",
+  "version": "0.1.5",
   "os": [
     "darwin"
   ],
   "cpu": [
     "x64"
   ],
-  "main": "archons.darwin-x64.node",
+  "main": "archons-napi.darwin-x64.node",
   "files": [
-    "archons.darwin-x64.node"
+    "archons-napi.darwin-x64.node"
   ],
   "description": "Fast, powerful and elegant CLI build tool based on clap-rs",
   "keywords": [

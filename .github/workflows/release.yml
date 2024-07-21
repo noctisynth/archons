@@ -51,6 +51,7 @@ jobs:
         with:
           title: 'chore(release): version packages'
           commit: 'chore(release): version packages'
+          version: yarn bump
           publish: npm publish --access public
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
