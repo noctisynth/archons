@@ -1,15 +1,15 @@
 {
   "name": "archons-android-arm-eabi",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "os": [
     "android"
   ],
   "cpu": [
     "arm"
   ],
-  "main": "@noctisynth/archons.android-arm-eabi.node",
+  "main": "archons.android-arm-eabi.node",
   "files": [
-    "@noctisynth/archons.android-arm-eabi.node"
+    "archons.android-arm-eabi.node"
   ],
   "description": "Fast, powerful and elegant CLI build tool based on clap-rs",
   "keywords": [

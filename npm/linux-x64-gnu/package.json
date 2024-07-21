@@ -1,15 +1,15 @@
 {
   "name": "archons-linux-x64-gnu",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "os": [
     "linux"
   ],
   "cpu": [
     "x64"
   ],
-  "main": "@noctisynth/archons.linux-x64-gnu.node",
+  "main": "archons.linux-x64-gnu.node",
   "files": [
-    "@noctisynth/archons.linux-x64-gnu.node"
+    "archons.linux-x64-gnu.node"
   ],
   "description": "Fast, powerful and elegant CLI build tool based on clap-rs",
   "keywords": [

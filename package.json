@@ -19,7 +19,7 @@
     "index.js"
   ],
   "napi": {
-    "name": "@noctisynth/archons",
+    "name": "archons",
     "triples": {
       "defaults": true,
       "additional": [
@@ -110,5 +110,20 @@
     "singleQuote": true,
     "arrowParens": "always"
   },
-  "packageManager": "yarn@4.3.1"
+  "packageManager": "yarn@4.3.1",
+  "optionalDependencies": {
+    "archons-win32-x64-msvc": "0.1.1",
+    "archons-darwin-x64": "0.1.1",
+    "archons-linux-x64-gnu": "0.1.1",
+    "archons-linux-x64-musl": "0.1.1",
+    "archons-linux-arm64-gnu": "0.1.1",
+    "archons-win32-ia32-msvc": "0.1.1",
+    "archons-linux-arm-gnueabihf": "0.1.1",
+    "archons-darwin-arm64": "0.1.1",
+    "archons-android-arm64": "0.1.1",
+    "archons-freebsd-x64": "0.1.1",
+    "archons-linux-arm64-musl": "0.1.1",
+    "archons-win32-arm64-msvc": "0.1.1",
+    "archons-android-arm-eabi": "0.1.1"
+  }
 }
