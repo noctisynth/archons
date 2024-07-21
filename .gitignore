@@ -114,7 +114,7 @@ dist
 # End of https://www.toptal.com/developers/gitignore/api/node
 
 
-#Added by cargo
+# Added by cargo
 
 /target
 Cargo.lock
@@ -127,3 +127,6 @@ Cargo.lock
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Napi-rs default CI
+.github/workflows/CI.yml
