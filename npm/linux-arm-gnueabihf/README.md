@@ -1,3 +1,3 @@
-# `archons-linux-arm-gnueabihf`
+# `archons-napi-linux-arm-gnueabihf`
 
-This is the **armv7-unknown-linux-gnueabihf** binary for `archons`
+This is the **armv7-unknown-linux-gnueabihf** binary for `archons-napi`

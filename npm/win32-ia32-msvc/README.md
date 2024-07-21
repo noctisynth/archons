@@ -1,3 +1,3 @@
-# `archons-win32-ia32-msvc`
+# `archons-napi-win32-ia32-msvc`
 
-This is the **i686-pc-windows-msvc** binary for `archons`
+This is the **i686-pc-windows-msvc** binary for `archons-napi`

@@ -1,6 +1,6 @@
 {
-  "name": "archons-android-arm64",
-  "version": "0.1.1",
+  "name": "archons-napi-android-arm64",
+  "version": "0.1.2",
   "os": [
     "android"
   ],

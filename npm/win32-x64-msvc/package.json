@@ -1,6 +1,6 @@
 {
-  "name": "archons-win32-x64-msvc",
-  "version": "0.1.1",
+  "name": "archons-napi-win32-x64-msvc",
+  "version": "0.1.2",
   "os": [
     "win32"
   ],

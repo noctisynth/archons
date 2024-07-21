@@ -1,6 +1,6 @@
 {
-  "name": "archons-android-arm-eabi",
-  "version": "0.1.1",
+  "name": "archons-napi-android-arm-eabi",
+  "version": "0.1.2",
   "os": [
     "android"
   ],
