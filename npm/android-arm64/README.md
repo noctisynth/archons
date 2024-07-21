@@ -1,3 +1,3 @@
-# `archons-android-arm64`
+# `archons-napi-android-arm64`
 
-This is the **aarch64-linux-android** binary for `archons`
+This is the **aarch64-linux-android** binary for `archons-napi`

@@ -1,3 +1,3 @@
-# `archons-darwin-x64`
+# `archons-napi-darwin-x64`
 
-This is the **x86_64-apple-darwin** binary for `archons`
+This is the **x86_64-apple-darwin** binary for `archons-napi`

@@ -1,3 +1,3 @@
-# `archons-freebsd-x64`
+# `archons-napi-freebsd-x64`
 
-This is the **x86_64-unknown-freebsd** binary for `archons`
+This is the **x86_64-unknown-freebsd** binary for `archons-napi`

@@ -1,3 +1,3 @@
-# `archons-linux-x64-musl`
+# `archons-napi-linux-x64-musl`
 
-This is the **x86_64-unknown-linux-musl** binary for `archons`
+This is the **x86_64-unknown-linux-musl** binary for `archons-napi`

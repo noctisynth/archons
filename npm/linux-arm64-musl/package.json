@@ -1,6 +1,6 @@
 {
-  "name": "archons-linux-arm64-musl",
-  "version": "0.1.1",
+  "name": "archons-napi-linux-arm64-musl",
+  "version": "0.1.2",
   "os": [
     "linux"
   ],
