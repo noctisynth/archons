@@ -101,6 +101,9 @@ pub(crate) fn resolve_command_options(
             .collect::<Vec<&str>>();
           arg = arg.aliases(hidden_alias);
         }
+        if let Some(help) = &opt.help {
+          arg = arg.help(leak_borrowed_str(help));
+        }
         if let Some(required) = opt.required {
           arg = arg.required(required);
         }

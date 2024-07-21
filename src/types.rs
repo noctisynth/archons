@@ -6,9 +6,20 @@ use napi_derive::napi;
 #[napi]
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 
+/// Command context
+///
+/// This is the context object that is passed to the command callback.
 #[napi(object)]
 pub struct Context {
+  /// Parsed arguments
+  ///
+  /// This is a js object that contains the parsed arguments.
+  /// The keys of the object are the names of the arguments and
+  /// the values are the parsed values.
   pub args: JsObject,
+  /// Raw arguments
+  ///
+  /// The raw arguments parsed by command line or manually given.
   pub raw_args: Vec<String>,
 }
 
@@ -58,11 +69,16 @@ pub struct CommandOption {
   pub long: Option<String>,
   pub alias: Option<Vec<String>>,
   pub hidden_alias: Option<Vec<String>>,
+  pub help: Option<String>,
   pub required: Option<bool>,
   pub default: Option<String>,
   pub hidden: Option<bool>,
 }
 
+/// Command definition
+/// 
+/// This is the object that defines a command.
+/// It contains the metadata, options, and callback function.
 #[napi(object)]
 pub struct Command {
   pub meta: CommandMeta,
