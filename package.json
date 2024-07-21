@@ -57,7 +57,7 @@
     "lint": "oxlint .",
     "prepublishOnly": "napi prepublish -t npm",
     "test": "ava",
-    "version": "node scripts/bump.mjs"
+    "bump": "node scripts/bump.mjs"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.7",
