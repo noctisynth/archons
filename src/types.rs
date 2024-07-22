@@ -66,6 +66,7 @@ pub struct CommandOption {
   pub required: Option<bool>,
   pub default: Option<String>,
   pub hidden: Option<bool>,
+  pub conflicts_with: Option<Vec<String>>,
 }
 
 /// Command definition

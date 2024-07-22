@@ -71,6 +71,7 @@ export interface CommandOption {
   required?: boolean
   default?: string
   hidden?: boolean
+  conflictsWith?: Array<string>
 }
 /**
  * Command definition

@@ -92,6 +92,13 @@ pub(crate) fn resolve_command_options(
         if let Some(hidden) = opt.hidden {
           arg = arg.hide(hidden);
         }
+        if let Some(conflicts_with) = &opt.conflicts_with {
+          let conflicts_with = conflicts_with
+            .iter()
+            .map(leak_borrowed_str)
+            .collect::<Vec<&str>>();
+          arg = arg.conflicts_with_all(conflicts_with);
+        }
         arg
       })
       .collect::<Vec<clap::Arg>>(),
