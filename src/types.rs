@@ -3,9 +3,6 @@ use std::collections::HashMap;
 use napi::{JsFunction, JsObject};
 use napi_derive::napi;
 
-#[napi]
-pub const VERSION: &str = env!("CARGO_PKG_VERSION");
-
 /// Command context
 ///
 /// This is the context object that is passed to the command callback.
