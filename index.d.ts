@@ -5,7 +5,6 @@
 
 export declare function defineCommand(options: Command): Command
 export declare function run(cmd: Command, args?: Array<string> | undefined | null): void
-export const VERSION: string
 /**
  * Command context
  *
