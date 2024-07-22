@@ -1,5 +1,17 @@
 # archons
 
+## 0.1.7
+
+### Patch Changes
+
+- fa1b5c6: Fix prepublish package names
+- be34ebc: Refactor codes to extract resolvers to single module
+- f4e7ff9: Support more options for command option
+- f4e7ff9: Support action option and resolve by str
+- f4e7ff9: Support `conflicts_with` in command option definition
+- f4e7ff9: Improvements of type annotations for command option
+- f4e7ff9: Add `default_missing` arg for option
+
 ## 0.1.6
 
 ### Patch Changes
