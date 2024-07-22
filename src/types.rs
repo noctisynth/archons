@@ -56,8 +56,6 @@ pub struct CommandOption {
   #[napi(ts_type = r#"
     | 'string'
     | 'str'
-    | 'string[]'
-    | 'str[]'
     | 'number'
     | 'boolean'
     | 'bool'"#)]
