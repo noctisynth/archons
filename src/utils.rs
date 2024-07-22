@@ -27,7 +27,7 @@ pub(crate) fn merge_args_matches(
       .find(|&(name, _)| name == id)
       .map(|(_, t)| t)
       .unwrap();
-    match opts._type.as_deref().unwrap_or("option") {
+    match opts.type_.as_deref().unwrap_or("option") {
       "option" => {
         parsed_args.set(id, matches.get_one::<String>(id.as_str()))?;
       }

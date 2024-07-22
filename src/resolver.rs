@@ -40,21 +40,20 @@ pub(crate) fn resolve_command_meta(
   clap
 }
 
-pub(crate) fn resolve_action(_type: &str, parser: Option<&str>) -> Option<clap::ArgAction> {
-  match _type {
-    "positional" | "option" => {
-      if parser.is_some() && parser.unwrap().ends_with("[]") {
-        Some(clap::ArgAction::Append)
-      } else {
-        None
-      }
-    }
-    "flag" => match parser {
-      Some("bool" | "boolean") | None => Some(clap::ArgAction::SetTrue),
-      Some("number") => Some(clap::ArgAction::Count),
-      _ => panic!("Invalid flag parser: `{:?}`", parser),
+pub(crate) fn resolve_action(action: &Option<String>, type_: &Option<String>) -> clap::ArgAction {
+  let type_ = type_.as_deref().unwrap_or("option");
+  match action.as_deref() {
+    Some("set") => clap::ArgAction::Set,
+    Some("append") => clap::ArgAction::Append,
+    Some("count") => clap::ArgAction::Count,
+    Some("store") => clap::ArgAction::SetTrue,
+    Some("store_false") => clap::ArgAction::SetFalse,
+    None => match type_ {
+      "option" => clap::ArgAction::SetTrue,
+      "positional" => clap::ArgAction::Set,
+      _ => panic!("Unsupported type: {:?}", type_),
     },
-    _ => panic!("Unsupported option type: `{}`", _type),
+    _ => panic!("Unsupported action: {:?}", action),
   }
 }
 
@@ -67,11 +66,8 @@ pub(crate) fn resolve_command_options(
       .iter()
       .map(|(name, opt)| {
         let mut arg = clap::Arg::new(leak_borrowed_str(name));
-        arg = arg.action(resolve_action(
-          opt._type.as_deref().unwrap_or("option"),
-          opt.parser.as_deref(),
-        ));
-        if opt._type.as_deref() != Some("positional") {
+        arg = arg.action(resolve_action(&opt.action, &opt.type_));
+        if opt.type_.as_deref() != Some("positional") {
           let long = leak_borrowed_str_or_default(opt.long.as_ref(), name);
           arg = arg.long(long).short(
             leak_borrowed_str_or_default(opt.short.as_ref(), long)
@@ -90,6 +86,20 @@ pub(crate) fn resolve_command_options(
             .collect::<Vec<&str>>();
           arg = arg.aliases(hidden_alias);
         }
+        if let Some(short_alias) = &opt.short_alias {
+          let short_alias = short_alias
+            .iter()
+            .map(|s| s.chars().next().unwrap())
+            .collect::<Vec<char>>();
+          arg = arg.visible_short_aliases(short_alias);
+        }
+        if let Some(hidden_short_alias) = &opt.hidden_short_alias {
+          let hidden_short_alias = hidden_short_alias
+            .iter()
+            .map(|s| s.chars().next().unwrap())
+            .collect::<Vec<char>>();
+          arg = arg.short_aliases(hidden_short_alias);
+        }
         if let Some(help) = &opt.help {
           arg = arg.help(leak_borrowed_str(help));
         }
@@ -99,8 +109,24 @@ pub(crate) fn resolve_command_options(
         if let Some(default) = &opt.default {
           arg = arg.default_value(leak_borrowed_str(default));
         }
+        if let Some(default_missing) = opt.default_missing {
+          arg = arg.default_missing_value(default_missing);
+        }
         if let Some(hidden) = opt.hidden {
           arg = arg.hide(hidden);
+        }
+        if let Some(global) = opt.global {
+          arg = arg.global(global);
+        }
+        if let Some(conflicts_with) = &opt.conflicts_with {
+          let conflicts_with = conflicts_with
+            .iter()
+            .map(leak_borrowed_str)
+            .collect::<Vec<&str>>();
+          arg = arg.conflicts_with_all(conflicts_with);
+        }
+        if let Some(hide_default_value) = opt.hide_default_value {
+          arg = arg.hide_default_value(hide_default_value);
         }
         arg
       })
