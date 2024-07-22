@@ -67,11 +67,38 @@ export interface CommandOption {
   long?: string
   alias?: Array<string>
   hiddenAlias?: Array<string>
+  shortAlias?: Array<string & { length: 1 }>
+  hiddenShortAlias?: Array<string>
   help?: string
+  /**
+   * Required argument
+   *
+   * If true, the argument is required and the command will fail without it.
+   */
   required?: boolean
   default?: string
+  /**
+   * Hide argument in help output
+   *
+   * Do not display the argument in the help message.
+   */
   hidden?: boolean
+  /**
+   * Global argument
+   *
+   * Specifies that an argument can be matched to all child subcommands
+   */
+  global?: boolean
   conflictsWith?: Array<string>
+  /**
+   * Hide default value in help output
+   *
+   * Do not display the default value of the argument in the help message.
+   *
+   * This is useful when default behavior of an arg is explained elsewhere
+   * in the help text.
+   */
+  hideDefaultValue?: boolean
 }
 /**
  * Command definition

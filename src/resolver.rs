@@ -80,6 +80,20 @@ pub(crate) fn resolve_command_options(
             .collect::<Vec<&str>>();
           arg = arg.aliases(hidden_alias);
         }
+        if let Some(short_alias) = &opt.short_alias {
+          let short_alias = short_alias
+            .iter()
+            .map(|s| s.chars().next().unwrap())
+            .collect::<Vec<char>>();
+          arg = arg.visible_short_aliases(short_alias);
+        }
+        if let Some(hidden_short_alias) = &opt.hidden_short_alias {
+          let hidden_short_alias = hidden_short_alias
+            .iter()
+            .map(|s| s.chars().next().unwrap())
+            .collect::<Vec<char>>();
+          arg = arg.short_aliases(hidden_short_alias);
+        }
         if let Some(help) = &opt.help {
           arg = arg.help(leak_borrowed_str(help));
         }
@@ -92,12 +106,18 @@ pub(crate) fn resolve_command_options(
         if let Some(hidden) = opt.hidden {
           arg = arg.hide(hidden);
         }
+        if let Some(global) = opt.global {
+          arg = arg.global(global);
+        }
         if let Some(conflicts_with) = &opt.conflicts_with {
           let conflicts_with = conflicts_with
             .iter()
             .map(leak_borrowed_str)
             .collect::<Vec<&str>>();
           arg = arg.conflicts_with_all(conflicts_with);
+        }
+        if let Some(hide_default_value) = opt.hide_default_value {
+          arg = arg.hide_default_value(hide_default_value);
         }
         arg
       })

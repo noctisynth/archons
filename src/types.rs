@@ -62,11 +62,31 @@ pub struct CommandOption {
   pub long: Option<String>,
   pub alias: Option<Vec<String>>,
   pub hidden_alias: Option<Vec<String>>,
+  #[napi(ts_type = "Array<string & { length: 1 }>")]
+  pub short_alias: Option<Vec<String>>,
+  pub hidden_short_alias: Option<Vec<String>>,
   pub help: Option<String>,
+  /// Required argument
+  ///
+  /// If true, the argument is required and the command will fail without it.
   pub required: Option<bool>,
   pub default: Option<String>,
+  /// Hide argument in help output
+  ///
+  /// Do not display the argument in the help message.
   pub hidden: Option<bool>,
+  /// Global argument
+  ///
+  /// Specifies that an argument can be matched to all child subcommands
+  pub global: Option<bool>,
   pub conflicts_with: Option<Vec<String>>,
+  /// Hide default value in help output
+  ///
+  /// Do not display the default value of the argument in the help message.
+  ///
+  /// This is useful when default behavior of an arg is explained elsewhere
+  /// in the help text.
+  pub hide_default_value: Option<bool>,
 }
 
 /// Command definition
