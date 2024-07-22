@@ -61,13 +61,9 @@ export interface CommandMeta {
 }
 export interface CommandOption {
   type?: 'positional' | 'flag' | 'option'
-  parser?:
-  | 'string'
-  | 'str'
-  | 'number'
-  | 'boolean'
-  | 'bool'
-  short?: string
+  parser?: 'string' | 'number' | 'boolean'
+  action?: 'set' | 'append' | 'count' | 'store' | 'store_false'
+  short?: string & { length: 1 }
   long?: string
   alias?: Array<string>
   hiddenAlias?: Array<string>

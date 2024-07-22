@@ -53,13 +53,11 @@ pub struct CommandMeta {
 pub struct CommandOption {
   #[napi(js_name = "type", ts_type = "'positional' | 'flag' | 'option'")]
   pub _type: Option<String>,
-  #[napi(ts_type = r#"
-    | 'string'
-    | 'str'
-    | 'number'
-    | 'boolean'
-    | 'bool'"#)]
+  #[napi(ts_type = "'string' | 'number' | 'boolean'")]
   pub parser: Option<String>,
+  #[napi(ts_type = "'set' | 'append' | 'count' | 'store' | 'store_false'")]
+  pub action: Option<String>,
+  #[napi(ts_type = "string & { length: 1 }")]
   pub short: Option<String>,
   pub long: Option<String>,
   pub alias: Option<Vec<String>>,

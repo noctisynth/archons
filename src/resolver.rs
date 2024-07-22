@@ -40,22 +40,15 @@ pub(crate) fn resolve_command_meta(
   clap
 }
 
-pub(crate) fn resolve_action(_type: &str, parser: Option<&str>) -> Option<clap::ArgAction> {
-  match _type {
-    "positional" | "option" => {
-      if parser.is_some() && parser.unwrap().ends_with("[]") {
-        Some(clap::ArgAction::Append)
-      } else {
-        None
-      }
-    }
-    "flag" => match parser {
-      Some("bool" | "boolean") | None => Some(clap::ArgAction::SetTrue),
-      Some("number") => Some(clap::ArgAction::Count),
-      _ => panic!("Invalid flag parser: `{:?}`", parser),
-    },
-    _ => panic!("Unsupported option type: `{}`", _type),
-  }
+pub(crate) fn resolve_action(action: &Option<String>) -> Option<clap::ArgAction> {
+  action.as_deref().map(|action| match action {
+    "set" => clap::ArgAction::Set,
+    "append" => clap::ArgAction::Append,
+    "count" => clap::ArgAction::Count,
+    "store" => clap::ArgAction::SetTrue,
+    "store_false" => clap::ArgAction::SetFalse,
+    _ => panic!("Unsupported action: {}", action),
+  })
 }
 
 pub(crate) fn resolve_command_options(
@@ -67,10 +60,7 @@ pub(crate) fn resolve_command_options(
       .iter()
       .map(|(name, opt)| {
         let mut arg = clap::Arg::new(leak_borrowed_str(name));
-        arg = arg.action(resolve_action(
-          opt._type.as_deref().unwrap_or("option"),
-          opt.parser.as_deref(),
-        ));
+        arg = arg.action(resolve_action(&opt.action));
         if opt._type.as_deref() != Some("positional") {
           let long = leak_borrowed_str_or_default(opt.long.as_ref(), name);
           arg = arg.long(long).short(
