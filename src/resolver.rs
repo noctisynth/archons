@@ -40,15 +40,21 @@ pub(crate) fn resolve_command_meta(
   clap
 }
 
-pub(crate) fn resolve_action(action: &Option<String>) -> Option<clap::ArgAction> {
-  action.as_deref().map(|action| match action {
-    "set" => clap::ArgAction::Set,
-    "append" => clap::ArgAction::Append,
-    "count" => clap::ArgAction::Count,
-    "store" => clap::ArgAction::SetTrue,
-    "store_false" => clap::ArgAction::SetFalse,
-    _ => panic!("Unsupported action: {}", action),
-  })
+pub(crate) fn resolve_action(action: &Option<String>, type_: &Option<String>) -> clap::ArgAction {
+  let type_ = type_.as_deref().unwrap_or("option");
+  match action.as_deref() {
+    Some("set") => clap::ArgAction::Set,
+    Some("append") => clap::ArgAction::Append,
+    Some("count") => clap::ArgAction::Count,
+    Some("store") => clap::ArgAction::SetTrue,
+    Some("store_false") => clap::ArgAction::SetFalse,
+    None => match type_ {
+      "option" => clap::ArgAction::SetTrue,
+      "positional" => clap::ArgAction::Set,
+      _ => panic!("Unsupported type: {:?}", type_),
+    },
+    _ => panic!("Unsupported action: {:?}", action),
+  }
 }
 
 pub(crate) fn resolve_command_options(
@@ -60,8 +66,8 @@ pub(crate) fn resolve_command_options(
       .iter()
       .map(|(name, opt)| {
         let mut arg = clap::Arg::new(leak_borrowed_str(name));
-        arg = arg.action(resolve_action(&opt.action));
-        if opt._type.as_deref() != Some("positional") {
+        arg = arg.action(resolve_action(&opt.action, &opt.type_));
+        if opt.type_.as_deref() != Some("positional") {
           let long = leak_borrowed_str_or_default(opt.long.as_ref(), name);
           arg = arg.long(long).short(
             leak_borrowed_str_or_default(opt.short.as_ref(), long)
@@ -102,6 +108,9 @@ pub(crate) fn resolve_command_options(
         }
         if let Some(default) = &opt.default {
           arg = arg.default_value(leak_borrowed_str(default));
+        }
+        if let Some(default_missing) = opt.default_missing {
+          arg = arg.default_missing_value(default_missing);
         }
         if let Some(hidden) = opt.hidden {
           arg = arg.hide(hidden);

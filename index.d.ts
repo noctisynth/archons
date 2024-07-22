@@ -60,15 +60,68 @@ export interface CommandMeta {
   styled?: boolean
 }
 export interface CommandOption {
+  /**
+   * Option type for argument
+   *
+   * `type` option and `action` option are used to specify how to parse the argument.
+   *
+   * - `option` and (`store` or `store_false`): Boolean flag
+   * - `option` and  `count`: Counter flag
+   * - `option` and `set`: Option flag
+   * - `option` and `append`: Multiple option flag
+   * - `positional` and `set`: Positional argument
+   * - `positional` and `append`: Multiple positional argument
+   *
+   * Defaults to `option` if not specified.
+   */
   type?: 'positional' | 'option'
+  /** Specify the value type for the argument. */
   parser?: 'string' | 'number' | 'boolean'
+  /**
+   * Specify how to react to an argument when parsing it.
+   *
+   * - `set`: Overwrite previous values with new ones
+   * - `append`: Append new values to all previous ones
+   * - `count`: Count how many times a flag occurs
+   * - `store`: Store the value as a boolean flag
+   * - `store_false`: Store the value as a boolean flag with opposite meaning
+   *
+   * Defaults to `set` if not specified.
+   */
   action?: 'set' | 'append' | 'count' | 'store' | 'store_false'
+  /**
+   * Short option name
+   *
+   * This is a single character that can be used to represent the option
+   * in the command line. For example, `-v` for the `--verbose` option.
+   * Panics if the length of the string is empty. If the size of string
+   * is greater than 1, the first character will be used as the short option.
+   *
+   * This option will be ignored if option `type` is not `option`.
+   *
+   * Defaults to the first character of the long option name.
+   */
   short?: string & { length: 1 }
+  /**
+   * Long option name
+   *
+   * This is the name of the option that will be used to represent the option,
+   * preceded by two dashes. For example, `--verbose` option.
+   *
+   * This option will be ignored if option `type` is not `option`.
+   *
+   * Defaults to the name of the argument.
+   */
   long?: string
+  /** Option aliases */
   alias?: Array<string>
+  /** Hidden option aliases */
   hiddenAlias?: Array<string>
+  /** Short option aliases */
   shortAlias?: Array<string & { length: 1 }>
-  hiddenShortAlias?: Array<string>
+  /** Hidden short option aliases */
+  hiddenShortAlias?: Array<string & { length: 1 }>
+  /** Option description */
   help?: string
   /**
    * Required argument
@@ -76,7 +129,18 @@ export interface CommandOption {
    * If true, the argument is required and the command will fail without it.
    */
   required?: boolean
+  /** Value for the argument when not present */
   default?: string
+  /**
+   * Value for the argument when the flag is present but no value is specified.
+   *
+   * This configuration option is often used to give the user a shortcut and
+   * allow them to efficiently specify an option argument without requiring an
+   * explicitly value. The `--color` argument is a common example. By supplying
+   * a default, such as `default_missing_value("always")`, the user can quickly
+   * just add `--color` to the command line to produce the desired color output.
+   */
+  defaultMissing?: string
   /**
    * Hide argument in help output
    *
@@ -89,6 +153,11 @@ export interface CommandOption {
    * Specifies that an argument can be matched to all child subcommands
    */
   global?: boolean
+  /**
+   * Options that conflict with this argument
+   *
+   * This argument is mutually exclusive with the specified arguments.
+   */
   conflictsWith?: Array<string>
   /**
    * Hide default value in help output

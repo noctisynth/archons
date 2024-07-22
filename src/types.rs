@@ -51,26 +51,81 @@ pub struct CommandMeta {
 #[napi(object)]
 #[derive(Clone)]
 pub struct CommandOption {
+  /// Option type for argument
+  ///
+  /// `type` option and `action` option are used to specify how to parse the argument.
+  ///
+  /// - `option` and (`store` or `store_false`): Boolean flag
+  /// - `option` and  `count`: Counter flag
+  /// - `option` and `set`: Option flag
+  /// - `option` and `append`: Multiple option flag
+  /// - `positional` and `set`: Positional argument
+  /// - `positional` and `append`: Multiple positional argument
+  ///
+  /// Defaults to `option` if not specified.
   #[napi(js_name = "type", ts_type = "'positional' | 'option'")]
-  pub _type: Option<String>,
+  pub type_: Option<String>,
+  /// Specify the value type for the argument.
   #[napi(ts_type = "'string' | 'number' | 'boolean'")]
   pub parser: Option<String>,
+  /// Specify how to react to an argument when parsing it.
+  ///
+  /// - `set`: Overwrite previous values with new ones
+  /// - `append`: Append new values to all previous ones
+  /// - `count`: Count how many times a flag occurs
+  /// - `store`: Store the value as a boolean flag
+  /// - `store_false`: Store the value as a boolean flag with opposite meaning
+  ///
+  /// Defaults to `set` if not specified.
   #[napi(ts_type = "'set' | 'append' | 'count' | 'store' | 'store_false'")]
   pub action: Option<String>,
+  /// Short option name
+  ///
+  /// This is a single character that can be used to represent the option
+  /// in the command line. For example, `-v` for the `--verbose` option.
+  /// Panics if the length of the string is empty. If the size of string
+  /// is greater than 1, the first character will be used as the short option.
+  ///
+  /// This option will be ignored if option `type` is not `option`.
+  ///
+  /// Defaults to the first character of the long option name.
   #[napi(ts_type = "string & { length: 1 }")]
   pub short: Option<String>,
+  /// Long option name
+  ///
+  /// This is the name of the option that will be used to represent the option,
+  /// preceded by two dashes. For example, `--verbose` option.
+  ///
+  /// This option will be ignored if option `type` is not `option`.
+  ///
+  /// Defaults to the name of the argument.
   pub long: Option<String>,
+  /// Option aliases
   pub alias: Option<Vec<String>>,
+  /// Hidden option aliases
   pub hidden_alias: Option<Vec<String>>,
+  /// Short option aliases
   #[napi(ts_type = "Array<string & { length: 1 }>")]
   pub short_alias: Option<Vec<String>>,
+  /// Hidden short option aliases
+  #[napi(ts_type = "Array<string & { length: 1 }>")]
   pub hidden_short_alias: Option<Vec<String>>,
+  /// Option description
   pub help: Option<String>,
   /// Required argument
   ///
   /// If true, the argument is required and the command will fail without it.
   pub required: Option<bool>,
+  /// Value for the argument when not present
   pub default: Option<String>,
+  /// Value for the argument when the flag is present but no value is specified.
+  ///
+  /// This configuration option is often used to give the user a shortcut and
+  /// allow them to efficiently specify an option argument without requiring an
+  /// explicitly value. The `--color` argument is a common example. By supplying
+  /// a default, such as `default_missing_value("always")`, the user can quickly
+  /// just add `--color` to the command line to produce the desired color output.
+  pub default_missing: Option<&'static str>,
   /// Hide argument in help output
   ///
   /// Do not display the argument in the help message.
@@ -79,6 +134,9 @@ pub struct CommandOption {
   ///
   /// Specifies that an argument can be matched to all child subcommands
   pub global: Option<bool>,
+  /// Options that conflict with this argument
+  ///
+  /// This argument is mutually exclusive with the specified arguments.
   pub conflicts_with: Option<Vec<String>>,
   /// Hide default value in help output
   ///
