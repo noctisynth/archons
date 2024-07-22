@@ -64,8 +64,6 @@ export interface CommandOption {
   parser?:
   | 'string'
   | 'str'
-  | 'string[]'
-  | 'str[]'
   | 'number'
   | 'boolean'
   | 'bool'

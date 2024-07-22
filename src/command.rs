@@ -1,8 +1,9 @@
 use napi::{bindgen_prelude::*, JsNull};
 use napi_derive::napi;
 
+use crate::resolver::{resolve_command, resolve_option_args};
 use crate::types::{Command, Context};
-use crate::utils::{merge_args_matches, resolve_command, resolve_option_args};
+use crate::utils::merge_args_matches;
 
 #[napi]
 pub fn define_command(options: Command) -> Command {
