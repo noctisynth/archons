@@ -1,5 +1,12 @@
 # archons
 
+## 0.1.6
+
+### Patch Changes
+
+- d565ad4: Release v0.1.6
+- df6f8bf: Remove `VERSION` const from `Cargo.toml`
+
 ## 0.1.5
 
 ### Patch Changes
