@@ -51,7 +51,7 @@ pub struct CommandMeta {
 #[napi(object)]
 #[derive(Clone)]
 pub struct CommandOption {
-  #[napi(js_name = "type", ts_type = "'positional' | 'flag' | 'option'")]
+  #[napi(js_name = "type", ts_type = "'positional' | 'option'")]
   pub _type: Option<String>,
   #[napi(ts_type = "'string' | 'number' | 'boolean'")]
   pub parser: Option<String>,

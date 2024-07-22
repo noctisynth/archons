@@ -60,7 +60,7 @@ export interface CommandMeta {
   styled?: boolean
 }
 export interface CommandOption {
-  type?: 'positional' | 'flag' | 'option'
+  type?: 'positional' | 'option'
   parser?: 'string' | 'number' | 'boolean'
   action?: 'set' | 'append' | 'count' | 'store' | 'store_false'
   short?: string & { length: 1 }
