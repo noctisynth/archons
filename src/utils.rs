@@ -20,13 +20,13 @@ pub(crate) fn leak_borrowed_str(s: &String) -> &'static str {
 
 pub(crate) fn merge_args_matches(
   parsed_args: &mut JsObject,
-  clap: &clap::Command,
+  args: &[&clap::Arg],
   options: &HashMap<String, &'static str>,
   matches: &clap::ArgMatches,
 ) -> Result<()> {
   for id in matches.ids() {
-    let action = clap
-      .get_arguments()
+    let action = args
+      .iter()
       .find(|&arg| arg.get_id() == id)
       .expect(&format!(
         "{}\n{}",
@@ -83,14 +83,15 @@ pub(crate) fn merge_args_matches(
   Ok(())
 }
 
-pub(crate) fn parse_arguments(
+pub(crate) fn parse_arguments_inner<'arg>(
   env: Env,
   mut parsed_args: JsObject,
-  clap: &clap::Command,
+  clap: &'arg clap::Command,
   cmd: Command,
   matches: &clap::ArgMatches,
   raw_args: Vec<String>,
   mut global_options: HashMap<String, &'static str>,
+  mut global_args: Vec<&'arg clap::Arg>,
 ) -> napi::Result<()> {
   let mut options: HashMap<String, &'static str> = HashMap::new();
   options.extend(global_options.clone());
@@ -102,7 +103,15 @@ pub(crate) fn parse_arguments(
     }
   }
 
-  merge_args_matches(&mut parsed_args, clap, &options, &matches)?;
+  let mut args = clap.get_arguments().collect::<Vec<&clap::Arg>>();
+  args.extend(global_args.clone());
+  let global_args_this = clap
+    .get_arguments()
+    .filter(|arg| arg.is_global_set())
+    .collect::<Vec<&clap::Arg>>();
+  global_args.extend(global_args_this);
+
+  merge_args_matches(&mut parsed_args, &args, &options, &matches)?;
 
   if let Some((sub_command_name, sub_matches)) = matches.subcommand() {
     let mut sub_commands = cmd.subcommands.unwrap_or_default();
@@ -113,7 +122,7 @@ pub(crate) fn parse_arguments(
       .find(|&sub_command| sub_command.get_name() == sub_command_name)
       .unwrap();
 
-    parse_arguments(
+    parse_arguments_inner(
       env,
       parsed_args,
       sub_command,
@@ -121,6 +130,7 @@ pub(crate) fn parse_arguments(
       sub_matches,
       raw_args,
       global_options,
+      global_args,
     )?;
   } else {
     let context = Context {
@@ -137,4 +147,25 @@ pub(crate) fn parse_arguments(
     };
   };
   Ok(())
+}
+
+pub(crate) fn parse_arguments<'arg>(
+  env: Env,
+  clap: &'arg clap::Command,
+  cmd: Command,
+  matches: &clap::ArgMatches,
+  raw_args: Vec<String>,
+) -> napi::Result<()> {
+  let parsed_args = env.create_object()?;
+
+  parse_arguments_inner(
+    env,
+    parsed_args,
+    clap,
+    cmd,
+    matches,
+    raw_args,
+    HashMap::new(),
+    Vec::new(),
+  )
 }

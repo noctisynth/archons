@@ -63,8 +63,7 @@ pub(crate) fn resolve_action(action: &Option<String>, type_: &Option<String>) ->
     Some("store") => clap::ArgAction::SetTrue,
     Some("store_false") => clap::ArgAction::SetFalse,
     None => match type_ {
-      "option" => clap::ArgAction::SetTrue,
-      "positional" => clap::ArgAction::Set,
+      "option" | "positional" => clap::ArgAction::Set,
       _ => panic!("Unsupported type: {:?}", type_),
     },
     _ => panic!("Unsupported action: {:?}", action),
