@@ -32,14 +32,16 @@ test('run command', (t) => {
 
 test('run help', (t) => {
   const result = spawnSync('node', [`examples/simple.cjs`, '--help'])
-  t.falsy(result.error)
+  t.is(result.error, undefined)
+  t.is(result.stderr.length, 0)
   t.deepEqual(result.status ?? 0, 0)
 })
 
 test('run version', (t) => {
   const version = spawnSync('node', [`examples/simple.cjs`, '--version'])
   const no_version = spawnSync('node', [`examples/no_version.cjs`, '--version'])
-  t.falsy(version.error)
+  t.is(version.error, undefined)
+  t.is(version.stderr.length, 0)
   t.deepEqual(version.status ?? 0, 0)
-  t.not(no_version.status ?? 0, 0)
+  t.not(no_version.stderr.length, 0)
 })
