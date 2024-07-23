@@ -44,7 +44,7 @@ test('run version', (t) => {
   const version = spawnSync('node', [`examples/simple.cjs`, '--version'])
   const no_version = spawnSync('node', [`examples/no_version.cjs`, '--version'])
   console.log(version.stderr.toString())
-  execSync('node examples/simple.cjs --version', { stdio: 'inherit' })
+  execSync('./test.sh', { stdio: 'inherit' })
   t.is(version.error, undefined)
   t.is(version.stderr.length, 0)
   t.deepEqual(version.status ?? 0, 0)

@@ -1,0 +1,1 @@
+node ../examples/simple.js --version
