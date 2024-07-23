@@ -13,6 +13,7 @@ pub struct Context {
   /// This is a js object that contains the parsed arguments.
   /// The keys of the object are the names of the arguments and
   /// the values are the parsed values.
+  #[napi(ts_type = "Record<string, any>")]
   pub args: JsObject,
   /// Raw arguments
   ///
@@ -89,7 +90,6 @@ pub struct CommandOption {
   /// This option will be ignored if option `type` is not `option`.
   ///
   /// Defaults to the first character of the long option name.
-  #[napi(ts_type = "string & { length: 1 }")]
   pub short: Option<String>,
   /// Long option name
   ///
@@ -101,23 +101,21 @@ pub struct CommandOption {
   /// Defaults to the name of the argument.
   pub long: Option<String>,
   /// Option aliases
-  pub alias: Option<Vec<String>>,
+  pub alias: Option<Vec<&'static str>>,
   /// Hidden option aliases
-  pub hidden_alias: Option<Vec<String>>,
+  pub hidden_alias: Option<Vec<&'static str>>,
   /// Short option aliases
-  #[napi(ts_type = "Array<string & { length: 1 }>")]
   pub short_alias: Option<Vec<String>>,
   /// Hidden short option aliases
-  #[napi(ts_type = "Array<string & { length: 1 }>")]
   pub hidden_short_alias: Option<Vec<String>>,
   /// Option description
-  pub help: Option<String>,
+  pub help: Option<&'static str>,
   /// Required argument
   ///
   /// If true, the argument is required and the command will fail without it.
   pub required: Option<bool>,
   /// Value for the argument when not present
-  pub default: Option<String>,
+  pub default: Option<&'static str>,
   /// Value for the argument when the flag is present but no value is specified.
   ///
   /// This configuration option is often used to give the user a shortcut and
@@ -137,7 +135,7 @@ pub struct CommandOption {
   /// Options that conflict with this argument
   ///
   /// This argument is mutually exclusive with the specified arguments.
-  pub conflicts_with: Option<Vec<String>>,
+  pub conflicts_with: Option<Vec<&'static str>>,
   /// Hide default value in help output
   ///
   /// Do not display the default value of the argument in the help message.
