@@ -26,19 +26,19 @@ test('define command', (t) => {
 
 test('run command', (t) => {
   t.notThrows(() => {
-    run(main, ['node.exe', 'test.js'])
+    run(main, ['node', 'test.js'])
   })
 })
 
 test('run help', (t) => {
-  const result = spawnSync('node.exe', [`examples/simple.cjs`, '--help'])
+  const result = spawnSync('node', [`examples/simple.cjs`, '--help'])
   t.falsy(result.error)
   t.deepEqual(result.status, 0)
 })
 
 test('run version', (t) => {
-  const version = spawnSync('node.exe', [`examples/simple.cjs`, '--version'])
-  const no_version = spawnSync('node.exe', [`examples/no_version.cjs`, '--version'])
+  const version = spawnSync('node', [`examples/simple.cjs`, '--version'])
+  const no_version = spawnSync('node', [`examples/no_version.cjs`, '--version'])
   t.falsy(version.error)
   t.deepEqual(version.status, 0)
   t.not(no_version.status, 0)

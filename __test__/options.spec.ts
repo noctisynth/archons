@@ -18,13 +18,13 @@ test('positional option', (t) => {
     },
   })
   t.notThrows(() => {
-    run(main, ['node.exe', 'test.js', 'foo'])
+    run(main, ['node', 'test.js', 'foo'])
   })
 })
 
 test('required positional option', (t) => {
-  const result = spawnSync('node.exe', [`examples/positional_required.cjs`, 'foo'])
-  const should_fail = spawnSync('node.exe', [`examples/positional_required.cjs`])
+  const result = spawnSync('node', [`examples/positional_required.cjs`, 'foo'])
+  const should_fail = spawnSync('node', [`examples/positional_required.cjs`])
   t.falsy(result.error)
   t.deepEqual(result.status, 0)
   t.not(should_fail.status, 0)
@@ -51,10 +51,10 @@ test('boolean flag', (t) => {
     },
   })
   t.notThrows(() => {
-    run(main, ['node.exe', 'test.js', '--verbose', '-e'])
+    run(main, ['node', 'test.js', '--verbose', '-e'])
   })
   t.notThrows(() => {
-    run(main, ['node.exe', 'test.js'])
+    run(main, ['node', 'test.js'])
   })
 })
 
