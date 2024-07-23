@@ -1,5 +1,20 @@
 # archons
 
+## 0.2.0
+
+### Minor Changes
+
+- bbfb42c: Refactor arguments parsing policy and support global options
+
+### Patch Changes
+
+- bbfb42c: Fix context args annotations to `Record<string, any>`
+- bbfb42c: Refactor merge arguments matches policy
+- bbfb42c: Remove `{ length: 1}` annotation
+- bbfb42c: Refactor `Vec<String>` to `Vec<&str>`
+- 1b5d6b7: Fix args resolver in musl systems
+- bbfb42c: Improve parser resolver and determine default parser by action
+
 ## 0.1.7
 
 ### Patch Changes
