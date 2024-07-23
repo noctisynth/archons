@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 use napi::{Env, Result};
 use napi_derive::napi;
 
@@ -18,15 +16,5 @@ pub fn run(env: Env, cmd: Command, args: Option<Vec<String>>) -> Result<()> {
   let clap = resolve_command(clap::Command::default(), Default::default(), &cmd);
   let matches = clap.clone().get_matches_from(&raw_args);
 
-  parse_arguments(
-    env,
-    env.create_object()?,
-    &clap,
-    cmd,
-    &matches,
-    raw_args,
-    HashMap::new(),
-  )?;
-
-  Ok(())
+  parse_arguments(env, &clap, cmd, &matches, raw_args)
 }
