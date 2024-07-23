@@ -1,5 +1,12 @@
 # archons
 
+## 0.2.1
+
+### Patch Changes
+
+- 2c3ce3f: Wrap `parse_arguments` to inner function
+- 2c3ce3f: Fix global option can't be downcast
+
 ## 0.2.0
 
 ### Minor Changes
