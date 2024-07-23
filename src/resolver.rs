@@ -5,10 +5,24 @@ use crate::{
   utils::{leak_borrowed_str, leak_borrowed_str_or_default, leak_str},
 };
 
-pub(crate) fn resolve_option_args(args: Option<Vec<String>>) -> Vec<String> {
-  let mut args = args.unwrap_or(std::env::args().collect());
+pub(crate) fn resolve_option_args(
+  env: napi::Env,
+  args: Option<Vec<String>>,
+) -> napi::Result<Vec<String>> {
+  let mut args = match args {
+    Some(args) => args,
+    None => {
+      let mut args = std::env::args().collect::<Vec<String>>();
+      if args.is_empty() {
+        let process: napi::JsObject = env.get_global()?.get_named_property("process")?;
+        let argv: Vec<String> = process.get_named_property("argv")?;
+        args = argv;
+      }
+      args
+    }
+  };
   args.remove(0); // remove `node.exe`
-  args
+  Ok(args)
 }
 
 pub(crate) fn resolve_command_meta(
