@@ -26,7 +26,7 @@ const dirPath = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
 const ignored = ['node_modules', '.git', '.github', '.vscode', 'dist', 'build', 'bin', '.md', '.d.ts', 'target', '.cjs']
 
 console.log('[Archons] Initial building...')
-tryBuild('yarn build', 'Building module...')
+tryBuild('yarn build:debug', 'Building module...')
 tryBuild('yarn build:examples', 'Building examples...')
 console.log('[Archons] Build complete.\n')
 console.log(`[Archons] Watching on ${dirPath} for changes...`)
@@ -35,7 +35,7 @@ fs.watch(dirPath, { recursive: true }, (eventType, filename) => {
   if (filename && !isIgnored(filename)) {
     console.log(`[Archons] File ${filename} was ${eventType}d, rebuilding...`)
     if (filename.endsWith('.rs') || filename.endsWith('.toml')) {
-      tryBuild('yarn build', 'Rebuilding module...')
+      tryBuild('yarn build:debug', 'Rebuilding module...')
     }
     tryBuild('yarn build:examples', 'Rebuilding examples...')
     console.log('[Archons] Build complete.\n')
