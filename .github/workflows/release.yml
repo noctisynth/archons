@@ -52,7 +52,7 @@ jobs:
           title: 'chore(release): version packages'
           commit: 'chore(release): version packages'
           version: yarn bump
-          publish: npm publish --access public
+          publish: npx changeset publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
