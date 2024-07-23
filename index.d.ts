@@ -18,7 +18,7 @@ export interface Context {
    * The keys of the object are the names of the arguments and
    * the values are the parsed values.
    */
-  args: object
+  args: Record<string, any>
   /**
    * Raw arguments
    *
@@ -101,7 +101,7 @@ export interface CommandOption {
    *
    * Defaults to the first character of the long option name.
    */
-  short?: string & { length: 1 }
+  short?: string
   /**
    * Long option name
    *
@@ -118,9 +118,9 @@ export interface CommandOption {
   /** Hidden option aliases */
   hiddenAlias?: Array<string>
   /** Short option aliases */
-  shortAlias?: Array<string & { length: 1 }>
+  shortAlias?: Array<string>
   /** Hidden short option aliases */
-  hiddenShortAlias?: Array<string & { length: 1 }>
+  hiddenShortAlias?: Array<string>
   /** Option description */
   help?: string
   /**
