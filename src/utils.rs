@@ -1,6 +1,10 @@
-use napi::{JsObject, Result};
+use std::collections::HashMap;
 
-use crate::types::Command;
+use napi::{Env, JsNull, JsObject, Result};
+
+use crate::types::{Command, Context};
+
+const ISSUE_LINK: &str = "https://github.com/noctisynth/archons/issues";
 
 pub(crate) fn leak_str(s: String) -> &'static str {
   s.leak()
@@ -16,29 +20,121 @@ pub(crate) fn leak_borrowed_str(s: &String) -> &'static str {
 
 pub(crate) fn merge_args_matches(
   parsed_args: &mut JsObject,
-  cmd: &Command,
+  clap: &clap::Command,
+  options: &HashMap<String, &'static str>,
   matches: &clap::ArgMatches,
 ) -> Result<()> {
   for id in matches.ids() {
-    let cmd = &cmd;
-    let opts = cmd
-      .options
-      .iter()
-      .find(|&(name, _)| name == id)
-      .map(|(_, t)| t)
-      .unwrap();
-    match opts.type_.as_deref().unwrap_or("option") {
-      "option" => {
-        parsed_args.set(id, matches.get_one::<String>(id.as_str()))?;
+    let action = clap
+      .get_arguments()
+      .find(|&arg| arg.get_id() == id)
+      .expect(&format!(
+        "{}\n{}",
+        "Argument not found when merging matches, this is likely a internal bug.",
+        format!(
+          "If you convinced this is a bug, report it at: {}",
+          ISSUE_LINK
+        )
+      ))
+      .get_action();
+    let option: &str = options.get(id.as_str()).unwrap();
+    match action {
+      clap::ArgAction::Set => match option {
+        "string" => {
+          parsed_args.set(&id, matches.get_one::<String>(id.as_str()).unwrap())?;
+        }
+        "number" => {
+          parsed_args.set(&id, *matches.get_one::<i64>(id.as_str()).unwrap())?;
+        }
+        _ => panic!("Invalid option type: {}", option),
+      },
+      clap::ArgAction::SetTrue | clap::ArgAction::SetFalse => {
+        parsed_args.set(&id, matches.get_flag(id.as_str()))?;
       }
-      "flag" => {
-        parsed_args.set(id, matches.get_flag(id.as_str()))?;
+      clap::ArgAction::Count => {
+        parsed_args.set(&id, matches.get_count(id.as_str()))?;
       }
-      "positional" => {
-        parsed_args.set(id, matches.get_one::<String>(id.as_str()))?;
-      }
-      _ => panic!("Unsupported option type"),
+      clap::ArgAction::Append => match option {
+        "string" => {
+          parsed_args.set(
+            &id,
+            matches
+              .get_many::<String>(id.as_str())
+              .unwrap_or_default()
+              .map(|v| v.as_str())
+              .collect::<Vec<_>>(),
+          )?;
+        }
+        "number" => {
+          parsed_args.set(
+            &id,
+            matches
+              .get_many::<f64>(id.as_str())
+              .unwrap_or_default()
+              .map(|&v| v)
+              .collect::<Vec<_>>(),
+          )?;
+        }
+        _ => panic!("Invalid option type: {}", option),
+      },
+      _ => panic!("Unsupported argument action: {:?}", action),
     }
   }
+  Ok(())
+}
+
+pub(crate) fn parse_arguments(
+  env: Env,
+  mut parsed_args: JsObject,
+  clap: &clap::Command,
+  cmd: Command,
+  matches: &clap::ArgMatches,
+  raw_args: Vec<String>,
+  mut global_options: HashMap<String, &'static str>,
+) -> napi::Result<()> {
+  let mut options: HashMap<String, &'static str> = HashMap::new();
+  options.extend(global_options.clone());
+  for (name, option) in &cmd.options {
+    let parser = leak_borrowed_str_or_default(option.parser.as_ref().clone(), "string");
+    options.insert(name.to_string(), &parser);
+    if option.global.is_some() && option.global.unwrap() {
+      global_options.insert(name.to_string(), &parser);
+    }
+  }
+
+  merge_args_matches(&mut parsed_args, clap, &options, &matches)?;
+
+  if let Some((sub_command_name, sub_matches)) = matches.subcommand() {
+    let mut sub_commands = cmd.subcommands.unwrap_or_default();
+    let sub_command_def = sub_commands.remove(sub_command_name).unwrap();
+
+    let sub_command = clap
+      .get_subcommands()
+      .find(|&sub_command| sub_command.get_name() == sub_command_name)
+      .unwrap();
+
+    parse_arguments(
+      env,
+      parsed_args,
+      sub_command,
+      sub_command_def,
+      sub_matches,
+      raw_args,
+      global_options,
+    )?;
+  } else {
+    let context = Context {
+      args: parsed_args,
+      raw_args,
+    };
+    if let Some(cb) = cmd.callback.as_ref() {
+      cb.call1::<Context, JsNull>(context)?;
+    } else {
+      env.throw_error(
+        "No callback function found for main command and no subcommand was provided.",
+        Some("E_NO_CALLBACK"),
+      )?;
+    };
+  };
   Ok(())
 }

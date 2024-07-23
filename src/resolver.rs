@@ -57,6 +57,26 @@ pub(crate) fn resolve_action(action: &Option<String>, type_: &Option<String>) ->
   }
 }
 
+pub(crate) fn resolve_parser(
+  parser: Option<&str>,
+  action: Option<&str>,
+) -> clap::builder::ValueParser {
+  match parser {
+    Some("string") => clap::builder::ValueParser::string(),
+    Some("number") => clap::value_parser!(i64).into(),
+    Some("boolean") => clap::builder::ValueParser::bool(),
+    None => match action {
+      Some("store") | Some("store_false") => clap::builder::ValueParser::bool(),
+      Some("count") => clap::value_parser!(u64).into(),
+      Some("append") => clap::builder::ValueParser::string(),
+      Some("set") => clap::builder::ValueParser::string(),
+      None => clap::builder::ValueParser::string(),
+      _ => panic!("Unsupported action: {:?}", action),
+    },
+    _ => panic!("Unsupported parser: {:?}", parser),
+  }
+}
+
 pub(crate) fn resolve_command_options(
   clap: clap::Command,
   meta: &HashMap<String, CommandOption>,
@@ -75,15 +95,11 @@ pub(crate) fn resolve_command_options(
               .next(),
           );
         }
+        arg = arg.value_parser(resolve_parser(opt.parser.as_deref(), opt.action.as_deref()));
         if let Some(alias) = &opt.alias {
-          let alias = alias.iter().map(leak_borrowed_str).collect::<Vec<&str>>();
           arg = arg.visible_aliases(alias);
         }
         if let Some(hidden_alias) = &opt.hidden_alias {
-          let hidden_alias = hidden_alias
-            .iter()
-            .map(leak_borrowed_str)
-            .collect::<Vec<&str>>();
           arg = arg.aliases(hidden_alias);
         }
         if let Some(short_alias) = &opt.short_alias {
@@ -101,13 +117,13 @@ pub(crate) fn resolve_command_options(
           arg = arg.short_aliases(hidden_short_alias);
         }
         if let Some(help) = &opt.help {
-          arg = arg.help(leak_borrowed_str(help));
+          arg = arg.help(help);
         }
         if let Some(required) = opt.required {
           arg = arg.required(required);
         }
         if let Some(default) = &opt.default {
-          arg = arg.default_value(leak_borrowed_str(default));
+          arg = arg.default_value(default);
         }
         if let Some(default_missing) = opt.default_missing {
           arg = arg.default_missing_value(default_missing);
@@ -119,10 +135,6 @@ pub(crate) fn resolve_command_options(
           arg = arg.global(global);
         }
         if let Some(conflicts_with) = &opt.conflicts_with {
-          let conflicts_with = conflicts_with
-            .iter()
-            .map(leak_borrowed_str)
-            .collect::<Vec<&str>>();
           arg = arg.conflicts_with_all(conflicts_with);
         }
         if let Some(hide_default_value) = opt.hide_default_value {
