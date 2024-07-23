@@ -25,15 +25,25 @@ const main = defineCommand({
     styled: true,
   },
   options: {
+    name: {
+      type: 'positional',
+      required: true,
+      help: 'Name of the person to greet',
+    },
     verbose: {
       type: 'option',
       parser: 'boolean',
+      action: 'store',
       help: 'Enable verbose output',
+      global: true
     },
   },
   subcommands: {
     dev,
   },
+  callback: (ctx: Context) => {
+    console.log(ctx);
+  }
 })
 
 run(main)
