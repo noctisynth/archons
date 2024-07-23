@@ -1,9 +1,11 @@
-use napi::{bindgen_prelude::*, JsNull};
+use std::collections::HashMap;
+
+use napi::{Env, Result};
 use napi_derive::napi;
 
 use crate::resolver::{resolve_command, resolve_option_args};
-use crate::types::{Command, Context};
-use crate::utils::merge_args_matches;
+use crate::types::Command;
+use crate::utils::parse_arguments;
 
 #[napi]
 pub fn define_command(options: Command) -> Command {
@@ -12,37 +14,19 @@ pub fn define_command(options: Command) -> Command {
 
 #[napi]
 pub fn run(env: Env, cmd: Command, args: Option<Vec<String>>) -> Result<()> {
-  let args = resolve_option_args(args);
+  let raw_args = resolve_option_args(args);
   let clap = resolve_command(clap::Command::default(), Default::default(), &cmd);
-  let matches = clap.clone().get_matches_from(&args);
+  let matches = clap.clone().get_matches_from(&raw_args);
 
-  let mut parsed_args = env.create_object()?;
+  parse_arguments(
+    env,
+    env.create_object()?,
+    &clap,
+    cmd,
+    &matches,
+    raw_args,
+    HashMap::new(),
+  )?;
 
-  merge_args_matches(&mut parsed_args, &cmd, &matches)?;
-
-  if let Some((sub_command, sub_matches)) = matches.subcommand() {
-    let sub_commands = &cmd.subcommands.unwrap_or_default();
-    let sub_command = sub_commands.get(sub_command).unwrap();
-    let cb = sub_command.callback.as_ref().unwrap();
-    merge_args_matches(&mut parsed_args, sub_command, sub_matches)?;
-    let context = Context {
-      args: parsed_args,
-      raw_args: args,
-    };
-    cb.call1::<Context, JsNull>(context)?;
-  } else {
-    let context = Context {
-      args: parsed_args,
-      raw_args: args,
-    };
-    if let Some(cb) = cmd.callback.as_ref() {
-      cb.call1::<Context, JsNull>(context)?;
-    } else {
-      env.throw_error(
-        "No callback function found for main command and no subcommand was provided.",
-        Some("E_NO_CALLBACK"),
-      )?;
-    };
-  }
   Ok(())
 }
