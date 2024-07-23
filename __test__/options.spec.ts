@@ -26,8 +26,8 @@ test('required positional option', (t) => {
   const result = spawnSync('node', [`examples/positional_required.cjs`, 'foo'])
   const should_fail = spawnSync('node', [`examples/positional_required.cjs`])
   t.falsy(result.error)
-  t.deepEqual(result.status, 0)
-  t.not(should_fail.status, 0)
+  t.deepEqual(result.status ?? 0, 0)
+  t.not(should_fail.status ?? 0, 0)
 })
 
 test('boolean flag', (t) => {
