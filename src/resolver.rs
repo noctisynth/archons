@@ -90,6 +90,23 @@ pub(crate) fn resolve_parser(
   }
 }
 
+pub(crate) fn resolve_value_hint(value_hint: &str) -> clap::builder::ValueHint {
+  match value_hint {
+    "any_path" => clap::builder::ValueHint::AnyPath,
+    "file" => clap::builder::ValueHint::FilePath,
+    "dir" => clap::builder::ValueHint::DirPath,
+    "executable" => clap::builder::ValueHint::ExecutablePath,
+    "cmd_name" => clap::builder::ValueHint::CommandName,
+    "cmd" => clap::builder::ValueHint::CommandString,
+    "cmd_with_args" => clap::builder::ValueHint::CommandWithArguments,
+    "url" => clap::builder::ValueHint::Url,
+    "username" => clap::builder::ValueHint::Username,
+    "hostname" => clap::builder::ValueHint::Hostname,
+    "email" => clap::builder::ValueHint::EmailAddress,
+    _ => panic!("Unsupported value_hint: {:?}", value_hint),
+  }
+}
+
 pub(crate) fn resolve_command_options(
   clap: clap::Command,
   meta: &HashMap<String, CommandOption>,
@@ -129,6 +146,9 @@ pub(crate) fn resolve_command_options(
             .collect::<Vec<char>>();
           arg = arg.short_aliases(hidden_short_alias);
         }
+        if let Some(value_hint) = &opt.value_hint {
+          arg = arg.value_hint(resolve_value_hint(value_hint.as_str()));
+        }
         if let Some(help) = &opt.help {
           arg = arg.help(help);
         }
@@ -146,6 +166,9 @@ pub(crate) fn resolve_command_options(
         }
         if let Some(global) = opt.global {
           arg = arg.global(global);
+        }
+        if let Some(exclusive) = opt.exclusive {
+          arg = arg.exclusive(exclusive);
         }
         if let Some(conflicts_with) = &opt.conflicts_with {
           arg = arg.conflicts_with_all(conflicts_with);
