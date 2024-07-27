@@ -121,6 +121,25 @@ export interface CommandOption {
   shortAlias?: Array<string>
   /** Hidden short option aliases */
   hiddenShortAlias?: Array<string>
+  /**
+   * Value hint for shell completion
+   *
+   * Provide the shell a hint about how to complete this argument.
+   *
+   * **Warning**: this will implicitly set `action` to `set`.
+   */
+  valueHint?:
+    | 'any_path'
+    | 'file'
+    | 'dir'
+    | 'executable'
+    | 'cmd_name'
+    | 'cmd'
+    | 'cmd_with_args'
+    | 'url'
+    | 'username'
+    | 'hostname'
+    | 'email'
   /** Option description */
   help?: string
   /**
@@ -159,6 +178,12 @@ export interface CommandOption {
    * This argument is mutually exclusive with the specified arguments.
    */
   conflictsWith?: Array<string>
+  /**
+   * Exclusive argument
+   *
+   * This argument must be passed alone; it conflicts with all other arguments.
+   */
+  exclusive?: boolean
   /**
    * Hide default value in help output
    *

@@ -108,6 +108,24 @@ pub struct CommandOption {
   pub short_alias: Option<Vec<String>>,
   /// Hidden short option aliases
   pub hidden_short_alias: Option<Vec<String>>,
+  /// Value hint for shell completion
+  ///
+  /// Provide the shell a hint about how to complete this argument.
+  ///
+  /// **Warning**: this will implicitly set `action` to `set`.
+  #[napi(ts_type = r#"
+    | 'any_path'
+    | 'file'
+    | 'dir'
+    | 'executable'
+    | 'cmd_name'
+    | 'cmd'
+    | 'cmd_with_args'
+    | 'url'
+    | 'username'
+    | 'hostname'
+    | 'email'"#)]
+  pub value_hint: Option<String>,
   /// Option description
   pub help: Option<&'static str>,
   /// Required argument
@@ -136,6 +154,10 @@ pub struct CommandOption {
   ///
   /// This argument is mutually exclusive with the specified arguments.
   pub conflicts_with: Option<Vec<&'static str>>,
+  /// Exclusive argument
+  ///
+  /// This argument must be passed alone; it conflicts with all other arguments.
+  pub exclusive: Option<bool>,
   /// Hide default value in help output
   ///
   /// Do not display the default value of the argument in the help message.
