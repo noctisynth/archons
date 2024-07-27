@@ -1,5 +1,12 @@
 # archons
 
+## 0.2.2
+
+### Patch Changes
+
+- 4133af7: Support `exclusive` field for arguments
+- 4133af7: Support set `value_hint` for arguments
+
 ## 0.2.1
 
 ### Patch Changes
