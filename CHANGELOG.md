@@ -1,5 +1,11 @@
 # archons
 
+## 0.2.3
+
+### Patch Changes
+
+- d9a1ad6: Lock rust dependencies version
+
 ## 0.2.2
 
 ### Patch Changes
