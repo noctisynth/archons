@@ -31,7 +31,12 @@ tryBuild('yarn build:examples', 'Building examples...')
 console.log('[Archons] Build complete.\n')
 console.log(`[Archons] Watching on ${dirPath} for changes...`)
 
+let lastBuild = Date.now()
 fs.watch(dirPath, { recursive: true }, (eventType, filename) => {
+  // debounce
+  if (Date.now() - lastBuild < 1000) {
+    return
+  }
   if (filename && !isIgnored(filename)) {
     console.log(`[Archons] File ${filename} was ${eventType}d, rebuilding...`)
     if (filename.endsWith('.rs') || filename.endsWith('.toml')) {
@@ -40,5 +45,6 @@ fs.watch(dirPath, { recursive: true }, (eventType, filename) => {
     tryBuild('yarn build:examples', 'Rebuilding examples...')
     console.log('[Archons] Build complete.\n')
     console.log('[Archons] Watching for changes...')
+    lastBuild = Date.now()
   }
 })
