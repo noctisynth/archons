@@ -5,6 +5,10 @@ use crate::resolver::{resolve_command, resolve_option_args};
 use crate::types::Command;
 use crate::utils::parse_arguments;
 
+/// Define a command functionally
+///
+/// @param options Command options
+/// @returns {Command}
 #[napi]
 pub fn define_command(options: Command) -> Command {
   options
