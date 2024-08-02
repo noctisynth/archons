@@ -107,6 +107,47 @@ pub(crate) fn resolve_value_hint(value_hint: &str) -> clap::builder::ValueHint {
   }
 }
 
+pub(crate) fn resolve_num_args(num_args: &str) -> clap::builder::ValueRange {
+  if let Ok(n) = num_args.parse::<usize>() {
+    return n.into();
+  }
+  let (start, end) = num_args.split_once("..").expect("Invalid num_args");
+  match (start, end) {
+    ("", "") => (..).into(),
+    ("", end) => {
+      if end.starts_with("=") {
+        let end: usize = end
+          .strip_prefix("=")
+          .unwrap()
+          .parse()
+          .expect("Invalid end of range");
+        (..=end).into()
+      } else {
+        let end: usize = end.parse().expect("Invalid end of range");
+        (..end).into()
+      }
+    }
+    (start, "") => {
+      let start: usize = start.parse().expect("Invalid start of range");
+      (start..).into()
+    }
+    (start, end) => {
+      let start: usize = start.parse().expect("Invalid start of range");
+      if end.starts_with("=") {
+        let end: usize = end
+          .strip_prefix("=")
+          .unwrap()
+          .parse()
+          .expect("Invalid end of range");
+        (start..=end).into()
+      } else {
+        let end: usize = end.parse().expect("Invalid end of range");
+        (start..end).into()
+      }
+    }
+  }
+}
+
 pub(crate) fn resolve_command_options(
   clap: clap::Command,
   meta: &HashMap<String, CommandOption>,
@@ -160,6 +201,13 @@ pub(crate) fn resolve_command_options(
         }
         if let Some(default_missing) = opt.default_missing {
           arg = arg.default_missing_value(default_missing);
+        }
+        if let Some(num_args) = opt.num_args {
+          let num_args = resolve_num_args(num_args);
+          arg = arg.num_args(num_args);
+        }
+        if let Some(required_equals) = opt.required_equals {
+          arg = arg.require_equals(required_equals);
         }
         if let Some(hidden) = opt.hidden {
           arg = arg.hide(hidden);

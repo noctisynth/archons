@@ -142,6 +142,14 @@ pub struct CommandOption {
   /// a default, such as `default_missing_value("always")`, the user can quickly
   /// just add `--color` to the command line to produce the desired color output.
   pub default_missing: Option<&'static str>,
+  /// Limit the count of values for the argument
+  ///
+  /// If the expected number of parameters required is a fixed value, pass in the
+  /// number directly. If you want to limit the number of values to a range, for
+  /// example, pass `1..5` or `1..=4` to specify a range from 1 to 4 inclusive.
+  pub num_args: Option<&'static str>,
+  /// Requires that options use the `--option=val` syntax
+  pub required_equals: Option<bool>,
   /// Hide argument in help output
   ///
   /// Do not display the argument in the help message.
