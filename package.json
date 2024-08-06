@@ -1,6 +1,6 @@
 {
   "name": "archons",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Fast, powerful and elegant CLI build tool based on clap-rs",
   "author": {
     "name": "苏向夜",

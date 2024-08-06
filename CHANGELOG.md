@@ -1,5 +1,13 @@
 # archons
 
+## 0.2.4
+
+### Patch Changes
+
+- dc0eac1: Improve doc string of `run` function
+- fcccf4e: Add `num_args` range resolver
+- fcccf4e: Support `required_equals` option field
+
 ## 0.2.3
 
 ### Patch Changes
