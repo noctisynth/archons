@@ -1,5 +1,11 @@
 # archons
 
+## 0.2.5
+
+### Patch Changes
+
+- 2018e1b: chore: bump up oxlint version to ^0.9.0
+
 ## 0.2.4
 
 ### Patch Changes
