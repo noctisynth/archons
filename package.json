@@ -61,7 +61,7 @@
     "prepublishOnly": "napi prepublish -t npm --skip-gh-release",
     "test": "ava",
     "bump": "node scripts/bump.mjs",
-    "prepare": "husky install"
+    "postinstall": "husky install"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.7",
