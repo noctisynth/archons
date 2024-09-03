@@ -60,7 +60,8 @@
     "lint": "oxlint .",
     "prepublishOnly": "napi prepublish -t npm --skip-gh-release",
     "test": "ava",
-    "bump": "node scripts/bump.mjs"
+    "bump": "node scripts/bump.mjs",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.7",
@@ -112,5 +113,10 @@
     "trailingComma": "all",
     "singleQuote": true,
     "arrowParens": "always"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint-staged"
+    }
   }
 }
