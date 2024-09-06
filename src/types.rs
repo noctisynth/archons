@@ -23,7 +23,7 @@ pub struct Context {
 
 /// Command metadata
 #[napi(object)]
-#[derive(Clone)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct CommandMeta {
   /// Command name
   ///
@@ -183,7 +183,7 @@ pub struct CommandOption {
 pub struct Command {
   pub meta: CommandMeta,
   pub options: HashMap<String, CommandOption>,
-  #[napi(ts_type = "(ctx: Context) => void")]
+  #[napi(ts_type = "(ctx: Context) => void ")]
   pub callback: Option<JsFunction>,
   pub subcommands: Option<HashMap<String, Command>>,
 }

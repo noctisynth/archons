@@ -14,6 +14,32 @@ pub fn define_command(options: Command) -> Command {
   options
 }
 
+#[cfg(test)]
+mod tests {
+  use crate::command::{define_command, Command};
+  use crate::types::CommandMeta;
+
+  #[test]
+  fn test_define_command() {
+    let meta = CommandMeta {
+      name: Some("test".to_string()),
+      version: Some("1.0.0".to_string()),
+      about: Some("test case".to_string()),
+      styled: Some(false),
+    };
+    let cmd = Command {
+      meta: meta.clone(),
+      options: Default::default(),
+      callback: None,
+      subcommands: None,
+    };
+
+    let defined_cmd = define_command(cmd);
+
+    assert_eq!(defined_cmd.meta, meta);
+  }
+}
+
 /// Run command
 ///
 /// **NOTE**: If the given `args` is empty, it will use `process.argv` instead.
