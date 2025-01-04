@@ -1,5 +1,12 @@
 # archons
 
+## 0.2.6
+
+### Patch Changes
+
+- 87b3e8a: chore: bump up all non-major dependencies
+- 8ae38a4: Use faster hash algorithm instead of safe hasher
+
 ## 0.2.5
 
 ### Patch Changes
