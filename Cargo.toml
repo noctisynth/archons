@@ -10,10 +10,10 @@ version = "0.1.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-clap        = "4.5.13"
+clap        = "4.5.23"
 napi        = "2"
 napi-derive = "2"
-rustc-hash  = "2.0.0"
+rustc-hash  = "2.1.0"
 
 [build-dependencies]
 napi-build = "2"
