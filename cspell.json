@@ -1,28 +1,22 @@
 {
-    "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
-    "words": [
-        "aarch",
-        "androideabi",
-        "bindgen",
-        "cdylib",
-        "gnueabihf",
-        "msvc",
-        "napi",
-        "noctisynth",
-        "oxlint",
-        "parens",
-        "prebuild",
-        "taplo",
-        "tinybench"
-    ],
-    "ignoreWords": [
-        "armv"
-    ],
-    "ignorePaths": [
-        "**/node_modules/**",
-        "**/target/**",
-        "./npm/*",
-        "index.js",
-        "README.md"
-    ]
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "words": [
+    "aarch",
+    "androideabi",
+    "bindgen",
+    "cdylib",
+    "gnueabihf",
+    "msvc",
+    "napi",
+    "noctisynth",
+    "oxlint",
+    "parens",
+    "prebuild",
+    "rustc",
+    "rustflags",
+    "taplo",
+    "tinybench"
+  ],
+  "ignoreWords": ["armv"],
+  "ignorePaths": ["**/node_modules/**", "**/target/**", "./npm/*", "index.js", "README.md"]
 }

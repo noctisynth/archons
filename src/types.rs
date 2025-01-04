@@ -1,7 +1,7 @@
-use std::collections::HashMap;
-
 use napi::{JsFunction, JsObject};
 use napi_derive::napi;
+
+pub use rustc_hash::FxHashMap as HashMap;
 
 /// Command context
 ///
