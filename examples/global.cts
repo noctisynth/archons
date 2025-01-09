@@ -23,7 +23,7 @@ const main = defineCommand({
     dev,
   },
   callback: (ctx: Context) => {
-    console.log(ctx.args.config)
+    console.log(ctx.get('config'))
   },
 })
 

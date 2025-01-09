@@ -1,24 +1,60 @@
 use napi::{JsFunction, JsObject};
 use napi_derive::napi;
 
-pub use rustc_hash::FxHashMap as HashMap;
+use crate::HashMap;
 
 /// Command context
 ///
 /// This is the context object that is passed to the command callback.
-#[napi(object)]
+#[napi]
 pub struct Context {
   /// Parsed arguments
   ///
   /// This is a js object that contains the parsed arguments.
   /// The keys of the object are the names of the arguments and
   /// the values are the parsed values.
-  #[napi(ts_type = "Record<string, any>")]
-  pub args: JsObject,
+  args: JsObject,
   /// Raw arguments
   ///
   /// The raw arguments parsed by command line or manually given.
+  #[napi(ts_type = "string[]")]
   pub raw_args: Vec<String>,
+}
+
+#[napi]
+impl Context {
+  /// Create a new command context
+  ///
+  /// This method is used to create a new command context,
+  /// and is not intended to be used directly.
+  ///
+  /// @param args - Parsed arguments
+  /// @param raw_args - Raw arguments
+  #[napi(
+    constructor,
+    ts_args_type = "args: Record<string, any>, raw_args: string[]"
+  )]
+  pub fn new(args: JsObject, raw_args: Vec<String>) -> Self {
+    Self { args, raw_args }
+  }
+
+  /// Get the parsed arguments
+  #[napi(getter, ts_return_type = "Record<string, any>")]
+  pub fn args(&self) -> &JsObject {
+    &self.args
+  }
+
+  /// Get the raw arguments
+  #[napi(ts_return_type = "string[]")]
+  pub fn get_raw_args(&self) -> &Vec<String> {
+    &self.raw_args
+  }
+
+  /// Get the argument value by specified key
+  #[napi(ts_return_type = "any")]
+  pub fn get(&self, key: String) -> napi::Result<JsObject> {
+    self.args.get_named_property(&key)
+  }
 }
 
 /// Command metadata

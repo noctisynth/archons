@@ -1,8 +1,7 @@
-use rustc_hash::FxHashMap as HashMap;
-
 use crate::{
   types::{Command, CommandMeta, CommandOption},
   utils::{leak_borrowed_str, leak_borrowed_str_or_default, leak_str},
+  HashMap,
 };
 
 pub(crate) fn resolve_option_args(
