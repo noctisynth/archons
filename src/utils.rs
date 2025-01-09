@@ -1,8 +1,7 @@
-use std::collections::HashMap;
-
 use napi::{Env, JsNull, JsObject, Result};
 
 use crate::types::{Command, Context};
+use crate::HashMap;
 
 const ISSUE_LINK: &str = "https://github.com/noctisynth/archons/issues";
 
@@ -93,7 +92,7 @@ pub(crate) fn parse_arguments_inner<'arg>(
   mut global_options: HashMap<String, &'static str>,
   mut global_args: Vec<&'arg clap::Arg>,
 ) -> napi::Result<()> {
-  let mut options: HashMap<String, &'static str> = HashMap::new();
+  let mut options: HashMap<String, &'static str> = HashMap::default();
   options.extend(global_options.clone());
   for (name, option) in &cmd.options {
     let parser = leak_borrowed_str_or_default(option.parser.as_ref().clone(), "string");
@@ -133,10 +132,7 @@ pub(crate) fn parse_arguments_inner<'arg>(
       global_args,
     )?;
   } else {
-    let context = Context {
-      args: parsed_args,
-      raw_args,
-    };
+    let context = Context::new(parsed_args, raw_args);
     if let Some(cb) = cmd.callback.as_ref() {
       cb.call1::<Context, JsNull>(context)?;
     } else {
@@ -165,7 +161,7 @@ pub(crate) fn parse_arguments<'arg>(
     cmd,
     matches,
     raw_args,
-    HashMap::new(),
+    HashMap::default(),
     Vec::new(),
   )
 }

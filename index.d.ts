@@ -24,27 +24,6 @@ export declare function defineCommand(options: Command): Command
  * @returns {void}
  */
 export declare function run(cmd: Command, args?: Array<string> | undefined | null): void
-/**
- * Command context
- *
- * This is the context object that is passed to the command callback.
- */
-export interface Context {
-  /**
-   * Parsed arguments
-   *
-   * This is a js object that contains the parsed arguments.
-   * The keys of the object are the names of the arguments and
-   * the values are the parsed values.
-   */
-  args: Record<string, any>
-  /**
-   * Raw arguments
-   *
-   * The raw arguments parsed by command line or manually given.
-   */
-  rawArgs: Array<string>
-}
 /** Command metadata */
 export interface CommandMeta {
   /**
@@ -234,4 +213,33 @@ export interface Command {
   options: Record<string, CommandOption>
   callback?: (ctx: Context) => void
   subcommands?: Record<string, Command>
+}
+/**
+ * Command context
+ *
+ * This is the context object that is passed to the command callback.
+ */
+export declare class Context {
+  /**
+   * Raw arguments
+   *
+   * The raw arguments parsed by command line or manually given.
+   */
+  rawArgs: string[]
+  /**
+   * Create a new command context
+   *
+   * This method is used to create a new command context,
+   * and is not intended to be used directly.
+   *
+   * @param args - Parsed arguments
+   * @param raw_args - Raw arguments
+   */
+  constructor(args: Record<string, any>, raw_args: string[])
+  /** Get the parsed arguments */
+  get args(): Record<string, any>
+  /** Get the raw arguments */
+  getRawArgs(): string[]
+  /** Get the argument value by specified key */
+  get(key: string): any
 }
