@@ -41,6 +41,9 @@ pub(crate) fn resolve_command_meta(
   if let Some(about) = &meta.about {
     clap = clap.about(leak_borrowed_str(about));
   }
+  if let Some(subcommand_required) = meta.subcommand_required {
+    clap = clap.subcommand_required(subcommand_required);
+  }
   if meta.styled.is_some() && meta.styled.unwrap() {
     use clap::builder::styling;
     let styles = styling::Styles::styled()
@@ -156,8 +159,8 @@ pub(crate) fn resolve_command_options(
       .iter()
       .map(|(name, opt)| {
         let mut arg = clap::Arg::new(leak_borrowed_str(name));
-        arg = arg.action(resolve_action(&opt.action, &opt.type_));
-        if opt.type_.as_deref() != Some("positional") {
+        arg = arg.action(resolve_action(&opt.action, &opt.r#type));
+        if opt.r#type.as_deref() != Some("positional") {
           let long = leak_borrowed_str_or_default(opt.long.as_ref(), name);
           arg = arg.long(long).short(
             leak_borrowed_str_or_default(opt.short.as_ref(), long)

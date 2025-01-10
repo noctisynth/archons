@@ -56,6 +56,12 @@ export interface CommandMeta {
    * Determines whether the CLI output should be displayed in the styled format.
    */
   styled?: boolean
+  /**
+   * Subcommand required
+   *
+   * If true, the command will fail if no subcommand is provided.
+   */
+  subcommandRequired?: boolean
 }
 export interface CommandOption {
   /**
@@ -214,6 +220,27 @@ export interface Command {
   callback?: (ctx: Context) => void
   subcommands?: Record<string, Command>
 }
+export declare class ProgressBar {
+  finish(): void
+  finishAndClear(): void
+  finishWithMessage(msg: string): void
+  setPosition(pos: number): void
+  setLength(len: number): void
+  setMessage(msg: string): void
+  setPrefix(prefix: string): void
+  setTabWidth(width: number): void
+  setTemplate(template: string): void
+  tick(): void
+  abandon(): void
+  abandonWithMessage(msg: string): void
+  inc(delta: number): void
+  incLength(delta: number): void
+  reset(): void
+  println(msg: string): void
+  suspend(f: () => void): void
+  enableSteadyTick(ms: number): void
+  disableSteadyTick(): void
+}
 /**
  * Command context
  *
@@ -226,6 +253,8 @@ export declare class Context {
    * The raw arguments parsed by command line or manually given.
    */
   rawArgs: string[]
+  createProgressBar(total: number): ProgressBar
+  createSpinner(): ProgressBar
   /**
    * Create a new command context
    *

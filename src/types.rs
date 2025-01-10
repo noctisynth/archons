@@ -1,5 +1,6 @@
 use napi::{JsFunction, JsObject};
 use napi_derive::napi;
+use thiserror::Error;
 
 use crate::HashMap;
 
@@ -20,6 +21,8 @@ pub struct Context {
   #[napi(ts_type = "string[]")]
   pub raw_args: Vec<String>,
 }
+
+unsafe impl Sync for Context {}
 
 #[napi]
 impl Context {
@@ -83,6 +86,10 @@ pub struct CommandMeta {
   ///
   /// Determines whether the CLI output should be displayed in the styled format.
   pub styled: Option<bool>,
+  /// Subcommand required
+  ///
+  /// If true, the command will fail if no subcommand is provided.
+  pub subcommand_required: Option<bool>,
 }
 
 #[napi(object)]
@@ -100,8 +107,8 @@ pub struct CommandOption {
   /// - `positional` and `append`: Multiple positional argument
   ///
   /// Defaults to `option` if not specified.
-  #[napi(js_name = "type", ts_type = "'positional' | 'option'")]
-  pub type_: Option<String>,
+  #[napi(ts_type = "'positional' | 'option'")]
+  pub r#type: Option<String>,
   /// Specify the value type for the argument.
   #[napi(ts_type = "'string' | 'number' | 'boolean'")]
   pub parser: Option<String>,
@@ -222,4 +229,19 @@ pub struct Command {
   #[napi(ts_type = "(ctx: Context) => void")]
   pub callback: Option<JsFunction>,
   pub subcommands: Option<HashMap<String, Command>>,
+}
+
+/// Errors
+///
+/// This is the error type that is thrown to Node.js.
+#[derive(Error, Debug)]
+pub enum Error {
+  #[error("Indicatif template error: {0}")]
+  IndicatifTemplateError(#[from] indicatif::style::TemplateError),
+}
+
+impl From<Error> for napi::Error {
+  fn from(err: Error) -> napi::Error {
+    napi::Error::from_reason(err.to_string())
+  }
 }
