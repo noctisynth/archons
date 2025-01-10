@@ -1,4 +1,5 @@
 pub mod command;
+pub mod progressbar;
 pub mod resolver;
 pub mod types;
 pub mod utils;

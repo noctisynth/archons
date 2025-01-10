@@ -6,6 +6,7 @@
     "bindgen",
     "cdylib",
     "gnueabihf",
+    "indicatif",
     "msvc",
     "napi",
     "noctisynth",
@@ -15,6 +16,7 @@
     "rustc",
     "rustflags",
     "taplo",
+    "thiserror",
     "tinybench"
   ],
   "ignoreWords": ["armv"],
