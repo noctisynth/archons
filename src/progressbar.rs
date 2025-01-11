@@ -7,7 +7,6 @@ use crate::types::{Context, Error};
 #[napi]
 pub struct ProgressBar {
   bar: indicatif::ProgressBar,
-  style: indicatif::ProgressStyle,
 }
 
 #[napi]
@@ -20,6 +19,11 @@ impl ProgressBar {
   #[napi]
   pub fn finish_and_clear(&self) {
     self.bar.finish_and_clear();
+  }
+
+  #[napi]
+  pub fn finish_using_style(&self) {
+    self.bar.finish_using_style();
   }
 
   #[napi]
@@ -57,12 +61,29 @@ impl ProgressBar {
     Ok(
       self.bar.set_style(
         self
-          .style
-          .clone()
+          .bar
+          .style()
           .template(&template)
           .map_err(Error::IndicatifTemplateError)?,
       ),
     )
+  }
+
+  #[napi]
+  pub fn set_tick_strings(&self, s: Vec<String>) {
+    self.bar.set_style(
+      self
+        .bar
+        .style()
+        .tick_strings(&s.iter().map(|s| s.as_str()).collect::<Vec<&str>>()),
+    );
+  }
+
+  #[napi]
+  pub fn set_progress_chars(&self, s: String) {
+    self
+      .bar
+      .set_style(self.bar.style().progress_chars(s.as_str()));
   }
 
   #[napi]
@@ -123,14 +144,12 @@ impl Context {
   #[napi]
   pub fn create_progress_bar(&self, total: u32) -> ProgressBar {
     let bar = indicatif::ProgressBar::new(total as u64);
-    let style = indicatif::ProgressStyle::default_bar();
-    ProgressBar { bar, style }
+    ProgressBar { bar }
   }
 
   #[napi]
   pub fn create_spinner(&self) -> ProgressBar {
     let bar = indicatif::ProgressBar::new_spinner();
-    let style = indicatif::ProgressStyle::default_spinner();
-    ProgressBar { bar, style }
+    ProgressBar { bar }
   }
 }

@@ -1,11 +1,10 @@
 {
-    "extends": "../tsconfig.json",
-    "compilerOptions": {
-      "moduleResolution": "NodeNext",
-      "module": "NodeNext",
-      "outDir": "."
-    },
-    "include": ["."],
-    "exclude": ["index.cjs"]
-  }
-  
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
+    "outDir": "."
+  },
+  "include": ["."],
+  "exclude": ["index.cjs"]
+}

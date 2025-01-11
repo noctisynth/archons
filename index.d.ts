@@ -223,6 +223,7 @@ export interface Command {
 export declare class ProgressBar {
   finish(): void
   finishAndClear(): void
+  finishUsingStyle(): void
   finishWithMessage(msg: string): void
   setPosition(pos: number): void
   setLength(len: number): void
@@ -230,6 +231,8 @@ export declare class ProgressBar {
   setPrefix(prefix: string): void
   setTabWidth(width: number): void
   setTemplate(template: string): void
+  setTickStrings(s: Array<string>): void
+  setProgressChars(s: string): void
   tick(): void
   abandon(): void
   abandonWithMessage(msg: string): void
