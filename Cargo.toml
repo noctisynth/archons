@@ -21,4 +21,6 @@ thiserror   = "2.0.10"
 napi-build = "2"
 
 [profile.release]
-lto = true
+lto       = true
+opt-level = 3
+panic     = "abort"
