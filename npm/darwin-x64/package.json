@@ -1,6 +1,6 @@
 {
   "name": "archons-napi-darwin-x64",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "os": [
     "darwin"
   ],

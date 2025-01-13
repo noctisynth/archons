@@ -1,5 +1,13 @@
 # archons
 
+## 0.2.7
+
+### Patch Changes
+
+- 7ef1753: Refactor `Context` into a js class
+- 4aa02ff: Support set custumized tick strings and progress chars
+- fa31f1f: Add progressbar feature for `Context`
+
 ## 0.2.6
 
 ### Patch Changes
