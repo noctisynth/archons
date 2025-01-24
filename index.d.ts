@@ -24,6 +24,91 @@ export declare function defineCommand(options: Command): Command
  * @returns {void}
  */
 export declare function run(cmd: Command, args?: Array<string> | undefined | null): void
+export interface SelectConfig {
+  helpMessage?: string
+  pageSize?: number
+  resetCursor?: boolean
+  startingCursor?: number
+  startingFilterInput?: string
+  vimMode?: boolean
+  filtering?: boolean
+  helpMessageDisabled?: boolean
+}
+export declare function select(prompt: string, choices: Array<string>, config?: SelectConfig | undefined | null): string
+export interface CheckboxConfig {
+  allSelectedByDefault?: boolean
+  default?: Array<number>
+  helpMessage?: string
+  keepFilter?: boolean
+  pageSize?: number
+  resetCursor?: boolean
+  startingCursor?: number
+  startingFilterInput?: string
+  vimMode?: boolean
+  filtering?: boolean
+  helpMessageDisabled?: boolean
+}
+export declare function checkbox(
+  prompt: string,
+  choices: Array<string>,
+  config?: CheckboxConfig | undefined | null,
+): Array<string>
+export interface InputConfig {
+  default?: string
+  formatter?: (...args: any[]) => any
+  helpMessage?: string
+  initialValue?: string
+  pageSize?: number
+  placeholder?: string
+  validators?: Array<(...args: any[]) => any>
+}
+export declare function input(prompt: string, config?: InputConfig | undefined | null): string
+export interface ConfirmConfig {
+  default?: boolean
+  defaultValueFormatter?: (...args: any[]) => any
+  errorMessage?: string
+  formatter?: (...args: any[]) => any
+  helpMessage?: string
+  parser?: (...args: any[]) => any
+  placeholder?: string
+  startingInput?: string
+}
+export declare function confirm(prompt: string, config?: ConfirmConfig | undefined | null): boolean
+export interface PasswordConfig {
+  customConfirmationErrorMessage?: string
+  customConfirmationMessage?: string
+  displayMode?: 'hidden' | 'masked' | 'full'
+  displayToggle?: boolean
+  helpMessage?: string
+  formatter?: (text: string) => string
+  validators?: (text: string) => StringValidatorResult
+  confirmation?: boolean
+}
+export interface StringValidatorResult {
+  validation: 'valid' | 'invalid'
+  errMsg?: string
+}
+export declare function password(prompt: string, config?: PasswordConfig | undefined | null): string
+/**
+ * Creates a new progress bar with the specified total number of steps.
+ *
+ * # Arguments
+ *
+ * * `total` - The total number of steps for the progress bar.
+ *
+ * # Returns
+ *
+ * A new `ProgressBar` instance.
+ */
+export declare function createProgressBar(total: number): ProgressBar
+/**
+ * Creates a new spinner progress bar.
+ *
+ * # Returns
+ *
+ * A new `ProgressBar` instance with a spinner style.
+ */
+export declare function createSpinner(): ProgressBar
 /** Command metadata */
 export interface CommandMeta {
   /**
@@ -256,6 +341,8 @@ export declare class Context {
    * The raw arguments parsed by command line or manually given.
    */
   rawArgs: string[]
+  ask(prompt: string, config?: InputConfig | undefined | null): string
+  confirm(prompt: string, config?: ConfirmConfig | undefined | null): boolean
   createProgressBar(total: number): ProgressBar
   createSpinner(): ProgressBar
   /**

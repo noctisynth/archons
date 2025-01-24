@@ -27,36 +27,35 @@ pub(crate) fn merge_args_matches(
     let action = args
       .iter()
       .find(|&arg| arg.get_id() == id)
-      .expect(&format!(
-        "{}\n{}",
-        "Argument not found when merging matches, this is likely a internal bug.",
-        format!(
-          "If you convinced this is a bug, report it at: {}",
+      .unwrap_or_else(|| {
+        panic!(
+          "Argument not found when merging matches, this is likely a internal bug.\n
+          If you convinced this is a bug, report it at: {}",
           ISSUE_LINK
         )
-      ))
+      })
       .get_action();
     let option: &str = options.get(id.as_str()).unwrap();
     match action {
       clap::ArgAction::Set => match option {
         "string" => {
-          parsed_args.set(&id, matches.get_one::<String>(id.as_str()).unwrap())?;
+          parsed_args.set(id, matches.get_one::<String>(id.as_str()).unwrap())?;
         }
         "number" => {
-          parsed_args.set(&id, *matches.get_one::<i64>(id.as_str()).unwrap())?;
+          parsed_args.set(id, *matches.get_one::<i64>(id.as_str()).unwrap())?;
         }
         _ => panic!("Invalid option type: {}", option),
       },
       clap::ArgAction::SetTrue | clap::ArgAction::SetFalse => {
-        parsed_args.set(&id, matches.get_flag(id.as_str()))?;
+        parsed_args.set(id, matches.get_flag(id.as_str()))?;
       }
       clap::ArgAction::Count => {
-        parsed_args.set(&id, matches.get_count(id.as_str()))?;
+        parsed_args.set(id, matches.get_count(id.as_str()))?;
       }
       clap::ArgAction::Append => match option {
         "string" => {
           parsed_args.set(
-            &id,
+            id,
             matches
               .get_many::<String>(id.as_str())
               .unwrap_or_default()
@@ -66,11 +65,11 @@ pub(crate) fn merge_args_matches(
         }
         "number" => {
           parsed_args.set(
-            &id,
+            id,
             matches
               .get_many::<f64>(id.as_str())
               .unwrap_or_default()
-              .map(|&v| v)
+              .copied()
               .collect::<Vec<_>>(),
           )?;
         }
@@ -82,6 +81,7 @@ pub(crate) fn merge_args_matches(
   Ok(())
 }
 
+#[allow(clippy::too_many_arguments)]
 pub(crate) fn parse_arguments_inner<'arg>(
   env: Env,
   mut parsed_args: JsObject,
@@ -95,10 +95,10 @@ pub(crate) fn parse_arguments_inner<'arg>(
   let mut options: HashMap<String, &'static str> = HashMap::default();
   options.extend(global_options.clone());
   for (name, option) in &cmd.options {
-    let parser = leak_borrowed_str_or_default(option.parser.as_ref().clone(), "string");
-    options.insert(name.to_string(), &parser);
+    let parser = leak_borrowed_str_or_default(option.parser.as_ref(), "string");
+    options.insert(name.to_string(), parser);
     if option.global.is_some() && option.global.unwrap() {
-      global_options.insert(name.to_string(), &parser);
+      global_options.insert(name.to_string(), parser);
     }
   }
 
@@ -110,7 +110,7 @@ pub(crate) fn parse_arguments_inner<'arg>(
     .collect::<Vec<&clap::Arg>>();
   global_args.extend(global_args_this);
 
-  merge_args_matches(&mut parsed_args, &args, &options, &matches)?;
+  merge_args_matches(&mut parsed_args, &args, &options, matches)?;
 
   if let Some((sub_command_name, sub_matches)) = matches.subcommand() {
     let mut sub_commands = cmd.subcommands.unwrap_or_default();
@@ -145,9 +145,9 @@ pub(crate) fn parse_arguments_inner<'arg>(
   Ok(())
 }
 
-pub(crate) fn parse_arguments<'arg>(
+pub(crate) fn parse_arguments(
   env: Env,
-  clap: &'arg clap::Command,
+  clap: &clap::Command,
   cmd: Command,
   matches: &clap::ArgMatches,
   raw_args: Vec<String>,

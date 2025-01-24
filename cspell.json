@@ -5,6 +5,7 @@
     "androideabi",
     "bindgen",
     "cdylib",
+    "codegen",
     "gnueabihf",
     "indicatif",
     "msvc",
