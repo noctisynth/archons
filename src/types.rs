@@ -22,8 +22,6 @@ pub struct Context {
   pub raw_args: Vec<String>,
 }
 
-unsafe impl Sync for Context {}
-
 #[napi]
 impl Context {
   /// Create a new command context
@@ -238,6 +236,8 @@ pub struct Command {
 pub enum Error {
   #[error("Indicatif template error: {0}")]
   IndicatifTemplateError(#[from] indicatif::style::TemplateError),
+  #[error("Inquire error: {0}")]
+  InquireError(#[from] inquire::InquireError),
 }
 
 impl From<Error> for napi::Error {

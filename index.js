@@ -284,9 +284,28 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { defineCommand, run, ProgressBar, Context } = nativeBinding
+const {
+  defineCommand,
+  run,
+  select,
+  checkbox,
+  input,
+  confirm,
+  password,
+  ProgressBar,
+  createProgressBar,
+  createSpinner,
+  Context,
+} = nativeBinding
 
 module.exports.defineCommand = defineCommand
 module.exports.run = run
+module.exports.select = select
+module.exports.checkbox = checkbox
+module.exports.input = input
+module.exports.confirm = confirm
+module.exports.password = password
 module.exports.ProgressBar = ProgressBar
+module.exports.createProgressBar = createProgressBar
+module.exports.createSpinner = createSpinner
 module.exports.Context = Context

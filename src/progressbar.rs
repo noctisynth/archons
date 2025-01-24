@@ -53,16 +53,15 @@ impl ProgressBar {
   }
 
   #[napi]
-  pub fn set_template(&mut self, template: String) -> Result<(), napi::Error> {
-    Ok(
-      self.bar.set_style(
-        self
-          .style
-          .clone()
-          .template(&template)
-          .map_err(Error::IndicatifTemplateError)?,
-      ),
-    )
+  pub fn set_template(&mut self, template: String) -> napi::Result<()> {
+    self.bar.set_style(
+      self
+        .style
+        .clone()
+        .template(&template)
+        .map_err(Error::IndicatifTemplateError)?,
+    );
+    Ok(())
   }
 
   #[napi]
@@ -133,4 +132,32 @@ impl Context {
     let style = indicatif::ProgressStyle::default_spinner();
     ProgressBar { bar, style }
   }
+}
+
+/// Creates a new progress bar with the specified total number of steps.
+///
+/// # Arguments
+///
+/// * `total` - The total number of steps for the progress bar.
+///
+/// # Returns
+///
+/// A new `ProgressBar` instance.
+#[napi]
+pub fn create_progress_bar(total: u32) -> ProgressBar {
+  let bar = indicatif::ProgressBar::new(total as u64);
+  let style = indicatif::ProgressStyle::default_bar();
+  ProgressBar { bar, style }
+}
+
+/// Creates a new spinner progress bar.
+///
+/// # Returns
+///
+/// A new `ProgressBar` instance with a spinner style.
+#[napi]
+pub fn create_spinner() -> ProgressBar {
+  let bar = indicatif::ProgressBar::new_spinner();
+  let style = indicatif::ProgressStyle::default_spinner();
+  ProgressBar { bar, style }
 }
