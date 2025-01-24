@@ -25,6 +25,6 @@ napi-build = "2"
 codegen-units    = 1
 debug-assertions = false
 lto              = true
-opt-level        = "z"
+opt-level        = 3
 panic            = "abort"
 strip            = true
