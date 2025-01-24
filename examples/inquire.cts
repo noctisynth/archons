@@ -1,4 +1,4 @@
-import { checkbox, defineCommand, password, run, select, type Context } from 'archons'
+import { checkbox, defineCommand, password, run, select, type Context } from '..'
 
 const main = defineCommand({
   meta: {

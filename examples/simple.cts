@@ -1,4 +1,4 @@
-import { defineCommand, run, type Context } from '../index';
+import { defineCommand, run, type Context } from '..';
 
 const dev = defineCommand({
   meta: {
