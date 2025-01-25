@@ -4,12 +4,26 @@ use crate::{
   HashMap,
 };
 
-pub(crate) fn resolve_option_args(args: Option<Vec<String>>) -> napi::Result<Vec<String>> {
-  let mut args = match args {
-    Some(args) => args,
-    None => std::env::args().collect::<Vec<String>>(),
-  };
-  args.remove(0); // remove `node.exe`
+pub(crate) fn resolve_option_args(
+  env: napi::Env,
+  args: Option<Vec<String>>,
+) -> napi::Result<Vec<String>> {
+  if let Some(mut args) = args {
+    args.remove(0);
+    return Ok(args);
+  }
+
+  let global = env.get_global()?;
+  if let Ok(deno) = global.get_named_property::<napi::JsObject>("Deno") {
+    let mut args = vec!["deno".to_string()];
+    args.extend(deno.get_named_property::<Vec<String>>("args")?);
+    return Ok(args);
+  }
+
+  let mut args = global
+    .get_named_property::<napi::JsObject>("process")?
+    .get_named_property::<Vec<String>>("argv")?;
+  args.remove(0);
   Ok(args)
 }
 
