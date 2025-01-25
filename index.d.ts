@@ -23,7 +23,7 @@ export declare function defineCommand(options: Command): Command
  * @param args Run with given arguments
  * @returns {void}
  */
-export declare function run(cmd: Command, args?: Array<string> | undefined | null): void
+export declare function run(cmd: Command, args?: string[]): void
 export interface SelectConfig {
   helpMessage?: string
   pageSize?: number

@@ -25,9 +25,9 @@ pub fn define_command(options: Command) -> Command {
 /// @param cmd Command object
 /// @param args Run with given arguments
 /// @returns {void}
-#[napi]
+#[napi(ts_args_type = "cmd: Command, args?: string[]")]
 pub fn run(env: Env, cmd: Command, args: Option<Vec<String>>) -> Result<()> {
-  let raw_args = resolve_option_args(env, args)?;
+  let raw_args = resolve_option_args(args)?;
   let clap = resolve_command(clap::Command::default(), Default::default(), &cmd);
   let matches = clap.clone().get_matches_from(&raw_args);
 
