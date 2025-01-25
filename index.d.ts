@@ -13,7 +13,8 @@ export declare function defineCommand(options: Command): Command
 /**
  * Run command
  *
- * **NOTE**: If the given `args` is empty, it will use `process.argv` instead.
+ * **NOTE**: If the given `args` is empty, it will use `process.argv`
+ * (or `Deno.args` in Deno.js environment) instead.
  *
  * **NOTE**: The given `args` should include the nodejs executable and script name.
  * For example, if you are running a script `index.js` in the current directory with
@@ -23,7 +24,7 @@ export declare function defineCommand(options: Command): Command
  * @param args Run with given arguments
  * @returns {void}
  */
-export declare function run(cmd: Command, args?: Array<string> | undefined | null): void
+export declare function run(cmd: Command, args?: string[]): void
 export interface SelectConfig {
   helpMessage?: string
   pageSize?: number

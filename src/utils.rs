@@ -5,16 +5,19 @@ use crate::HashMap;
 
 const ISSUE_LINK: &str = "https://github.com/noctisynth/archons/issues";
 
-pub(crate) fn leak_str(s: String) -> &'static str {
+#[inline]
+pub(crate) fn leak_str<'a>(s: String) -> &'a str {
   s.leak()
 }
 
-pub(crate) fn leak_borrowed_str_or_default(s: Option<&String>, default: &str) -> &'static str {
-  s.map_or_else(|| leak_str(default.to_string()), |s| leak_str(s.clone()))
+#[inline]
+pub(crate) fn leak_borrowed_str<'a>(s: &str) -> &'a str {
+  unsafe { std::mem::transmute(s) }
 }
 
-pub(crate) fn leak_borrowed_str(s: &String) -> &'static str {
-  s.to_owned().leak()
+#[inline]
+pub(crate) fn leak_borrowed_str_or_default<'a>(s: Option<&String>, default: &str) -> &'a str {
+  s.map_or_else(|| leak_borrowed_str(default), |s| leak_borrowed_str(s))
 }
 
 pub(crate) fn merge_args_matches(
@@ -26,15 +29,15 @@ pub(crate) fn merge_args_matches(
   for id in matches.ids() {
     let action = args
       .iter()
-      .find(|&arg| arg.get_id() == id)
+      .find(|arg| arg.get_id() == id)
+      .map(|arg| arg.get_action())
       .unwrap_or_else(|| {
         panic!(
           "Argument not found when merging matches, this is likely a internal bug.\n
           If you convinced this is a bug, report it at: {}",
           ISSUE_LINK
         )
-      })
-      .get_action();
+      });
     let option: &str = options.get(id.as_str()).unwrap();
     match action {
       clap::ArgAction::Set => match option {
@@ -94,16 +97,18 @@ pub(crate) fn parse_arguments_inner<'arg>(
 ) -> napi::Result<()> {
   let mut options: HashMap<String, &'static str> = HashMap::default();
   options.extend(global_options.clone());
+
   for (name, option) in &cmd.options {
     let parser = leak_borrowed_str_or_default(option.parser.as_ref(), "string");
-    options.insert(name.to_string(), parser);
-    if option.global.is_some() && option.global.unwrap() {
-      global_options.insert(name.to_string(), parser);
+    options.entry(name.to_string()).or_insert(parser);
+    if option.global.unwrap_or(false) {
+      global_options.entry(name.to_string()).or_insert(parser);
     }
   }
 
   let mut args = clap.get_arguments().collect::<Vec<&clap::Arg>>();
   args.extend(global_args.clone());
+
   let global_args_this = clap
     .get_arguments()
     .filter(|arg| arg.is_global_set())

@@ -8,19 +8,22 @@ pub(crate) fn resolve_option_args(
   env: napi::Env,
   args: Option<Vec<String>>,
 ) -> napi::Result<Vec<String>> {
-  let mut args = match args {
-    Some(args) => args,
-    None => {
-      let mut args = std::env::args().collect::<Vec<String>>();
-      if args.is_empty() {
-        let process: napi::JsObject = env.get_global()?.get_named_property("process")?;
-        let argv: Vec<String> = process.get_named_property("argv")?;
-        args = argv;
-      }
-      args
-    }
-  };
-  args.remove(0); // remove `node.exe`
+  if let Some(mut args) = args {
+    args.remove(0);
+    return Ok(args);
+  }
+
+  let global = env.get_global()?;
+  if let Ok(deno) = global.get_named_property::<napi::JsObject>("Deno") {
+    let mut args = vec!["deno".to_string()];
+    args.extend(deno.get_named_property::<Vec<String>>("args")?);
+    return Ok(args);
+  }
+
+  let mut args = global
+    .get_named_property::<napi::JsObject>("process")?
+    .get_named_property::<Vec<String>>("argv")?;
+  args.remove(0);
   Ok(args)
 }
 
@@ -29,22 +32,25 @@ pub(crate) fn resolve_command_meta(
   bin_name: Option<String>,
   meta: &CommandMeta,
 ) -> clap::Command {
-  let name: &'static str = if let Some(name) = &meta.name {
-    leak_borrowed_str(name)
-  } else {
-    leak_str(bin_name.unwrap())
-  };
+  let name: &'static str = meta.name.as_ref().map_or_else(
+    || leak_str(bin_name.expect("bin_name must be provided")),
+    |name| leak_borrowed_str(name),
+  );
   clap = clap.name(name);
+
   if let Some(version) = &meta.version {
     clap = clap.version(leak_borrowed_str(version));
   }
+
   if let Some(about) = &meta.about {
     clap = clap.about(leak_borrowed_str(about));
   }
+
   if let Some(subcommand_required) = meta.subcommand_required {
     clap = clap.subcommand_required(subcommand_required);
   }
-  if meta.styled.is_some() && meta.styled.unwrap() {
+
+  if meta.styled.unwrap_or(false) {
     use clap::builder::styling;
     let styles = styling::Styles::styled()
       .header(styling::AnsiColor::Green.on_default() | styling::Effects::BOLD)
@@ -53,6 +59,7 @@ pub(crate) fn resolve_command_meta(
       .placeholder(styling::AnsiColor::Cyan.on_default());
     clap = clap.styles(styles);
   }
+
   clap
 }
 
