@@ -12,8 +12,7 @@ pub(crate) fn leak_str<'a>(s: String) -> &'a str {
 
 #[inline]
 pub(crate) fn leak_borrowed_str<'a>(s: &str) -> &'a str {
-  let ptr = s.as_ptr();
-  unsafe { std::str::from_utf8_unchecked(std::slice::from_raw_parts(ptr, s.len())) }
+  unsafe { std::mem::transmute(s) }
 }
 
 #[inline]

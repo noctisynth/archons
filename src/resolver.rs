@@ -7,10 +7,7 @@ use crate::{
 pub(crate) fn resolve_option_args(args: Option<Vec<String>>) -> napi::Result<Vec<String>> {
   let mut args = match args {
     Some(args) => args,
-    None => std::env::args_os()
-      .into_iter()
-      .map(|s| s.to_string_lossy().to_string())
-      .collect::<Vec<String>>(),
+    None => std::env::args().collect::<Vec<String>>(),
   };
   args.remove(0); // remove `node.exe`
   Ok(args)
