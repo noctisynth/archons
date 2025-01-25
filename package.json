@@ -120,5 +120,6 @@
     "hooks": {
       "pre-commit": "yarn lint-staged"
     }
-  }
+  },
+  "packageManager": "yarn@4.6.0"
 }
