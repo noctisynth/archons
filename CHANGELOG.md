@@ -1,5 +1,14 @@
 # archons
 
+## 0.2.8
+
+### Patch Changes
+
+- 12b8866: Add support for Deno.js
+- 12b8866: Add support for inquire feature
+- 12b8866: Fix clippy warnings
+- 12b8866: Optimize performance of the parser and resolver
+
 ## 0.2.7
 
 ### Patch Changes
