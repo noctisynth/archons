@@ -1,7 +1,7 @@
 use napi::{Env, JsNull, JsObject, Result};
 
-use crate::HashMap;
 use crate::types::{Command, Context};
+use crate::HashMap;
 
 const ISSUE_LINK: &str = "https://github.com/noctisynth/archons/issues";
 
