@@ -4,6 +4,56 @@ use crate::{
   utils::{leak_borrowed_str, leak_borrowed_str_or_default, leak_str},
 };
 
+#[macro_export]
+macro_rules! apply_opt {
+  ($arg:ident, $opt:ident, $field:ident => $method:ident) => {
+    if let Some(val) = $opt.$field {
+      $arg = $arg.$method(val);
+    }
+  };
+  ($arg:ident, $opt:ident, &$field:ident => $method:ident) => {
+    if let Some(val) = &$opt.$field {
+      $arg = $arg.$method(val);
+    }
+  };
+  ($arg:ident, $opt:ident, $wrapper:ident($field:ident) => $method:ident) => {
+    if let Some(val) = $opt.$field {
+      $arg = $arg.$method($wrapper(val));
+    }
+  };
+  ($arg:ident, $opt:ident, $wrapper:ident(&$field:ident) => $method:ident) => {
+    if let Some(val) = &$opt.$field {
+      $arg = $arg.$method($wrapper(val));
+    }
+  };
+  ($arg:ident, $opt:ident, $wrapper:ident!($field:ident) => $method:ident) => {
+    if let Some(val) = $opt.$field {
+      $arg = $arg.$method($wrapper!(val));
+    }
+  };
+  ($arg:ident, $opt:ident, $wrapper:ident!(&$field:ident) => $method:ident) => {
+    if let Some(val) = &$opt.$field {
+      $arg = $arg.$method($wrapper!(val));
+    }
+  };
+  ($arg:ident, $opt:ident, $field:ident) => {
+    apply_opt!($arg, $opt, $field => $field);
+  };
+  ($arg:ident, $opt:ident, &$field:ident) => {
+    apply_opt!($arg, $opt, &$field => $field);
+  };
+}
+
+#[macro_export]
+macro_rules! to_char_vec {
+  ($vec:ident) => {
+    $vec
+      .into_iter()
+      .map(|c| c.chars().next().unwrap())
+      .collect::<Vec<char>>()
+  };
+}
+
 pub(crate) fn resolve_option_args(
   env: napi::Env,
   args: Option<Vec<String>>,
@@ -38,17 +88,9 @@ pub(crate) fn resolve_command_meta(
   );
   clap = clap.name(name);
 
-  if let Some(version) = &meta.version {
-    clap = clap.version(leak_borrowed_str(version));
-  }
-
-  if let Some(about) = &meta.about {
-    clap = clap.about(leak_borrowed_str(about));
-  }
-
-  if let Some(subcommand_required) = meta.subcommand_required {
-    clap = clap.subcommand_required(subcommand_required);
-  }
+  apply_opt!(clap, meta, leak_borrowed_str(&version) => version);
+  apply_opt!(clap, meta, leak_borrowed_str(&about) => about);
+  apply_opt!(clap, meta, subcommand_required);
 
   if meta.styled.unwrap_or(false) {
     use clap::builder::styling;
@@ -157,26 +199,6 @@ pub(crate) fn resolve_num_args(num_args: &str) -> clap::builder::ValueRange {
   }
 }
 
-#[macro_export]
-macro_rules! apply_opt {
-  ($arg:ident, $opt:ident, $field:ident => $method:ident) => {
-    if let Some(val) = $opt.$field {
-      $arg = $arg.$method(val);
-    }
-  };
-  ($arg:ident, $opt:ident, &$field:ident => $method:ident) => {
-    if let Some(val) = &$opt.$field {
-      $arg = $arg.$method(val);
-    }
-  };
-  ($arg:ident, $opt:ident, $field:ident) => {
-    apply_opt!($arg, $opt, $field => $field);
-  };
-  ($arg:ident, $opt:ident, &$field:ident) => {
-    apply_opt!($arg, $opt, &$field => $field);
-  };
-}
-
 pub(crate) fn resolve_command_options(
   clap: clap::Command,
   meta: &HashMap<String, CommandOption>,
@@ -198,32 +220,14 @@ pub(crate) fn resolve_command_options(
         arg = arg.value_parser(resolve_parser(opt.parser.as_deref(), opt.action.as_deref()));
         apply_opt!(arg, opt, &alias => visible_aliases);
         apply_opt!(arg, opt, &hidden_alias => aliases);
-        if let Some(short_alias) = &opt.short_alias {
-          let short_alias = short_alias
-            .iter()
-            .map(|s| s.chars().next().unwrap())
-            .collect::<Vec<char>>();
-          arg = arg.visible_short_aliases(short_alias);
-        }
-        if let Some(hidden_short_alias) = &opt.hidden_short_alias {
-          let hidden_short_alias = hidden_short_alias
-            .iter()
-            .map(|s| s.chars().next().unwrap())
-            .collect::<Vec<char>>();
-          arg = arg.short_aliases(hidden_short_alias);
-        }
-        if let Some(value_hint) = &opt.value_hint {
-          arg = arg.value_hint(resolve_value_hint(value_hint.as_str()));
-        }
+        apply_opt!(arg, opt, to_char_vec!(&short_alias) => short_aliases);
+        apply_opt!(arg, opt, to_char_vec!(&hidden_short_alias) => short_aliases);
+        apply_opt!(arg, opt, resolve_value_hint(&value_hint) => value_hint);
         apply_opt!(arg, opt, &help);
         apply_opt!(arg, opt, required);
         apply_opt!(arg, opt, default => default_value);
         apply_opt!(arg, opt, default_missing => default_missing_value);
-        // apply_opt!(arg, opt, num_args);
-        if let Some(num_args) = opt.num_args {
-          let num_args = resolve_num_args(num_args);
-          arg = arg.num_args(num_args);
-        }
+        apply_opt!(arg, opt, resolve_num_args(num_args) => num_args);
         apply_opt!(arg, opt, required_equals => require_equals);
         apply_opt!(arg, opt, hidden => hide);
         apply_opt!(arg, opt, global);
