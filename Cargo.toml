@@ -1,6 +1,6 @@
 [package]
 authors = ["苏向夜 <fu050409@163.com>"]
-edition = "2024"
+edition = "2021"
 name    = "archons"
 version = "0.1.0"
 
