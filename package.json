@@ -105,8 +105,9 @@
       "TS_NODE_PROJECT": "./tsconfig.json"
     },
     "nodeArguments": [
-      "--import",
-      "@swc-node/register/esm-register"
+      "--no-warnings",
+      "--loader=@swc-node/register/esm-register",
+      "--experimental-vm-modules"
     ]
   },
   "prettier": {

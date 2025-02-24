@@ -1,7 +1,7 @@
 import test from 'ava'
 import { spawnSync } from 'child_process'
 
-import { Context, defineCommand, run } from '../index'
+import { type Context, defineCommand, run } from '..'
 
 test('positional option', (t) => {
   const main = defineCommand({
