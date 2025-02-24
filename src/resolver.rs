@@ -1,58 +1,9 @@
 use crate::{
+  apply_opt, to_char_vec,
   types::{Command, CommandMeta, CommandOption},
   utils::{leak_borrowed_str, leak_borrowed_str_or_default, leak_str},
   HashMap,
 };
-
-#[macro_export]
-macro_rules! apply_opt {
-  ($arg:ident, $opt:ident, $field:ident => $method:ident) => {
-    if let Some(val) = $opt.$field {
-      $arg = $arg.$method(val);
-    }
-  };
-  ($arg:ident, $opt:ident, &$field:ident => $method:ident) => {
-    if let Some(val) = &$opt.$field {
-      $arg = $arg.$method(val);
-    }
-  };
-  ($arg:ident, $opt:ident, $wrapper:ident($field:ident) => $method:ident) => {
-    if let Some(val) = $opt.$field {
-      $arg = $arg.$method($wrapper(val));
-    }
-  };
-  ($arg:ident, $opt:ident, $wrapper:ident(&$field:ident) => $method:ident) => {
-    if let Some(val) = &$opt.$field {
-      $arg = $arg.$method($wrapper(val));
-    }
-  };
-  ($arg:ident, $opt:ident, $wrapper:ident!($field:ident) => $method:ident) => {
-    if let Some(val) = $opt.$field {
-      $arg = $arg.$method($wrapper!(val));
-    }
-  };
-  ($arg:ident, $opt:ident, $wrapper:ident!(&$field:ident) => $method:ident) => {
-    if let Some(val) = &$opt.$field {
-      $arg = $arg.$method($wrapper!(val));
-    }
-  };
-  ($arg:ident, $opt:ident, $field:ident) => {
-    apply_opt!($arg, $opt, $field => $field);
-  };
-  ($arg:ident, $opt:ident, &$field:ident) => {
-    apply_opt!($arg, $opt, &$field => $field);
-  };
-}
-
-#[macro_export]
-macro_rules! to_char_vec {
-  ($vec:ident) => {
-    $vec
-      .into_iter()
-      .map(|c| c.chars().next().unwrap())
-      .collect::<Vec<char>>()
-  };
-}
 
 pub(crate) fn resolve_option_args(
   env: napi::Env,
