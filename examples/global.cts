@@ -1,4 +1,4 @@
-import { Context, defineCommand, run } from '..'
+import { type Context, defineCommand, run } from '..'
 
 const dev = defineCommand({
   meta: {
@@ -9,6 +9,7 @@ const dev = defineCommand({
     console.log(ctx.args.config)
   },
 })
+
 const main = defineCommand({
   meta: {
     name: 'test',

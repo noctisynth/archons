@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import { Context, defineCommand, run } from '../index'
+import { Context, defineCommand, run } from '..'
 
 test('sub command', (t) => {
   const cmd = defineCommand({

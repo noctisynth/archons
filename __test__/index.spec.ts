@@ -1,7 +1,7 @@
 import test from 'ava'
 import { spawnSync } from 'child_process'
 
-import { Command, defineCommand, run } from '../index'
+import { type Context, Command, defineCommand, run } from '..'
 
 const cmd: Command = {
   meta: {
@@ -15,7 +15,7 @@ const cmd: Command = {
       action: 'set',
     },
   },
-  callback: (_: any) => {},
+  callback: (_: Context) => {},
 }
 
 const main = defineCommand(cmd)

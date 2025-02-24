@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import { Context, defineCommand, run } from '../index'
+import { type Context, defineCommand, run } from '..'
 
 test('global option', (t) => {
   const dev = defineCommand({
