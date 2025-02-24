@@ -1,7 +1,7 @@
 import test from 'ava'
 import { spawnSync } from 'child_process'
 
-import { type Context, Command, defineCommand, run } from '..'
+import { type Context, Command, defineCommand, run } from '../index.js'
 
 const cmd: Command = {
   meta: {
