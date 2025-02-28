@@ -124,8 +124,15 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint-staged"
+      "pre-commit": "pnpm lint-staged"
     }
   },
-  "packageManager": "yarn@4.6.0"
+  "dependencies": {
+    "archons": "link:"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@swc/core"
+    ]
+  }
 }

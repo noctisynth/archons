@@ -47,8 +47,8 @@ const greenPrefix = chalk.green('[Archons]')
 const spinner = createArchonsSpinner();
 spinner.enableSteadyTick(100)
 spinner.setMessage('Initial building...')
-tryBuild('yarn build:debug', 'Building module...', spinner)
-tryBuild('yarn build:examples', 'Building examples...', spinner)
+tryBuild('pnpm build:debug', 'Building module...', spinner)
+tryBuild('pnpm build:examples', 'Building examples...', spinner)
 spinner.finishAndClear()
 console.clear()
 console.log(`${greenPrefix} Build complete.\n`)
@@ -65,9 +65,9 @@ fs.watch(dirPath, { recursive: true }, (eventType, filename) => {
     spinner.println(`${greenPrefix} File ${chalk.cyan(filename)} was ${eventType}d, rebuilding...`)
     spinner.enableSteadyTick(100)
     if (filename.endsWith('.rs') || filename.endsWith('.toml')) {
-      tryBuild('yarn build:debug', 'Rebuilding module...', spinner)
+      tryBuild('pnpm build:debug', 'Rebuilding module...', spinner)
     }
-    tryBuild('yarn build:examples', 'Rebuilding examples...', spinner)
+    tryBuild('pnpm build:examples', 'Rebuilding examples...', spinner)
     console.clear()
     spinner.println(`${greenPrefix} Build complete.\n\n`)
     spinner.println(`${greenPrefix} Watching for changes...`)
