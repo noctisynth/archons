@@ -1,7 +1,7 @@
 import test from 'ava'
-import { spawnSync } from 'child_process'
+import { spawnSync } from 'node:child_process'
 
-import { type Context, Command, defineCommand, run } from '../index.js'
+import { type Context, type Command, defineCommand, run } from '../index.js'
 
 const cmd: Command = {
   meta: {
@@ -31,15 +31,15 @@ test('run command', (t) => {
 })
 
 test('run help', (t) => {
-  const result = spawnSync('node', [`examples/simple.cjs`, '--help'])
+  const result = spawnSync('node', ['examples/simple.cjs', '--help'])
   t.is(result.error, undefined)
   t.is(result.stderr.length, 0)
   t.deepEqual(result.status ?? 0, 0)
 })
 
 test('run version', (t) => {
-  const version = spawnSync('node', [`examples/simple.cjs`, '--version'])
-  const no_version = spawnSync('node', [`examples/no_version.cjs`, '--version'])
+  const version = spawnSync('node', ['examples/simple.cjs', '--version'])
+  const no_version = spawnSync('node', ['examples/no_version.cjs', '--version'])
   t.is(version.error, undefined)
   t.is(version.stderr.length, 0)
   t.deepEqual(version.status ?? 0, 0)

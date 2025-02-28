@@ -1,5 +1,5 @@
 import test from 'ava'
-import { spawnSync } from 'child_process'
+import { spawnSync } from 'node:child_process'
 
 import { type Context, defineCommand, run } from '../index.js'
 
@@ -23,8 +23,8 @@ test('positional option', (t) => {
 })
 
 test('required positional option', (t) => {
-  const result = spawnSync('node', [`examples/positional_required.cjs`, 'foo'])
-  const should_fail = spawnSync('node', [`examples/positional_required.cjs`])
+  const result = spawnSync('node', ['examples/positional_required.cjs', 'foo'])
+  const should_fail = spawnSync('node', ['examples/positional_required.cjs'])
   t.is(result.error, undefined)
   t.is(result.stderr.length, 0)
   t.deepEqual(result.status ?? 0, 0)

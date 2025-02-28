@@ -1,4 +1,4 @@
-import { Context, defineCommand, run } from '..'
+import { type Context, defineCommand, run } from '..'
 
 const main = defineCommand({
   meta: {
