@@ -6,5 +6,5 @@
     "outDir": "."
   },
   "include": ["."],
-  "exclude": ["index.cjs"]
+  "exclude": ["*.cjs"]
 }

@@ -1,4 +1,4 @@
-import { type Context, defineCommand, run } from '..'
+import { type Context, defineCommand, run } from 'archons'
 
 const dev = defineCommand({
   meta: {
