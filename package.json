@@ -68,7 +68,7 @@
     "prepublishOnly": "napi prepublish -t npm --skip-gh-release",
     "test": "jest",
     "bump": "node scripts/bump.mjs",
-    "postinstall": "husky"
+    "prepare": "husky"
   },
   "devDependencies": {
     "@babel/plugin-transform-typescript": "^7.26.8",
@@ -118,10 +118,5 @@
   },
   "dependencies": {
     "archons": "link:"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@swc/core"
-    ]
   }
 }
