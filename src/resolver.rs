@@ -1,4 +1,5 @@
 use crate::{
+  apply_opt, to_char_vec,
   types::{Command, CommandMeta, CommandOption},
   utils::{leak_borrowed_str, leak_borrowed_str_or_default, leak_str},
   HashMap,
@@ -38,17 +39,9 @@ pub(crate) fn resolve_command_meta(
   );
   clap = clap.name(name);
 
-  if let Some(version) = &meta.version {
-    clap = clap.version(leak_borrowed_str(version));
-  }
-
-  if let Some(about) = &meta.about {
-    clap = clap.about(leak_borrowed_str(about));
-  }
-
-  if let Some(subcommand_required) = meta.subcommand_required {
-    clap = clap.subcommand_required(subcommand_required);
-  }
+  apply_opt!(clap, meta, leak_borrowed_str(&version) => version);
+  apply_opt!(clap, meta, leak_borrowed_str(&about) => about);
+  apply_opt!(clap, meta, subcommand_required);
 
   if meta.styled.unwrap_or(false) {
     use clap::builder::styling;
@@ -63,17 +56,17 @@ pub(crate) fn resolve_command_meta(
   clap
 }
 
-pub(crate) fn resolve_action(action: &Option<String>, type_: &Option<String>) -> clap::ArgAction {
-  let type_ = type_.as_deref().unwrap_or("option");
+pub(crate) fn resolve_action(action: &Option<String>, r#type: &Option<String>) -> clap::ArgAction {
+  let r#type = r#type.as_deref().unwrap_or("option");
   match action.as_deref() {
     Some("set") => clap::ArgAction::Set,
     Some("append") => clap::ArgAction::Append,
     Some("count") => clap::ArgAction::Count,
     Some("store") => clap::ArgAction::SetTrue,
     Some("store_false") => clap::ArgAction::SetFalse,
-    None => match type_ {
+    None => match r#type {
       "option" | "positional" => clap::ArgAction::Set,
-      _ => panic!("Unsupported type: {:?}", type_),
+      _ => panic!("Unsupported type: {:?}", r#type),
     },
     _ => panic!("Unsupported action: {:?}", action),
   }
@@ -176,63 +169,22 @@ pub(crate) fn resolve_command_options(
           );
         }
         arg = arg.value_parser(resolve_parser(opt.parser.as_deref(), opt.action.as_deref()));
-        if let Some(alias) = &opt.alias {
-          arg = arg.visible_aliases(alias);
-        }
-        if let Some(hidden_alias) = &opt.hidden_alias {
-          arg = arg.aliases(hidden_alias);
-        }
-        if let Some(short_alias) = &opt.short_alias {
-          let short_alias = short_alias
-            .iter()
-            .map(|s| s.chars().next().unwrap())
-            .collect::<Vec<char>>();
-          arg = arg.visible_short_aliases(short_alias);
-        }
-        if let Some(hidden_short_alias) = &opt.hidden_short_alias {
-          let hidden_short_alias = hidden_short_alias
-            .iter()
-            .map(|s| s.chars().next().unwrap())
-            .collect::<Vec<char>>();
-          arg = arg.short_aliases(hidden_short_alias);
-        }
-        if let Some(value_hint) = &opt.value_hint {
-          arg = arg.value_hint(resolve_value_hint(value_hint.as_str()));
-        }
-        if let Some(help) = &opt.help {
-          arg = arg.help(help);
-        }
-        if let Some(required) = opt.required {
-          arg = arg.required(required);
-        }
-        if let Some(default) = &opt.default {
-          arg = arg.default_value(default);
-        }
-        if let Some(default_missing) = opt.default_missing {
-          arg = arg.default_missing_value(default_missing);
-        }
-        if let Some(num_args) = opt.num_args {
-          let num_args = resolve_num_args(num_args);
-          arg = arg.num_args(num_args);
-        }
-        if let Some(required_equals) = opt.required_equals {
-          arg = arg.require_equals(required_equals);
-        }
-        if let Some(hidden) = opt.hidden {
-          arg = arg.hide(hidden);
-        }
-        if let Some(global) = opt.global {
-          arg = arg.global(global);
-        }
-        if let Some(exclusive) = opt.exclusive {
-          arg = arg.exclusive(exclusive);
-        }
-        if let Some(conflicts_with) = &opt.conflicts_with {
-          arg = arg.conflicts_with_all(conflicts_with);
-        }
-        if let Some(hide_default_value) = opt.hide_default_value {
-          arg = arg.hide_default_value(hide_default_value);
-        }
+        apply_opt!(arg, opt, &alias => visible_aliases);
+        apply_opt!(arg, opt, &hidden_alias => aliases);
+        apply_opt!(arg, opt, to_char_vec!(&short_alias) => short_aliases);
+        apply_opt!(arg, opt, to_char_vec!(&hidden_short_alias) => short_aliases);
+        apply_opt!(arg, opt, resolve_value_hint(&value_hint) => value_hint);
+        apply_opt!(arg, opt, &help);
+        apply_opt!(arg, opt, required);
+        apply_opt!(arg, opt, default => default_value);
+        apply_opt!(arg, opt, default_missing => default_missing_value);
+        apply_opt!(arg, opt, resolve_num_args(num_args) => num_args);
+        apply_opt!(arg, opt, required_equals => require_equals);
+        apply_opt!(arg, opt, hidden => hide);
+        apply_opt!(arg, opt, global);
+        apply_opt!(arg, opt, exclusive);
+        apply_opt!(arg, opt, &conflicts_with => conflicts_with_all);
+        apply_opt!(arg, opt, hide_default_value);
         arg
       })
       .collect::<Vec<clap::Arg>>(),

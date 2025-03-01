@@ -1,9 +1,8 @@
-import test from 'ava'
-import { spawnSync } from 'child_process'
+import { spawnSync } from 'node:child_process'
 
-import { Context, defineCommand, run } from '../index'
+import { type Context, defineCommand, run } from 'archons'
 
-test('positional option', (t) => {
+test('positional option', () => {
   const main = defineCommand({
     meta: {
       name: 'test',
@@ -14,24 +13,24 @@ test('positional option', (t) => {
       },
     },
     callback: (ctx: Context) => {
-      t.is(ctx.args.foo, 'foo')
+      expect(ctx.args.foo).toBe('foo')
     },
   })
-  t.notThrows(() => {
+  expect(() => {
     run(main, ['node', 'test.js', 'foo'])
-  })
+  }).not.toThrow()
 })
 
-test('required positional option', (t) => {
-  const result = spawnSync('node', [`examples/positional_required.cjs`, 'foo'])
-  const should_fail = spawnSync('node', [`examples/positional_required.cjs`])
-  t.is(result.error, undefined)
-  t.is(result.stderr.length, 0)
-  t.deepEqual(result.status ?? 0, 0)
-  t.not(should_fail.stderr.length, 0)
+test('required positional option', () => {
+  const result = spawnSync('node', ['examples/positional_required.cjs', 'foo'])
+  const should_fail = spawnSync('node', ['examples/positional_required.cjs'])
+  expect(result.error).toBe(undefined)
+  expect(result.stderr.length).toBe(0)
+  expect(result.status ?? 0).toEqual(0)
+  expect(should_fail.stderr.length).not.toBe(0)
 })
 
-test('boolean flag', (t) => {
+test('boolean flag', () => {
   const main = defineCommand({
     meta: {
       name: 'test',
@@ -48,13 +47,13 @@ test('boolean flag', (t) => {
       },
     },
     callback: (ctx: Context) => {
-      t.is(ctx.args.verbose, ctx.args.eq)
+      expect(ctx.args.verbose).toBe(ctx.args.eq)
     },
   })
-  t.notThrows(() => {
+  expect(() => {
     run(main, ['node', 'test.js', '--verbose', '-e'])
-  })
-  t.notThrows(() => {
+  }).not.toThrow()
+  expect(() => {
     run(main, ['node', 'test.js'])
-  })
+  }).not.toThrow()
 })
