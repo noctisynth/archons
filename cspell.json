@@ -21,5 +21,13 @@
     "tinybench"
   ],
   "ignoreWords": ["armv"],
-  "ignorePaths": ["**/node_modules/**", "**/target/**", "./npm/*", "index.js", "README.md"]
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/target/**",
+    "./npm/*",
+    "index.js",
+    "README.md",
+    "pnpm-lock.yaml",
+    "Cargo.toml"
+  ]
 }
