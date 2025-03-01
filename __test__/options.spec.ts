@@ -1,6 +1,6 @@
 import { spawnSync } from 'node:child_process'
 
-import { type Context, defineCommand, run } from '../index.js'
+import { type Context, defineCommand, run } from 'archons'
 
 test('positional option', () => {
   const main = defineCommand({

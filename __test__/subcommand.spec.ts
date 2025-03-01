@@ -1,6 +1,4 @@
-import type { Context } from '../index.js'
-
-const { defineCommand, run } = require('../index.js')
+import { type Context, defineCommand, run } from 'archons'
 
 test('sub command', () => {
   const cmd = defineCommand({

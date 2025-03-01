@@ -363,6 +363,7 @@ jobs:
           options: '--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build'
           run: |
             set -e
+            npm install -g pnpm
             pnpm test
             ls -la
   test-linux-aarch64-musl-binding:
@@ -404,6 +405,7 @@ jobs:
           options: '--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build'
           run: |
             set -e
+            npm install -g pnpm
             pnpm test
   test-linux-arm-gnueabihf-binding:
     name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
@@ -449,5 +451,6 @@ jobs:
           options: '--platform linux/arm/v7 -v ${{ github.workspace }}:/build -w /build'
           run: |
             set -e
+            npm install -g pnpm
             pnpm test
             ls -la
