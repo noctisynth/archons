@@ -32,7 +32,12 @@ jobs:
             target: x86_64-apple-darwin
             build: pnpm build --target x86_64-apple-darwin
           - host: windows-latest
-            build: pnpm build --target x86_64-pc-windows-msvc
+            build: |-
+              corepack disable || true &&
+              npm install -g pnpm  &&
+              export PNPM_HOME="/root/.local/share/pnpm" &&
+              export PATH="$PNPM_HOME:$PATH" &&
+              pnpm build --target x86_64-pc-windows-msvc
             target: x86_64-pc-windows-msvc
           - host: windows-latest
             build: pnpm build --target i686-pc-windows-msvc
@@ -40,7 +45,12 @@ jobs:
           - host: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
-            build: pnpm build --target x86_64-unknown-linux-gnu
+            build: |-
+              corepack disable || true &&
+              npm install -g pnpm  &&
+              export PNPM_HOME="/root/.local/share/pnpm" &&
+              export PATH="$PNPM_HOME:$PATH" &&
+              pnpm build --target x86_64-unknown-linux-gnu
           - host: ubuntu-latest
             target: x86_64-unknown-linux-musl
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
@@ -51,7 +61,12 @@ jobs:
           - host: ubuntu-latest
             target: aarch64-unknown-linux-gnu
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
-            build: pnpm build --target aarch64-unknown-linux-gnu
+            build: |-
+              corepack disable || true &&
+              npm install -g pnpm  &&
+              export PNPM_HOME="/root/.local/share/pnpm" &&
+              export PATH="$PNPM_HOME:$PATH" &&
+              pnpm build --target aarch64-unknown-linux-gnu
           - host: ubuntu-latest
             target: armv7-unknown-linux-gnueabihf
             setup: |
