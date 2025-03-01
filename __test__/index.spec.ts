@@ -1,4 +1,3 @@
-import test from 'ava'
 import { spawnSync } from 'node:child_process'
 
 import { type Context, type Command, defineCommand, run } from 'archons'
@@ -20,28 +19,28 @@ const cmd: Command = {
 
 const main = defineCommand(cmd)
 
-test('define command', (t) => {
-  t.deepEqual(defineCommand(cmd), cmd)
+test('define command', () => {
+  expect(defineCommand(cmd)).toEqual(cmd)
 })
 
-test('run command', (t) => {
-  t.notThrows(() => {
+test('run command', () => {
+  expect(() => {
     run(main, ['node', 'test.js'])
-  })
+  }).not.toThrow()
 })
 
-test('run help', (t) => {
+test('run help', () => {
   const result = spawnSync('node', ['examples/simple.cjs', '--help'])
-  t.is(result.error, undefined)
-  t.is(result.stderr.length, 0)
-  t.deepEqual(result.status ?? 0, 0)
+  expect(result.error).toBe(undefined)
+  expect(result.stderr.length).toBe(0)
+  expect(result.status ?? 0).toEqual(0)
 })
 
-test('run version', (t) => {
+test('run version', () => {
   const version = spawnSync('node', ['examples/simple.cjs', '--version'])
   const no_version = spawnSync('node', ['examples/no_version.cjs', '--version'])
-  t.is(version.error, undefined)
-  t.is(version.stderr.length, 0)
-  t.deepEqual(version.status ?? 0, 0)
-  t.not(no_version.stderr.length, 0)
+  expect(version.error).toBe(undefined)
+  expect(version.stderr.length).toBe(0)
+  expect(version.status ?? 0).toEqual(0)
+  expect(no_version.stderr.length).not.toBe(0)
 })

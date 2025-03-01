@@ -1,13 +1,12 @@
-import test from 'ava'
 import { spawnSync } from 'node:child_process'
 
-test('num_args', (t) => {
+test('num_args', () => {
   const result = spawnSync('node', ['examples/num_args.cjs', '--foo', '1', '2', '3'])
   const more_than = spawnSync('node', ['examples/num_args.cjs', '--foo', '1', '2', '3', '4'])
   const less_than = spawnSync('node', ['examples/num_args.cjs', '--foo', '1'])
-  t.is(result.error, undefined)
-  t.is(result.stderr.length, 0)
-  t.deepEqual(result.status ?? 0, 0)
-  t.not(more_than.stderr.length, 0)
-  t.not(less_than.stderr.length, 0)
+  expect(result.error).toBe(undefined)
+  expect(result.stderr.length).toBe(0)
+  expect(result.status ?? 0).toEqual(0)
+  expect(more_than.stderr.length).not.toBe(0)
+  expect(less_than.stderr.length).not.toBe(0)
 })

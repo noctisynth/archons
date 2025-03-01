@@ -1,15 +1,13 @@
-import test from 'ava'
-
 import { type Context, defineCommand, run } from 'archons'
 
-test('global option', (t) => {
+test('global option', () => {
   const dev = defineCommand({
     meta: {
       name: 'dev',
     },
     options: {},
     callback: (ctx: Context) => {
-      t.is(ctx.args.config, 'config.json')
+      expect(ctx.args.config).toBe('config.json')
     },
   })
   const main = defineCommand({
@@ -26,7 +24,7 @@ test('global option', (t) => {
       dev,
     },
   })
-  t.notThrows(() => {
+  expect(() => {
     run(main, ['node', 'test.js', 'dev', '--config', 'config.json'])
-  })
+  }).not.toThrow()
 })

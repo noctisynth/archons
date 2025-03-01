@@ -1,8 +1,8 @@
-import test from 'ava'
+import type { Context } from '../index.js'
 
-import { type Context, defineCommand, run } from '../index.js'
+const { defineCommand, run } = require('../index.js')
 
-test('sub command', (t) => {
+test('sub command', () => {
   const cmd = defineCommand({
     meta: {},
     options: {
@@ -11,7 +11,7 @@ test('sub command', (t) => {
       },
     },
     callback: (ctx: Context) => {
-      t.deepEqual(ctx.args, { foo: 'foo' })
+      expect(ctx.args).toEqual({ foo: 'foo' })
     },
   })
   const main = defineCommand({
@@ -23,7 +23,7 @@ test('sub command', (t) => {
       cmd,
     },
   })
-  t.notThrows(() => {
+  expect(() => {
     run(main, ['node.exe', 'test.js', 'cmd', 'foo'])
-  })
+  }).not.toThrow()
 })
