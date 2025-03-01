@@ -1,5 +1,11 @@
 # archons
 
+## 0.2.9
+
+### Patch Changes
+
+- 8a0113c: Use macro apply for resolvers
+
 ## 0.2.8
 
 ### Patch Changes
