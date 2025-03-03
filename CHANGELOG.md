@@ -1,5 +1,11 @@
 # archons
 
+## 0.2.10
+
+### Patch Changes
+
+- 7129402: Fix some compatibilities in inquire and use macros to minify codes
+
 ## 0.2.9
 
 ### Patch Changes
