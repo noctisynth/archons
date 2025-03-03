@@ -56,21 +56,21 @@ export declare function checkbox(
 ): Array<string>
 export interface InputConfig {
   default?: string
-  formatter?: (...args: any[]) => any
+  formatter?: (value: string) => string
   helpMessage?: string
   initialValue?: string
   pageSize?: number
   placeholder?: string
-  validators?: Array<(...args: any[]) => any>
+  validators?: ((text: string) => StringValidatorResult)[]
 }
 export declare function input(prompt: string, config?: InputConfig | undefined | null): string
 export interface ConfirmConfig {
   default?: boolean
-  defaultValueFormatter?: (...args: any[]) => any
+  defaultValueFormatter?: (value: boolean) => string
   errorMessage?: string
-  formatter?: (...args: any[]) => any
+  formatter?: (value: boolean) => string
   helpMessage?: string
-  parser?: (...args: any[]) => any
+  parser?: (value: boolean) => boolean
   placeholder?: string
   startingInput?: string
 }
@@ -82,7 +82,7 @@ export interface PasswordConfig {
   displayToggle?: boolean
   helpMessage?: string
   formatter?: (text: string) => string
-  validators?: (text: string) => StringValidatorResult
+  validators?: ((text: string) => StringValidatorResult)[]
   confirmation?: boolean
 }
 export interface StringValidatorResult {

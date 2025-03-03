@@ -6,10 +6,6 @@ settings:
 
 importers:
   .:
-    dependencies:
-      archons:
-        specifier: 'link:'
-        version: 'link:'
     devDependencies:
       '@babel/plugin-transform-typescript':
         specifier: ^7.26.8
@@ -35,6 +31,9 @@ importers:
       '@types/node':
         specifier: ^22.13.7
         version: 22.13.7
+      archons:
+        specifier: 'link:'
+        version: 'link:'
       chalk:
         specifier: ^5.4.1
         version: 5.4.1

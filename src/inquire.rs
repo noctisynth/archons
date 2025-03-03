@@ -4,7 +4,11 @@ use inquire::validator::{ErrorMessage, StringValidator, Validation};
 use napi::JsFunction;
 use napi_derive::napi;
 
-use crate::types::{Context, Error};
+use crate::{
+  apply_opt,
+  types::{Context, Error},
+  utils::{as_usize, leak_str, wrap_bool_formatter, wrap_bool_parser, wrap_string_formatter},
+};
 
 #[napi(object)]
 #[derive(Default)]
@@ -27,30 +31,21 @@ pub fn select(
 ) -> napi::Result<String> {
   let mut inquire = inquire::Select::new(&prompt, choices);
   let config = config.unwrap_or_default();
-  if let Some(help_message) = config.help_message {
-    inquire = inquire.with_help_message(help_message.leak());
-  }
-  if let Some(page_size) = config.page_size {
-    inquire = inquire.with_page_size(page_size as usize);
-  }
-  if let Some(reset_cursor) = config.reset_cursor {
-    inquire = inquire.with_reset_cursor(reset_cursor);
-  }
-  if let Some(starting_cursor) = config.starting_cursor {
-    inquire = inquire.with_starting_cursor(starting_cursor as usize);
-  }
-  if let Some(starting_filter_input) = config.starting_filter_input {
-    inquire = inquire.with_starting_filter_input(starting_filter_input.leak());
-  }
-  if let Some(vim_mode) = config.vim_mode {
-    inquire = inquire.with_vim_mode(vim_mode);
-  }
+
+  apply_opt!(inquire, config, leak_str(help_message) => with_help_message);
+  apply_opt!(inquire, config, as_usize(page_size) => with_page_size);
+  apply_opt!(inquire, config, reset_cursor => with_reset_cursor);
+  apply_opt!(inquire, config, as_usize(starting_cursor) => with_starting_cursor);
+  apply_opt!(inquire, config, leak_str(starting_filter_input) => with_starting_filter_input);
+  apply_opt!(inquire, config, vim_mode => with_vim_mode);
+
   if let Some(false) = config.filtering {
     inquire = inquire.without_filtering();
   }
   if let Some(true) = config.help_message_disabled {
     inquire = inquire.without_help_message();
   }
+
   Ok(inquire.prompt().map_err(Error::InquireError)?)
 }
 
@@ -94,39 +89,27 @@ pub fn checkbox(
   // TODO: formatter
   // if let Some(formatter) = config.formatter {
   // }
-  if let Some(help_message) = config.help_message {
-    inquire = inquire.with_help_message(help_message.leak());
-  }
-  if let Some(keep_filter) = config.keep_filter {
-    inquire = inquire.with_keep_filter(keep_filter);
-  }
-  if let Some(page_size) = config.page_size {
-    inquire = inquire.with_page_size(page_size as usize);
-  }
-  if let Some(reset_cursor) = config.reset_cursor {
-    inquire = inquire.with_reset_cursor(reset_cursor);
-  }
+  apply_opt!(inquire, config, leak_str(help_message) => with_help_message);
+  apply_opt!(inquire, config, keep_filter => with_keep_filter);
+  apply_opt!(inquire, config, as_usize(page_size) => with_page_size);
+  apply_opt!(inquire, config, reset_cursor => with_reset_cursor);
   // TODO: scorer
   // if let Some(scorer) = config.scorer {
   // }
-  if let Some(starting_cursor) = config.starting_cursor {
-    inquire = inquire.with_starting_cursor(starting_cursor as usize);
-  }
-  if let Some(starting_filter_input) = config.starting_filter_input {
-    inquire = inquire.with_starting_filter_input(starting_filter_input.leak());
-  }
+  apply_opt!(inquire, config, as_usize(starting_cursor) => with_starting_cursor);
+  apply_opt!(inquire, config, leak_str(starting_filter_input) => with_starting_filter_input);
   // TODO: validator
   // if let Some(validator) = config.validator {
   // }
-  if let Some(vim_mode) = config.vim_mode {
-    inquire = inquire.with_vim_mode(vim_mode);
-  }
+  apply_opt!(inquire, config, vim_mode => with_vim_mode);
+
   if let Some(false) = config.filtering {
     inquire = inquire.without_filtering();
   }
   if let Some(true) = config.help_message_disabled {
     inquire = inquire.without_help_message();
   }
+
   Ok(inquire.prompt().map_err(Error::InquireError)?)
 }
 
@@ -134,11 +117,13 @@ pub fn checkbox(
 #[derive(Default)]
 pub struct InputConfig {
   pub default: Option<String>,
+  #[napi(ts_type = "(value: string) => string")]
   pub formatter: Option<JsFunction>,
   pub help_message: Option<String>,
   pub initial_value: Option<String>,
   pub page_size: Option<u32>,
   pub placeholder: Option<String>,
+  #[napi(ts_type = "((text: string) => StringValidatorResult)[]")]
   pub validators: Option<Vec<JsFunction>>,
 }
 
@@ -146,28 +131,12 @@ pub struct InputConfig {
 pub fn input(prompt: String, config: Option<InputConfig>) -> napi::Result<String> {
   let mut inquire = inquire::Text::new(&prompt);
   let config = config.unwrap_or_default();
-  if let Some(default) = config.default {
-    inquire = inquire.with_default(default.leak());
-  }
-  if let Some(formatter) = config.formatter {
-    let formatter = Box::new(move |value: &str| {
-      let res: String = formatter.call1(value).unwrap_or(value.to_string());
-      res
-    });
-    inquire = inquire.with_formatter(Box::leak(formatter));
-  }
-  if let Some(help_message) = config.help_message {
-    inquire = inquire.with_help_message(help_message.leak());
-  }
-  if let Some(initial_value) = config.initial_value {
-    inquire = inquire.with_initial_value(initial_value.leak());
-  }
-  if let Some(page_size) = config.page_size {
-    inquire = inquire.with_page_size(page_size as usize);
-  }
-  if let Some(placeholder) = config.placeholder {
-    inquire = inquire.with_placeholder(placeholder.leak());
-  }
+  apply_opt!(inquire, config, leak_str(default) => with_default);
+  apply_opt!(inquire, config, wrap_string_formatter(formatter) => with_formatter);
+  apply_opt!(inquire, config, leak_str(help_message) => with_help_message);
+  apply_opt!(inquire, config, leak_str(initial_value) => with_initial_value);
+  apply_opt!(inquire, config, as_usize(page_size) => with_page_size);
+  apply_opt!(inquire, config, leak_str(placeholder) => with_placeholder);
   if let Some(validators) = config.validators {
     let validators: Vec<Box<dyn StringValidator>> = validators
       .into_iter()
@@ -182,10 +151,13 @@ pub fn input(prompt: String, config: Option<InputConfig>) -> napi::Result<String
 #[derive(Default)]
 pub struct ConfirmConfig {
   pub default: Option<bool>,
+  #[napi(ts_type = "(value: boolean) => string")]
   pub default_value_formatter: Option<JsFunction>,
   pub error_message: Option<String>,
+  #[napi(ts_type = "(value: boolean) => string")]
   pub formatter: Option<JsFunction>,
   pub help_message: Option<String>,
+  #[napi(ts_type = "(value: boolean) => boolean")]
   pub parser: Option<JsFunction>,
   pub placeholder: Option<String>,
   pub starting_input: Option<String>,
@@ -195,44 +167,14 @@ pub struct ConfirmConfig {
 pub fn confirm(prompt: String, config: Option<ConfirmConfig>) -> napi::Result<bool> {
   let mut inquire = inquire::Confirm::new(&prompt);
   let config = config.unwrap_or_default();
-  if let Some(default) = config.default {
-    inquire = inquire.with_default(default);
-  }
-  if let Some(default_value_formatter) = config.default_value_formatter {
-    let default_value_formatter = Box::new(move |value: bool| {
-      let res: String = default_value_formatter
-        .call1(value)
-        .unwrap_or(value.to_string());
-      res
-    });
-    inquire = inquire.with_default_value_formatter(Box::leak(default_value_formatter));
-  }
-  if let Some(error_message) = config.error_message {
-    inquire = inquire.with_error_message(error_message.leak());
-  }
-  if let Some(formatter) = config.formatter {
-    let formatter = Box::new(move |value: bool| {
-      let res: String = formatter.call1(value).unwrap_or(value.to_string());
-      res
-    });
-    inquire = inquire.with_formatter(Box::leak(formatter));
-  }
-  if let Some(help_message) = config.help_message {
-    inquire = inquire.with_help_message(help_message.leak());
-  }
-  if let Some(parser) = config.parser {
-    let parser = Box::new(move |value: &str| {
-      let res: bool = parser.call1(value).unwrap_or(false);
-      Ok(res)
-    });
-    inquire = inquire.with_parser(Box::leak(parser));
-  }
-  if let Some(placeholder) = config.placeholder {
-    inquire = inquire.with_placeholder(placeholder.leak());
-  }
-  if let Some(starting_input) = config.starting_input {
-    inquire = inquire.with_starting_input(starting_input.leak());
-  }
+  apply_opt!(inquire, config, default => with_default);
+  apply_opt!(inquire, config, wrap_bool_formatter(default_value_formatter) => with_default_value_formatter);
+  apply_opt!(inquire, config, leak_str(error_message) => with_error_message);
+  apply_opt!(inquire, config, wrap_bool_formatter(formatter) => with_formatter);
+  apply_opt!(inquire, config, leak_str(help_message) => with_help_message);
+  apply_opt!(inquire, config, wrap_bool_parser(parser) => with_parser);
+  apply_opt!(inquire, config, leak_str(placeholder) => with_placeholder);
+  apply_opt!(inquire, config, leak_str(starting_input) => with_starting_input);
   Ok(inquire.prompt().map_err(Error::InquireError)?)
 }
 
@@ -247,7 +189,7 @@ pub struct PasswordConfig {
   pub help_message: Option<String>,
   #[napi(ts_type = "(text: string) => string")]
   pub formatter: Option<JsFunction>,
-  #[napi(ts_type = "(text: string) => StringValidatorResult")]
+  #[napi(ts_type = "((text: string) => StringValidatorResult)[]")]
   pub validators: Option<Vec<JsFunction>>,
   pub confirmation: Option<bool>,
 }
@@ -261,11 +203,13 @@ pub struct StringValidatorResult {
 
 fn validator(f: Rc<JsFunction>) -> Box<dyn StringValidator> {
   Box::new(move |text: &str| {
-    let res: String = f.call1(text)?;
-    Ok(match res.as_str() {
+    let res: StringValidatorResult = f.call1(text)?;
+    Ok(match res.validation.as_str() {
       "valid" => Validation::Valid,
-      "invalid" => Validation::Invalid(ErrorMessage::Custom("invalid".to_string())),
-      _ => Validation::Invalid(ErrorMessage::Custom(res)),
+      "invalid" => Validation::Invalid(ErrorMessage::Custom(
+        res.err_msg.unwrap_or("invalid".to_string()),
+      )),
+      _ => panic!("invalid validation result"),
     })
   })
 }
@@ -274,13 +218,8 @@ fn validator(f: Rc<JsFunction>) -> Box<dyn StringValidator> {
 pub fn password(prompt: String, config: Option<PasswordConfig>) -> napi::Result<String> {
   let mut inquire = inquire::Password::new(&prompt);
   let config = config.unwrap_or_default();
-  if let Some(custom_confirmation_error_message) = config.custom_confirmation_error_message {
-    inquire =
-      inquire.with_custom_confirmation_error_message(custom_confirmation_error_message.leak());
-  }
-  if let Some(custom_confirmation_message) = config.custom_confirmation_message {
-    inquire = inquire.with_custom_confirmation_message(custom_confirmation_message.leak());
-  }
+  apply_opt!(inquire, config, leak_str(custom_confirmation_error_message) => with_custom_confirmation_error_message);
+  apply_opt!(inquire, config, leak_str(custom_confirmation_message) => with_custom_confirmation_message);
   if let Some(display_mode) = config.display_mode {
     inquire = inquire.with_display_mode(match display_mode.as_str() {
       "hidden" => inquire::PasswordDisplayMode::Full,
@@ -299,16 +238,8 @@ pub fn password(prompt: String, config: Option<PasswordConfig>) -> napi::Result<
   if let Some(true) = config.display_toggle {
     inquire = inquire.with_display_toggle_enabled();
   }
-  if let Some(help_message) = config.help_message {
-    inquire = inquire.with_help_message(help_message.leak());
-  }
-  if let Some(formatter) = config.formatter {
-    let formatter = Box::new(move |text: &str| {
-      let res: String = formatter.call1(text).unwrap_or(text.to_string());
-      res
-    });
-    inquire = inquire.with_formatter(Box::leak(formatter));
-  }
+  apply_opt!(inquire, config, leak_str(help_message) => with_help_message);
+  apply_opt!(inquire, config, wrap_string_formatter(formatter) => with_formatter);
   if let Some(false) = config.confirmation {
     inquire = inquire.without_confirmation();
   }

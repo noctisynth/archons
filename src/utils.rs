@@ -1,4 +1,4 @@
-use napi::{Env, JsNull, JsObject, Result};
+use napi::{Env, JsNull, JsObject};
 
 use crate::types::{Command, Context};
 use crate::HashMap;
@@ -20,12 +20,46 @@ pub(crate) fn leak_borrowed_str_or_default<'a>(s: Option<&String>, default: &str
   s.map_or_else(|| leak_borrowed_str(default), |s| leak_borrowed_str(s))
 }
 
+#[inline(always)]
+pub fn as_usize(num: u32) -> usize {
+  num as usize
+}
+
+#[inline]
+pub fn wrap_string_formatter<'a>(formatter: napi::JsFunction) -> &'a (dyn Fn(&str) -> String + 'a) {
+  let formatter = Box::new(move |value: &str| {
+    let res: String = formatter.call1(value).unwrap_or(value.to_string());
+    res
+  });
+  Box::leak(formatter)
+}
+
+#[inline]
+pub fn wrap_bool_formatter<'a>(formatter: napi::JsFunction) -> &'a (dyn Fn(bool) -> String + 'a) {
+  let formatter = Box::new(move |value: bool| {
+    let res: String = formatter.call1(value).unwrap_or(value.to_string());
+    res
+  });
+  Box::leak(formatter)
+}
+
+#[inline]
+pub fn wrap_bool_parser<'a>(
+  parser: napi::JsFunction,
+) -> &'a (dyn Fn(&str) -> Result<bool, ()> + 'a) {
+  let parser = Box::new(move |value: &str| {
+    let res: bool = parser.call1(value).unwrap_or(false);
+    Ok(res)
+  });
+  Box::leak(parser)
+}
+
 pub(crate) fn merge_args_matches(
   parsed_args: &mut JsObject,
   args: &[&clap::Arg],
   options: &HashMap<String, &'static str>,
   matches: &clap::ArgMatches,
-) -> Result<()> {
+) -> napi::Result<()> {
   for id in matches.ids() {
     let action = args
       .iter()
