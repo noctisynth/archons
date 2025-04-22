@@ -85,7 +85,7 @@
     "jest": "^29.7.0",
     "lint-staged": "^15.4.3",
     "npm-run-all2": "^7.0.2",
-    "oxlint": "^0.15.12",
+    "oxlint": "^0.16.0",
     "prettier": "^3.5.2",
     "tinybench": "^4.0.0",
     "ts-node": "^10.9.2",
