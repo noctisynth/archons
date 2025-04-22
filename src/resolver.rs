@@ -71,7 +71,7 @@ pub(crate) fn resolve_action(
     None => match r#type {
       "option" | "positional" => match parser.as_deref() {
         Some("boolean") => clap::ArgAction::SetTrue,
-        Some("number") | Some("string") => clap::ArgAction::Set,
+        Some("number") | Some("string") | None => clap::ArgAction::Set,
         _ => panic!("Unsupported parser: {:?}", parser),
       },
       _ => panic!("Unsupported type: {:?}", r#type),
