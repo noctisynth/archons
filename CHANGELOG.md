@@ -1,5 +1,12 @@
 # archons
 
+## 0.2.11
+
+### Patch Changes
+
+- 7a1a423: Update dependencies
+- dc4ed52: Optimize action resolver, auto set action to `SetTrue` when parser is `"boolean"`
+
 ## 0.2.10
 
 ### Patch Changes

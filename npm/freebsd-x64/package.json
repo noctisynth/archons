@@ -1,6 +1,6 @@
 {
   "name": "archons-napi-freebsd-x64",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "os": [
     "freebsd"
   ],
