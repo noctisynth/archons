@@ -1,0 +1,5 @@
+---
+'archons': patch
+---
+
+Update dependencies
