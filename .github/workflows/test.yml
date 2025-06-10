@@ -47,7 +47,7 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
             build: |-
               corepack disable || true &&
-              npm install -g pnpm  &&
+              npm install -g pnpm@latest &&
               export PNPM_HOME="/root/.local/share/pnpm" &&
               export PATH="$PNPM_HOME:$PATH" &&
               pnpm build --target x86_64-unknown-linux-gnu
