@@ -16,7 +16,7 @@ const config: Config = {
   // cacheDirectory: "/tmp/jest_rs",
 
   // Automatically clear mock calls, instances, contexts and results before every test
-  clearMocks: true,
+  // clearMocks: false,
 
   // Indicates whether the coverage information should be collected while executing the test
   // collectCoverage: false,
@@ -84,6 +84,8 @@ const config: Config = {
   //   "cjs",
   //   "jsx",
   //   "ts",
+  //   "mts",
+  //   "cts",
   //   "tsx",
   //   "json",
   //   "node"
@@ -156,8 +158,8 @@ const config: Config = {
 
   // The glob patterns Jest uses to detect test files
   // testMatch: [
-  //   "**/__tests__/**/*.[jt]s?(x)",
-  //   "**/?(*.)+(spec|test).[tj]s?(x)"
+  //   "**/__tests__/**/*.?([mc])[jt]s?(x)",
+  //   "**/?(*.)+(spec|test).?([mc])[jt]s?(x)"
   // ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
@@ -172,7 +174,7 @@ const config: Config = {
   // testResultsProcessor: undefined,
 
   // This option allows use of a custom test runner
-  // testRunner: "jest-circus/runner",
+  testRunner: 'jest-circus/runner',
 
   // A map from regular expressions to paths to transformers
   // transform: undefined,
