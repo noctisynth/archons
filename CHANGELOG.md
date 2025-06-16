@@ -1,5 +1,11 @@
 # archons
 
+## 0.2.12
+
+### Patch Changes
+
+- d791199: Bump up all Rust dependencies
+
 ## 0.2.11
 
 ### Patch Changes
