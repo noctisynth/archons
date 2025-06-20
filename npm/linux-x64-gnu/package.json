@@ -7,9 +7,9 @@
   "cpu": [
     "x64"
   ],
-  "main": "archons-napi.linux-x64-gnu.node",
+  "main": "archons.linux-x64-gnu.node",
   "files": [
-    "archons-napi.linux-x64-gnu.node"
+    "archons.linux-x64-gnu.node"
   ],
   "description": "Fast, powerful and elegant CLI build tool based on clap-rs",
   "keywords": [

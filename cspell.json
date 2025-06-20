@@ -5,6 +5,7 @@
     "androideabi",
     "bindgen",
     "cdylib",
+    "clippy",
     "codegen",
     "gnueabihf",
     "indicatif",
@@ -14,13 +15,14 @@
     "oxlint",
     "parens",
     "prebuild",
+    "riscv",
     "rustc",
     "rustflags",
     "taplo",
     "thiserror",
     "tinybench"
   ],
-  "ignoreWords": ["armv"],
+  "ignoreWords": ["armv", "musleabihf"],
   "ignorePaths": [
     "**/node_modules/**",
     "**/target/**",

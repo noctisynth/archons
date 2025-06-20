@@ -1,15 +1,12 @@
 {
-  "name": "archons-napi-linux-x64-musl",
+  "name": "archons-napi-darwin-universal",
   "version": "0.2.12",
   "os": [
-    "linux"
+    "darwin"
   ],
-  "cpu": [
-    "x64"
-  ],
-  "main": "archons.linux-x64-musl.node",
+  "main": "archons.darwin-universal.node",
   "files": [
-    "archons.linux-x64-musl.node"
+    "archons.darwin-universal.node"
   ],
   "description": "Fast, powerful and elegant CLI build tool based on clap-rs",
   "keywords": [
@@ -29,8 +26,5 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "repository": "https://github.com/noctisynth/archons.git",
-  "libc": [
-    "musl"
-  ]
+  "repository": "https://github.com/noctisynth/archons.git"
 }

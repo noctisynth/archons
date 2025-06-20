@@ -7,9 +7,9 @@
   "cpu": [
     "arm64"
   ],
-  "main": "archons-napi.android-arm64.node",
+  "main": "archons.android-arm64.node",
   "files": [
-    "archons-napi.android-arm64.node"
+    "archons.android-arm64.node"
   ],
   "description": "Fast, powerful and elegant CLI build tool based on clap-rs",
   "keywords": [

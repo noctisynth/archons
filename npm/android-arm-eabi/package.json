@@ -7,9 +7,9 @@
   "cpu": [
     "arm"
   ],
-  "main": "archons-napi.android-arm-eabi.node",
+  "main": "archons.android-arm-eabi.node",
   "files": [
-    "archons-napi.android-arm-eabi.node"
+    "archons.android-arm-eabi.node"
   ],
   "description": "Fast, powerful and elegant CLI build tool based on clap-rs",
   "keywords": [
