@@ -1,5 +1,11 @@
 # archons
 
+## 0.2.13
+
+### Patch Changes
+
+- 52a13ca: Bump `napi-rs` version and add new targets
+
 ## 0.2.12
 
 ### Patch Changes
