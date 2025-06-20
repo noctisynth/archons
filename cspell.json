@@ -5,6 +5,7 @@
     "androideabi",
     "bindgen",
     "cdylib",
+    "clippy",
     "codegen",
     "gnueabihf",
     "indicatif",
