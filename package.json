@@ -8,38 +8,30 @@
     "url": "https://github.com/fu050409"
   },
   "main": "index.js",
-  "exports": {
-    ".": {
-      "import": "./index.js",
-      "require": "./index.js"
-    }
-  },
-  "type": "commonjs",
+  "types": "index.d.ts",
   "repository": "https://github.com/noctisynth/archons.git",
   "license": "MIT",
   "keywords": [
     "cli-tool",
     "rust"
   ],
-  "files": [
-    "index.d.ts",
-    "index.js"
-  ],
   "napi": {
-    "name": "archons-napi",
+    "name": "archons",
     "triples": {
-      "defaults": true,
       "additional": [
-        "x86_64-unknown-linux-musl",
-        "aarch64-unknown-linux-gnu",
-        "i686-pc-windows-msvc",
-        "armv7-unknown-linux-gnueabihf",
         "aarch64-apple-darwin",
         "aarch64-linux-android",
-        "x86_64-unknown-freebsd",
+        "aarch64-unknown-linux-gnu",
         "aarch64-unknown-linux-musl",
         "aarch64-pc-windows-msvc",
-        "armv7-linux-androideabi"
+        "armv7-unknown-linux-gnueabihf",
+        "armv7-unknown-linux-musleabihf",
+        "x86_64-unknown-linux-musl",
+        "x86_64-unknown-freebsd",
+        "i686-pc-windows-msvc",
+        "armv7-linux-androideabi",
+        "universal-apple-darwin",
+        "riscv64gc-unknown-linux-gnu"
       ]
     },
     "package": {

@@ -7,9 +7,9 @@
   "cpu": [
     "x64"
   ],
-  "main": "archons-napi.win32-x64-msvc.node",
+  "main": "archons.win32-x64-msvc.node",
   "files": [
-    "archons-napi.win32-x64-msvc.node"
+    "archons.win32-x64-msvc.node"
   ],
   "description": "Fast, powerful and elegant CLI build tool based on clap-rs",
   "keywords": [

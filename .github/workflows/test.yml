@@ -1,9 +1,8 @@
 name: Build and Test
 env:
   DEBUG: napi:*
-  APP_NAME: archons-napi
+  APP_NAME: archons
   MACOSX_DEPLOYMENT_TARGET: '10.13'
-  CARGO_INCREMENTAL: '1'
 permissions:
   contents: write
   id-token: write
@@ -90,7 +89,13 @@ jobs:
           - host: windows-latest
             target: aarch64-pc-windows-msvc
             build: pnpm build --target aarch64-pc-windows-msvc
-    name: Build on ${{ matrix.settings.target }} - node@18
+          - host: ubuntu-latest
+            target: riscv64gc-unknown-linux-gnu
+            setup: |
+              sudo apt-get update
+              sudo apt-get install gcc-riscv64-linux-gnu -y
+            build: pnpm build --target riscv64gc-unknown-linux-gnu
+    name: Build on ${{ matrix.settings.target }} - node@20
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v4

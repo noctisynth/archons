@@ -7,9 +7,9 @@
   "cpu": [
     "arm"
   ],
-  "main": "archons-napi.linux-arm-gnueabihf.node",
+  "main": "archons.linux-arm-gnueabihf.node",
   "files": [
-    "archons-napi.linux-arm-gnueabihf.node"
+    "archons.linux-arm-gnueabihf.node"
   ],
   "description": "Fast, powerful and elegant CLI build tool based on clap-rs",
   "keywords": [

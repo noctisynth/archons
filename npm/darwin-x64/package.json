@@ -7,9 +7,9 @@
   "cpu": [
     "x64"
   ],
-  "main": "archons-napi.darwin-x64.node",
+  "main": "archons.darwin-x64.node",
   "files": [
-    "archons-napi.darwin-x64.node"
+    "archons.darwin-x64.node"
   ],
   "description": "Fast, powerful and elegant CLI build tool based on clap-rs",
   "keywords": [
