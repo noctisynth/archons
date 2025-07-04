@@ -11,7 +11,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 clap        = "4.5.24"
-indicatif   = "0.17.9"
+indicatif   = "0.18.0"
 inquire     = "0.7.5"
 napi        = "2"
 napi-derive = "2"
