@@ -67,7 +67,7 @@
     "@babel/preset-env": "^7.26.9",
     "@babel/preset-typescript": "^7.27.0",
     "@changesets/cli": "^2.29.2",
-    "@napi-rs/cli": "^2.18.4",
+    "@napi-rs/cli": "^3.0.0",
     "@taplo/cli": "^0.7.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.14.1",
