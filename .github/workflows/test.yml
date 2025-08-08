@@ -236,7 +236,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: bindings-${{ matrix.settings.target }}
           path: .
@@ -273,7 +273,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: bindings-x86_64-unknown-linux-gnu
           path: .
@@ -319,7 +319,7 @@ jobs:
           pnpm config set supportedArchitectures.libc "musl"
           pnpm install
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: bindings-x86_64-unknown-linux-musl
           path: .
@@ -356,7 +356,7 @@ jobs:
           version: 10
           run_install: false
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: bindings-aarch64-unknown-linux-gnu
           path: .
@@ -398,7 +398,7 @@ jobs:
           version: 10
           run_install: false
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: bindings-aarch64-unknown-linux-musl
           path: .
@@ -445,7 +445,7 @@ jobs:
           version: 10
           run_install: false
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: bindings-armv7-unknown-linux-gnueabihf
           path: .
