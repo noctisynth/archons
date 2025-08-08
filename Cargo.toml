@@ -13,8 +13,8 @@ crate-type = ["cdylib"]
 clap        = "4.5.24"
 indicatif   = "0.18.0"
 inquire     = "0.7.5"
-napi        = "2"
-napi-derive = "2"
+napi        = "3"
+napi-derive = "3"
 rustc-hash  = "2.1.0"
 thiserror   = "2.0.10"
 
