@@ -105,7 +105,7 @@ jobs:
           version: 10
           run_install: false
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         if: ${{ !matrix.settings.docker }}
         with:
           node-version: 22
@@ -228,7 +228,7 @@ jobs:
           version: 10
           run_install: false
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node }}
           cache: pnpm
@@ -266,7 +266,7 @@ jobs:
           version: 10
           run_install: false
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node }}
           cache: pnpm
@@ -310,7 +310,7 @@ jobs:
           version: 10
           run_install: false
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node }}
           cache: pnpm
