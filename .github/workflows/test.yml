@@ -99,10 +99,10 @@ jobs:
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v5
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
         with:
-          version: 10
+          version: latest
           run_install: false
       - name: Setup node
         uses: actions/setup-node@v4
