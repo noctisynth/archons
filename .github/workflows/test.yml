@@ -85,7 +85,7 @@ jobs:
             build: |-
               set -e &&
               rustup target add aarch64-unknown-linux-musl &&
-              pnpm build --target aarch64-unknown-linux-musl --frozen-lockfile
+              pnpm build --target aarch64-unknown-linux-musl
           - host: windows-latest
             target: aarch64-pc-windows-msvc
             build: pnpm build --target aarch64-pc-windows-msvc
@@ -135,7 +135,7 @@ jobs:
         if: ${{ matrix.settings.setup }}
         shell: bash
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
       - name: Build in docker
         uses: addnab/docker-run-action@v3
         if: ${{ matrix.settings.docker }}
@@ -188,7 +188,7 @@ jobs:
             whoami
             env
             freebsd-version
-            pnpm install
+            pnpm install --frozen-lockfile
             pnpm build
             rm -rf node_modules
             rm -rf target
@@ -234,7 +234,7 @@ jobs:
           cache: pnpm
           architecture: ${{ matrix.settings.architecture }}
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
       - name: Download artifacts
         uses: actions/download-artifact@v5
         with:
@@ -271,7 +271,7 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: pnpm
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
       - name: Download artifacts
         uses: actions/download-artifact@v5
         with:
@@ -317,7 +317,7 @@ jobs:
       - name: Install dependencies
         run: |
           pnpm config set supported-architectures-libc "musl"
-          pnpm install
+          pnpm install --frozen-lockfile
       - name: Download artifacts
         uses: actions/download-artifact@v5
         with:
@@ -367,7 +367,7 @@ jobs:
         run: |
           pnpm config set supported-architectures-cpu "arm64"
           pnpm config set supported-architectures-libc "glibc"
-          pnpm install
+          pnpm install --frozen-lockfile
       - name: Build Examples
         run: pnpm build:examples
       - name: Set up QEMU
@@ -409,7 +409,7 @@ jobs:
         run: |
           pnpm config set supported-architectures-cpu "arm64"
           pnpm config set supported-architectures-libc "musl"
-          pnpm install
+          pnpm install --frozen-lockfile
       - name: Build Examples
         run: pnpm build:examples
       - name: Set up QEMU
@@ -455,7 +455,7 @@ jobs:
       - name: Install dependencies
         run: |
           pnpm config set supported-architectures-cpu "arm"
-          pnpm install
+          pnpm install --frozen-lockfile
       - name: Build Examples
         run: pnpm build:examples
       - name: Set up QEMU
