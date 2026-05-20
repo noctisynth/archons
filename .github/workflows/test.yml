@@ -316,7 +316,7 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: |
-          pnpm config set supportedArchitectures.libc "musl"
+          pnpm config set supported-architectures-libc "musl"
           pnpm install
       - name: Download artifacts
         uses: actions/download-artifact@v5
@@ -365,8 +365,8 @@ jobs:
         shell: bash
       - name: Install dependencies
         run: |
-          pnpm config set supportedArchitectures.cpu "arm64"
-          pnpm config set supportedArchitectures.libc "glibc"
+          pnpm config set supported-architectures-cpu "arm64"
+          pnpm config set supported-architectures-libc "glibc"
           pnpm install
       - name: Build Examples
         run: pnpm build:examples
@@ -407,8 +407,8 @@ jobs:
         shell: bash
       - name: Install dependencies
         run: |
-          pnpm config set supportedArchitectures.cpu "arm64"
-          pnpm config set supportedArchitectures.libc "musl"
+          pnpm config set supported-architectures-cpu "arm64"
+          pnpm config set supported-architectures-libc "musl"
           pnpm install
       - name: Build Examples
         run: pnpm build:examples
@@ -454,7 +454,7 @@ jobs:
         shell: bash
       - name: Install dependencies
         run: |
-          pnpm config set supportedArchitectures.cpu "arm"
+          pnpm config set supported-architectures-cpu "arm"
           pnpm install
       - name: Build Examples
         run: pnpm build:examples
