@@ -425,7 +425,7 @@ jobs:
           run: |
             set -e
             npm install -g pnpm
-            pnpm test
+            CI=true pnpm test
   test-linux-arm-gnueabihf-binding:
     name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
     needs:
